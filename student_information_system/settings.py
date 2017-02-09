@@ -1,3 +1,18 @@
+# Copyright Dhaval Anjaria 2017
+#
+# This file is part of DMA Student Information System.
+# DMA Student Information System is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# DMA Student Information System is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with DMA Student Information System.  If not, see <http://www.gnu.org/licenses/>.
+
+
 """
 Django settings for student_information_system project.
 
@@ -123,3 +138,37 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# LOGGING
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/dhaval/Documents/Python/Django/student_information_system/django.log'
+        },
+        'applog': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/dhaval/Documents/Python/Django/student_information_system/app.log'
+        },
+        'consolehandler': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propogate': True,
+        },
+        'app': {
+            'handlers': ['applog'],
+            'level': 'DEBUG',
+            'propogate': True,
+        }
+    }
+}
