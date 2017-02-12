@@ -44,8 +44,8 @@ class AllPermissions(models.Model):
                       ('can_read_activity_log',
                        'can read activity log'),
 
-                      ('can_read_internal_assignment',
-                       'can read internal assignment'),
+                      ('can_read_internal_assessment',
+                       'can read internal assessent'),
 
                       ('can_write_study_materials',
                        'can write study materials'),
@@ -53,17 +53,41 @@ class AllPermissions(models.Model):
                       ('can_read_fee_dues',
                        'can read fee dues'),
 
+                      ('can_write_fee_dues',
+                       'can write fee dues'),
+
+                      ('can_read_fee_collections',
+                       'can read fee collections'),
+
+                      ('can_write_fee_collections',
+                       'can write fee collections'),
+
                       ('can_read_id_card_req',
                        'can read id card req'),
+
+                      ('can_write_id_card_req',
+                       'can write id card req'),
+
+                      ('can_read_library_card_req',
+                       'can read library card req'),
+
+                      ('can_write_library_card_req',
+                       'can write library card req'),
+
+                      ('can_read_pass_my_book',
+                       'can read pass my book'),
 
                       ('can_write_pass_my_book',
                        'can write pass my book'),
 
+                      ('can_read_rail_pass_req',
+                       'can read rail pass req'),
+
                       ('can_write_rail_pass_req',
                        'can write rail pass req'),
 
-                      ('can_write_library_book_req',
-                       'can write library book req'),
+                      ('can_read_bonafide_req',
+                       'can read bonafide req'),
 
                       ('can_write_bonafide_req',
                        'can write bonafide req'),
