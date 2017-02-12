@@ -1,19 +1,19 @@
 from django.test import TestCase
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group
 from permission_structure.management.commands import initgroups
 from permission_structure.models import AllPermissions
 
 
 class GroupPermissionsTest(TestCase):
-    
+
     @classmethod
     def setUpTestData(cls):
+        global cmd
         cmd = initgroups.Command()
         cmd.handle()
 
     def setUp(self):
-        global cmd
-        cmd = initgroups.Command()
+        pass
 
     def testPublic(self):
         group_perms = set([perm for perm in Group.objects.get(
@@ -23,23 +23,13 @@ class GroupPermissionsTest(TestCase):
 
         self.assertEquals(group_perms, role_perms)
 
-    def testPermsMatchModel(self):
-        model_perms = set()
-        for p in AllPermissions._meta.permissions:
-            model_perms.add(p[0])
-
-        role_perms = set()
-        for k, v in initgroups.PERMISSIONS_BY_ROLE.items():
-            for p in v:
-                role_perms.add(p)
-
-        self.assertEquals(model_perms, role_perms)
-
     def testGenericUserAcademic(self):
-        group_perms = set([perm.codename for perm in Group.objects.get(
+        group_perms = set([perm for perm in Group.objects.get(
                           name='GenericUserAcademic').permissions.all()])
 
         role_perms = cmd._getPerms('GenericUserAcademic')
+        role_perms = role_perms.union(set(
+            Group.objects.get(name='Public').permissions.all()))
         self.assertEquals(group_perms, role_perms)
 
     def testGenericUserAdministrative(self):
@@ -47,6 +37,8 @@ class GroupPermissionsTest(TestCase):
                           name='GenericUserAdministrative').permissions.all()])
 
         role_perms = cmd._getPerms('GenericUserAdministrative')
+        role_perms = role_perms.union(set(
+            Group.objects.get(name='Public').permissions.all()))
         self.assertEquals(group_perms, role_perms)
 
     def testStudent(self):
@@ -54,6 +46,8 @@ class GroupPermissionsTest(TestCase):
                           name='Student').permissions.all()])
 
         role_perms = cmd._getPerms('Student')
+        role_perms = role_perms.union(set(
+            Group.objects.get(name='GenericUserAcademic').permissions.all()))
         self.assertEquals(group_perms, role_perms)
 
     def testFaculty(self):
@@ -61,6 +55,9 @@ class GroupPermissionsTest(TestCase):
                           name='Faculty').permissions.all()])
 
         role_perms = cmd._getPerms('Faculty')
+        role_perms = role_perms.union(set(
+            Group.objects.get(name='GenericUserAcademic').permissions.all()))
+        
         self.assertEquals(group_perms, role_perms)
 
     def testFacultyHOD(self):
@@ -68,6 +65,8 @@ class GroupPermissionsTest(TestCase):
                           name='FacultyHOD').permissions.all()])
 
         role_perms = cmd._getPerms('FacultyHOD')
+        role_perms = role_perms.union(set(
+            Group.objects.get(name='Faculty').permissions.all()))
         self.assertEquals(group_perms, role_perms)
 
     def testSubAdmin(self):
@@ -75,6 +74,9 @@ class GroupPermissionsTest(TestCase):
                           name='SubAdmin').permissions.all()])
 
         role_perms = cmd._getPerms('SubAdmin')
+        role_perms = role_perms.union(set(
+            Group.objects.get(
+                name='GenericUserAdministrative').permissions.all()))
         self.assertEquals(group_perms, role_perms)
 
     def testAccounts(self):
@@ -82,6 +84,10 @@ class GroupPermissionsTest(TestCase):
                           name='Accounts').permissions.all()])
 
         role_perms = cmd._getPerms('Accounts')
+        role_perms = role_perms.union(set(
+            Group.objects.get(
+                name='GenericUserAdministrative').permissions.all()))
+
         self.assertEquals(group_perms, role_perms)
 
     def testLibrary(self):
@@ -89,6 +95,10 @@ class GroupPermissionsTest(TestCase):
                           name='Library').permissions.all()])
 
         role_perms = cmd._getPerms('Library')
+        role_perms = role_perms.union(set(
+            Group.objects.get(
+                name='GenericUserAdministrative').permissions.all()))
+
         self.assertEquals(group_perms, role_perms)
 
     def testUpperManagement(self):
@@ -96,4 +106,15 @@ class GroupPermissionsTest(TestCase):
                           name='UpperManagement').permissions.all()])
 
         role_perms = cmd._getPerms('UpperManagement')
+        role_perms = role_perms.union(set(
+            Group.objects.get(
+                name='SubAdmin').permissions.all()))
+        role_perms = role_perms.union(set(
+            Group.objects.get(
+                name='Accounts').permissions.all()))
+        role_perms = role_perms.union(set(
+            Group.objects.get(
+                name='FacultyHOD').permissions.all()))
+        
+        
         self.assertEquals(group_perms, role_perms)

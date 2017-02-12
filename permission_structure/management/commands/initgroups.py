@@ -14,6 +14,9 @@
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
+import logging
+
+LOG = logging.getLogger('app')
 
 PERMISSIONS_BY_ROLE = {
     'Public': (('can_read_main_page'),
@@ -93,19 +96,23 @@ class Command(BaseCommand):
     def _getPerms(self, groupname):
         perms = set()
         for p in PERMISSIONS_BY_ROLE[groupname]:
-            perms.add(
-                Permission.objects.filter(
-                    codename=p).first())
+            current_perm = Permission.objects.filter(codename=p).first()
+            LOG.debug("_getPerm: Adding " + current_perm.codename)
+            perms.add(current_perm)
+
         return perms
 
-    def _setPermssionsForGroup(self, groupname, groups=[],
-                               additional_perms=set()):
+    def _setPermissionsForGroup(self, groupname, inherited_groups=[],
+                                additional_perms=set()):
         group, created = Group.objects.get_or_create(name=groupname)
 
-        for model_name in groups:
-            for p in Group.objects.get(name=model_name).permissions.all():
+        for g in inherited_groups:
+            for p in Group.objects.get(name=g).permissions.all():
                 additional_perms.add(p)
 
+        LOG.debug("GROUPNAME: " + groupname)
+        for p in additional_perms:
+            LOG.debug(p)
         group.permissions.set(additional_perms)
 
     def add_arguments(self, parser):
@@ -117,14 +124,60 @@ class Command(BaseCommand):
         """
 
         # Public user
-        publicperms = self._getPerms('Public')
-        self._setPermssionsForGroup(
-            groupname='Public', additional_perms=publicperms)
+        self._setPermissionsForGroup(
+            groupname='Public', additional_perms=self._getPerms('Public'))
 
         # Generic User Academic
-        self._setPermssionsForGroup(
+        self._setPermissionsForGroup(
             groupname='GenericUserAcademic',
-            groups=['Public'],
+            inherited_groups=['Public'],
             additional_perms=self._getPerms('GenericUserAcademic'))
 
         # Generic User Administrative
+        self._setPermissionsForGroup(
+            groupname='GenericUserAdministrative',
+            inherited_groups=['Public'],
+            additional_perms=self._getPerms('GenericUserAdministrative'))
+
+        # Student
+        self._setPermissionsForGroup(
+            groupname='Student',
+            inherited_groups=['GenericUserAcademic'],
+            additional_perms=self._getPerms('Student'))
+
+        # Faculty
+        self._setPermissionsForGroup(
+            groupname='Faculty',
+            inherited_groups=['GenericUserAcademic'],
+            additional_perms=self._getPerms('Faculty'))
+
+        # FacultyHOD
+        self._setPermissionsForGroup(
+            groupname='FacultyHOD',
+            inherited_groups=['Faculty'],
+            additional_perms=self._getPerms('FacultyHOD'))
+
+        # SubAdmin
+        self._setPermissionsForGroup(
+            groupname='SubAdmin',
+            inherited_groups=['GenericUserAdministrative'],
+            additional_perms=self._getPerms('SubAdmin'))
+
+        # Accounts
+        self._setPermissionsForGroup(
+            groupname='Accounts',
+            inherited_groups=['GenericUserAdministrative'],
+            additional_perms=self._getPerms('Accounts'))
+
+        # Library
+        self._setPermissionsForGroup(
+            groupname='Library',
+            inherited_groups=['GenericUserAdministrative'],
+            additional_perms=self._getPerms('Library'))
+
+        # UpperManagement
+        self._setPermissionsForGroup(
+            groupname='UpperManagement',
+            inherited_groups=['FacultyHOD', 'SubAdmin', 'Accounts'],
+            additional_perms=self._getPerms('UpperManagement'))
+
