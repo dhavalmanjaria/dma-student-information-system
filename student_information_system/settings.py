@@ -158,3 +158,5 @@ LOGGING = {
         }
     }
 }
+
+TEST_RUNNER = 'student_information_system.runner.MyTestRunner'

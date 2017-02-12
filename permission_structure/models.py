@@ -44,6 +44,9 @@ class AllPermissions(models.Model):
                       ('can_read_activity_log',
                        'can read activity log'),
 
+                      ('can_write_activity_log',
+                       'can write activity log'),
+
                       ('can_read_internal_assessment',
                        'can read internal assessent'),
 
@@ -103,9 +106,6 @@ class AllPermissions(models.Model):
 
                       ('can_write_assignments',
                        'can write assignments'),
-
-                      ('can_write_activty_log',
-                       'can write activty log'),
 
                       ('can_read_meeting_details',
                        'can read meeting details'),

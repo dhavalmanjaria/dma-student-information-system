@@ -16,7 +16,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
 
 PERMISSIONS_BY_ROLE = {
-    'public': (('can_read_main_page'),
+    'Public': (('can_read_main_page'),
                ('can_read_notices'),
                ('can_read_study_materials'),
                ('can_read_time_table'),
@@ -24,59 +24,61 @@ PERMISSIONS_BY_ROLE = {
                ('can_read_exam_schedule'),
                ('can_read_exam_hall_plan')),
 
-    'generic_user_academic': (('can_write_personal_profile'),
-                              ('can_read_attendance'),
-                              ('can_read_online_discussion'),
-                              ('can_read_activity_log'),
-                              ('can_read_internal_assessment'),
-                              ('can_write_study_materials')),
+    'GenericUserAcademic': (('can_write_personal_profile'),
+                            ('can_read_attendance'),
+                            ('can_read_online_discussion'),
+                            ('can_read_activity_log'),
+                            ('can_read_internal_assessment'),
+                            ('can_write_study_materials'),
+                            ('can_read_university_credits'),
+                            ('can_write_online_discussion')),
 
-    'generic_user_administrative': (('can_read_exam_hall_plan'),
-                                    ('can_read_fee_dues'),
-                                    ('can_read_id_card_req'),
-                                    ('can_write_id_card_req'),
-                                    ('can_read_rail_pass_req'),
-                                    ('can_write_rail_pass_req'),
-                                    ('can_read_bonafide_req'),
-                                    ('can_read_bonafide_req')),
+    'GenericUserAdministrative': (('can_read_exam_hall_plan'),
+                                  ('can_read_fee_dues'),
+                                  ('can_read_id_card_req'),
+                                  ('can_write_id_card_req'),
+                                  ('can_read_rail_pass_req'),
+                                  ('can_write_rail_pass_req'),
+                                  ('can_read_bonafide_req'),
+                                  ('can_read_bonafide_req')),
 
-    'student': (('can_write_pass_my_book'),
+    'Student': (('can_write_pass_my_book'),
                 ('can_write_id_card_req'),
                 ('can_write_library_card_req'),
                 ('can_write_rail_pass_req'),
                 ('can_write_bonafide_req')),
 
-    'faculty': (('can_write_notices'),
+    'Faculty': (('can_write_notices'),
                 ('can_write_attendance'),
                 ('can_write_internal_assessment'),
                 ('can_write_assignments'),
                 ('can_write_activity_log'),
                 ('can_read_meeting_details')),
 
-    'sub_admin': (('can_authenticate_users'),
-                  ('can_write_activity_log'),
-                  ('can_write_exam_hall_plan'),
-                  ('can_read_fee_collections')),
+    'SubAdmin': (('can_authenticate_users'),
+                 ('can_write_activity_log'),
+                 ('can_write_exam_hall_plan'),
+                 ('can_read_fee_collections')),
 
-    'accounts': (('can_read_fee_collections'),
+    'Accounts': (('can_read_fee_collections'),
                  ('can_write_fee_collections'),
                  ('can_write_fee_dues')),
 
-    'library': (('can_read_pass_my_book'),
+    'Library': (('can_read_pass_my_book'),
                 ('can_write_pass_my_book'),
                 ('can_read_library_card_req'),
                 ('can_write_library_card_req')),
 
-    'facultyhod': (('can_authenticate_users')
+    'FacultyHOD': (('can_authenticate_users'),
                    ('can_write_time_table'),
                    ('can_write_university_credits'),
                    ('can_write_meeting_details'),
                    ('can_write_exam_schedule'),
                    ('can_write_exam_hall_plan')),
 
-    'upper_management': (('can_read_pass_my_book'),
-                         ('can_write_pass_my_book'),
-                         ('can_read_id_card_req'))
+    'UpperManagement': (('can_read_pass_my_book'),
+                        ('can_write_pass_my_book'),
+                        ('can_read_id_card_req'))
 }
 
 
@@ -104,6 +106,8 @@ class Command(BaseCommand):
             for p in Group.objects.get(name=model_name).permissions.all():
                 additional_perms.add(p)
 
+        group.permissions.set(additional_perms)
+
     def add_arguments(self, parser):
         pass
 
@@ -113,6 +117,14 @@ class Command(BaseCommand):
         """
 
         # Public user
-        publicperms = self._getPerms('public')
+        publicperms = self._getPerms('Public')
         self._setPermssionsForGroup(
-            groupname='public', additional_perms=publicperms)
+            groupname='Public', additional_perms=publicperms)
+
+        # Generic User Academic
+        self._setPermssionsForGroup(
+            groupname='GenericUserAcademic',
+            groups=['Public'],
+            additional_perms=self._getPerms('GenericUserAcademic'))
+
+        # Generic User Administrative
