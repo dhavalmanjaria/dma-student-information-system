@@ -3243,3 +3243,312 @@ _getPerm: Adding can_read_fee_collections
 _getPerm: Adding can_read_pass_my_book
 _getPerm: Adding can_write_pass_my_book
 _getPerm: Adding can_read_id_card_req
+_getPerm: Adding can_read_main_page
+_getPerm: Adding can_read_notices
+_getPerm: Adding can_read_study_materials
+_getPerm: Adding can_read_time_table
+_getPerm: Adding can_read_assignments
+_getPerm: Adding can_read_exam_schedule
+_getPerm: Adding can_read_exam_hall_plan
+GROUPNAME: Public
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read exam hall plan
+_getPerm: Adding can_write_personal_profile
+_getPerm: Adding can_read_attendance
+_getPerm: Adding can_read_online_discussion
+_getPerm: Adding can_read_activity_log
+_getPerm: Adding can_read_internal_assessment
+_getPerm: Adding can_write_study_materials
+_getPerm: Adding can_read_university_credits
+_getPerm: Adding can_write_online_discussion
+GROUPNAME: GenericUserAcademic
+permission_structure | all permissions | can write online discussion
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can read activity log
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can write study materials
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read attendance
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can read online discussion
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read internal assessent
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write personal profile
+permission_structure | all permissions | can read university credits
+_getPerm: Adding can_read_exam_hall_plan
+_getPerm: Adding can_read_fee_dues
+_getPerm: Adding can_read_id_card_req
+_getPerm: Adding can_write_id_card_req
+_getPerm: Adding can_read_rail_pass_req
+_getPerm: Adding can_write_rail_pass_req
+_getPerm: Adding can_read_bonafide_req
+_getPerm: Adding can_read_bonafide_req
+GROUPNAME: GenericUserAdministrative
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can read fee dues
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can read rail pass req
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read bonafide req
+permission_structure | all permissions | can write id card req
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read id card req
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write rail pass req
+_getPerm: Adding can_write_pass_my_book
+_getPerm: Adding can_write_id_card_req
+_getPerm: Adding can_write_library_card_req
+_getPerm: Adding can_write_rail_pass_req
+_getPerm: Adding can_write_bonafide_req
+GROUPNAME: Student
+permission_structure | all permissions | can write online discussion
+permission_structure | all permissions | can read online discussion
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can write bonafide req
+permission_structure | all permissions | can write library card req
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can read activity log
+permission_structure | all permissions | can write pass my book
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can write study materials
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read attendance
+permission_structure | all permissions | can write id card req
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read internal assessent
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write personal profile
+permission_structure | all permissions | can read university credits
+permission_structure | all permissions | can write rail pass req
+_getPerm: Adding can_write_notices
+_getPerm: Adding can_write_attendance
+_getPerm: Adding can_write_internal_assessment
+_getPerm: Adding can_write_assignments
+_getPerm: Adding can_write_activity_log
+_getPerm: Adding can_read_meeting_details
+GROUPNAME: Faculty
+permission_structure | all permissions | can write internal assessment
+permission_structure | all permissions | can write notices
+permission_structure | all permissions | can write online discussion
+permission_structure | all permissions | can read online discussion
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can write activity log
+permission_structure | all permissions | can write assignments
+permission_structure | all permissions | can write attendance
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can read activity log
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can write study materials
+permission_structure | all permissions | can read meeting details
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read attendance
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read internal assessent
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write personal profile
+permission_structure | all permissions | can read university credits
+_getPerm: Adding can_authenticate_users
+_getPerm: Adding can_write_time_table
+_getPerm: Adding can_write_university_credits
+_getPerm: Adding can_write_meeting_details
+_getPerm: Adding can_write_exam_schedule
+_getPerm: Adding can_write_exam_hall_plan
+GROUPNAME: FacultyHOD
+permission_structure | all permissions | can read meeting details
+permission_structure | all permissions | can write exam hall plan
+permission_structure | all permissions | can write meeting details
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can write university credits
+permission_structure | all permissions | can write exam schedule
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write personal profile
+permission_structure | all permissions | can read university credits
+permission_structure | all permissions | can write internal assessment
+permission_structure | all permissions | can write notices
+permission_structure | all permissions | can write online discussion
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can write activity log
+permission_structure | all permissions | can write time table
+permission_structure | all permissions | can write assignments
+permission_structure | all permissions | can write attendance
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can read activity log
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can write study materials
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read attendance
+permission_structure | all permissions | can authenticate users
+permission_structure | all permissions | can read online discussion
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read internal assessent
+_getPerm: Adding can_authenticate_users
+_getPerm: Adding can_write_activity_log
+_getPerm: Adding can_write_exam_hall_plan
+_getPerm: Adding can_read_fee_collections
+GROUPNAME: SubAdmin
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can write activity log
+permission_structure | all permissions | can read fee dues
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can read rail pass req
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can write exam hall plan
+permission_structure | all permissions | can read fee collections
+permission_structure | all permissions | can read bonafide req
+permission_structure | all permissions | can authenticate users
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read id card req
+permission_structure | all permissions | can write id card req
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write rail pass req
+_getPerm: Adding can_read_fee_collections
+_getPerm: Adding can_write_fee_collections
+_getPerm: Adding can_write_fee_dues
+GROUPNAME: Accounts
+permission_structure | all permissions | can write fee collections
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can read fee dues
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can write fee dues
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can read rail pass req
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read bonafide req
+permission_structure | all permissions | can read fee collections
+permission_structure | all permissions | can write id card req
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read id card req
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write rail pass req
+_getPerm: Adding can_read_pass_my_book
+_getPerm: Adding can_write_pass_my_book
+_getPerm: Adding can_read_library_card_req
+_getPerm: Adding can_write_library_card_req
+GROUPNAME: Library
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can write library card req
+permission_structure | all permissions | can read fee dues
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can write pass my book
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can read rail pass req
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read bonafide req
+permission_structure | all permissions | can write id card req
+permission_structure | all permissions | can read library card req
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read id card req
+permission_structure | all permissions | can read pass my book
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write rail pass req
+_getPerm: Adding can_read_pass_my_book
+_getPerm: Adding can_write_pass_my_book
+_getPerm: Adding can_read_id_card_req
+GROUPNAME: UpperManagement
+permission_structure | all permissions | can read meeting details
+permission_structure | all permissions | can write exam hall plan
+permission_structure | all permissions | can read fee collections
+permission_structure | all permissions | can write meeting details
+permission_structure | all permissions | can read main page
+permission_structure | all permissions | can write university credits
+permission_structure | all permissions | can read id card req
+permission_structure | all permissions | can write exam schedule
+permission_structure | all permissions | can read exam hall plan
+permission_structure | all permissions | can write personal profile
+permission_structure | all permissions | can read university credits
+permission_structure | all permissions | can write rail pass req
+permission_structure | all permissions | can write internal assessment
+permission_structure | all permissions | can write notices
+permission_structure | all permissions | can write online discussion
+permission_structure | all permissions | can write fee collections
+permission_structure | all permissions | can read notices
+permission_structure | all permissions | can write activity log
+permission_structure | all permissions | can write time table
+permission_structure | all permissions | can write assignments
+permission_structure | all permissions | can read fee dues
+permission_structure | all permissions | can write attendance
+permission_structure | all permissions | can read time table
+permission_structure | all permissions | can read activity log
+permission_structure | all permissions | can write pass my book
+permission_structure | all permissions | can write fee dues
+permission_structure | all permissions | can read assignments
+permission_structure | all permissions | can write study materials
+permission_structure | all permissions | can read rail pass req
+permission_structure | all permissions | can read study materials
+permission_structure | all permissions | can read bonafide req
+permission_structure | all permissions | can read attendance
+permission_structure | all permissions | can write id card req
+permission_structure | all permissions | can authenticate users
+permission_structure | all permissions | can read online discussion
+permission_structure | all permissions | can read exam schedule
+permission_structure | all permissions | can read internal assessent
+permission_structure | all permissions | can read pass my book
+_getPerm: Adding can_read_fee_collections
+_getPerm: Adding can_write_fee_collections
+_getPerm: Adding can_write_fee_dues
+_getPerm: Adding can_write_notices
+_getPerm: Adding can_write_attendance
+_getPerm: Adding can_write_internal_assessment
+_getPerm: Adding can_write_assignments
+_getPerm: Adding can_write_activity_log
+_getPerm: Adding can_read_meeting_details
+_getPerm: Adding can_authenticate_users
+_getPerm: Adding can_write_time_table
+_getPerm: Adding can_write_university_credits
+_getPerm: Adding can_write_meeting_details
+_getPerm: Adding can_write_exam_schedule
+_getPerm: Adding can_write_exam_hall_plan
+_getPerm: Adding can_write_personal_profile
+_getPerm: Adding can_read_attendance
+_getPerm: Adding can_read_online_discussion
+_getPerm: Adding can_read_activity_log
+_getPerm: Adding can_read_internal_assessment
+_getPerm: Adding can_write_study_materials
+_getPerm: Adding can_read_university_credits
+_getPerm: Adding can_write_online_discussion
+_getPerm: Adding can_read_exam_hall_plan
+_getPerm: Adding can_read_fee_dues
+_getPerm: Adding can_read_id_card_req
+_getPerm: Adding can_write_id_card_req
+_getPerm: Adding can_read_rail_pass_req
+_getPerm: Adding can_write_rail_pass_req
+_getPerm: Adding can_read_bonafide_req
+_getPerm: Adding can_read_bonafide_req
+_getPerm: Adding can_read_pass_my_book
+_getPerm: Adding can_write_pass_my_book
+_getPerm: Adding can_read_library_card_req
+_getPerm: Adding can_write_library_card_req
+_getPerm: Adding can_read_main_page
+_getPerm: Adding can_read_notices
+_getPerm: Adding can_read_study_materials
+_getPerm: Adding can_read_time_table
+_getPerm: Adding can_read_assignments
+_getPerm: Adding can_read_exam_schedule
+_getPerm: Adding can_read_exam_hall_plan
+_getPerm: Adding can_write_pass_my_book
+_getPerm: Adding can_write_id_card_req
+_getPerm: Adding can_write_library_card_req
+_getPerm: Adding can_write_rail_pass_req
+_getPerm: Adding can_write_bonafide_req
+_getPerm: Adding can_authenticate_users
+_getPerm: Adding can_write_activity_log
+_getPerm: Adding can_write_exam_hall_plan
+_getPerm: Adding can_read_fee_collections
+_getPerm: Adding can_read_pass_my_book
+_getPerm: Adding can_write_pass_my_book
+_getPerm: Adding can_read_id_card_req

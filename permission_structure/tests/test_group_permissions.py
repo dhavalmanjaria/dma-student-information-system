@@ -115,6 +115,5 @@ class GroupPermissionsTest(TestCase):
         role_perms = role_perms.union(set(
             Group.objects.get(
                 name='FacultyHOD').permissions.all()))
-        
-        
+
         self.assertEquals(group_perms, role_perms)
