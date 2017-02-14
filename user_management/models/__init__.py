@@ -1,0 +1,2 @@
+from user_management.models.all_permissions import AllPermissions
+from user_management.models.basic_info import BasicInfo

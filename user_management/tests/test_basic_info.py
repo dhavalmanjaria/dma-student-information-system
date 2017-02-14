@@ -1,5 +1,5 @@
 from django.test import TestCase
-from user_management import models
+from user_management.models import basic_info, all_permissions
 from django.contrib.auth.models import User
 import datetime
 
