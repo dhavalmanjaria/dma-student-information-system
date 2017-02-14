@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf.urls import include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+]
+
+urlpatterns += [
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+]
+
+urlpatterns += [
+    url(r'^user_management/', include('user_management.urls'))
 ]

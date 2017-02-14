@@ -12,10 +12,16 @@ class BasicInfo(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(null=True, blank=True)
+
+    # group = models.ForeignKey(Group, default=None)
+
     contact_number = models.CharField(
         help_text='The contact number of the user',
         blank=True,
         max_length=10)
+
+    group = models.ForeignKey(Group,
+                              default=Group.objects.get(name='Public').pk)
 
     #TODO: Figure out how to get a hash of the email,
     def _get_hash():
@@ -43,5 +49,4 @@ def create_basic_info(sender, instance, created, **kwargs):
 def save_basic_info(sender, instance, **kwargs):
     instance.basicinfo.serial_no = BasicInfo._get_hash()
     instance.basicinfo.save()
-
 
