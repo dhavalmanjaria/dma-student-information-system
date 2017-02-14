@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'permission_structure.apps.PermissionStructureConfig'
+    'permission_structure.apps.PermissionStructureConfig',
+    'user_management.apps.UserManagementConfig'
 ]
 
 MIDDLEWARE = [
@@ -133,12 +134,12 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/home/dhaval/Documents/Python/Django/student_information_system/django.log'
+            'filename': '/var/log/django/django.log'
         },
         'applog': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/home/dhaval/Documents/Python/Django/student_information_system/app.log'
+            'filename': '/var/log/django/app.log'
         },
         'consolehandler': {
             'level': 'DEBUG',
