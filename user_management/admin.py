@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import curriculum, all_permissions, group_info
+
+admin.site.register(curriculum.Course)
+admin.site.register(curriculum.Semester)
+admin.site.register(curriculum.Subject)
+

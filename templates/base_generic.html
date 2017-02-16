@@ -1,45 +1,49 @@
-<!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-
-        <title>HTML5 Web page</title>
-        <meta name="description" content="HTML5 page">
-        <meta name="author" content="dhaval">
-
-        <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-        <!-- base64 encoded folder icon. Uncomment to use -->
-        <!-- <link
-        href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAADR0dEAAAAAAACDzwD///8AAKL/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREREREiIiIiIiIiIiRERERERERCJEREREREREIkREREREREQiRERERERERCJEREREREREIkREREREREQiRERERERERCIiIiIiIiIiIjMzMzMzMzMiAAAAAAAAACIzMzMzMzMzIiREIiIiIiIhIiIhERERERERERERERERH//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIP/AAD//wAA"
-        rel="icon" type="image/x-icon" />A -->
-
+        
+        <title>INSERT SITE TITLE HERE</title>
+        <meta name="description" content="INSERT SITE DESCRIPTION HERE">
+        <meta name="author" content="INSERT CONTENT HERE">
+        
+        <link rel="stylesheet" href="css/styles.css?v=1.0">
 
         <!--[if lt IE 9]>
-                        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
-                        <![endif]-->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+        <![endif]-->
 
-        <style>
-        body {
-            margin: 40px auto;
-            max-width: 650px;
-            line-height: 1.6;
-            font-size: 18px;
-            color: #444;
-            padding: 0;
-        }
-
-        /*
-                 This is the minimal amount of CSS required for a website to look
-                 half decent.
-                 See: bettermotherfuckingwebsite.com
-        */
-        </style>
-    </head>
-
-<body>
-    {% block content %}
-    {% endblock %}
+        <!-- Bootstrap stuff -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet"
+            href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <!-- Latest compiled JavaScript -->
         
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script
+            src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        
+        <!-- So it works on mobile -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <!-- Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+        {% block jsfiles %}
+        {% endblock %}
     
-</body>
+    </head>
+    <body>
+        <!-- Standard container so you don't forget -->
+        <div class="container">
+        {% block content %}
+        {% endblock %}
+        </div>
+    </body>
+    
 </html>
+
