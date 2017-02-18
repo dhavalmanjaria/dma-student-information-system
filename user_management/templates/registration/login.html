@@ -1,7 +1,11 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<form class="form" action="." method="POST">
+{% if next %}
+    {{ form.errors }}
+{% endif %}
+
+<form class="form" action="{% url 'profile' %}" method="POST">
 <div class="form-group">
 {% csrf_token %}
     <table class="table">

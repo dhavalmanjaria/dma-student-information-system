@@ -24,10 +24,10 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url('^accounts/profile/', RedirectView.as_view('/accounts/username'))
+    url('^accounts/profile/', views.profile, name='profile')
 ]
 
-
 urlpatterns += [
-    url(r'^(?P<username>[-\w]+)/$', views.BasicInfoDetailView.as_view(), name='basicinfo-detail')
+    url(r'^(?P<pk>[-\d]+)/$', views.BasicInfoDetailView.as_view(),
+        name='basicinfo-detail')
 ]

@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
 from django.http import HttpResponse
 from .models.group_info import BasicInfo
 from django.views.generic.detail import DetailView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
+
 
 import logging
 LOG = logging.getLogger('app')
@@ -10,6 +13,20 @@ LOG = logging.getLogger('app')
 
 def index(request):
     return render(request, 'index.html')
+
+
+def profile(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    # Must use both authenticate() and login()
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+
+        return redirect('basicinfo-detail', pk=request.user.pk)
+    else:
+        LOG.debug("invalid username or password")
+        return redirect('login', next='profile')
 
 
 def getSecondForm(request, user=None):
@@ -34,7 +51,6 @@ def getSecondForm(request, user=None):
             return FacultyInfoForm()
         if group == '7':
             return AdminInfoForm()
-
 
 
 def registration_view(request):
@@ -104,4 +120,3 @@ def registration_view(request):
 
 class BasicInfoDetailView(DetailView):
     model = BasicInfo
-

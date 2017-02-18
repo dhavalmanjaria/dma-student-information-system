@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>
+{{ user.last_name }}, {{ user.first_name }}
+</h1>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        User Details
+    </div>
+     <div class="panel-content">
+        <ul class="list-group">
+            <li class="list-item">{{ user.username }} </li>
+            <li class="list-item">{{ object.date_of_birth }} </li>
+            <li class="list-item">{{ object.contact_number }} </li>
+            <li class="list-item">{{ user.email }} </li>
+            <li class="list-item">{{ object.group }} </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
