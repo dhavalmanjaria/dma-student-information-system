@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group, Permission
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .curriculum import Course, Semester
+from .curriculum import Course, Semester, Subject
 import hashlib
 import datetime
 
@@ -49,16 +49,18 @@ def save_basic_info(sender, instance, **kwargs):
 
 
 class StudentInfo(models.Model):
+    """
+    Information for students
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, null=True, blank=True)
 
 
-@receiver(post_save, sender=User)
-def create_student_info(sender, instance, created, **kwargs):
-    if created:
-        StudentInfo.objects.create(user=instance)
+class FacultyInfo(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, null=True, blank=True)
+    subjects = models.ManyToManyField(Subject, null=True, blank=True)
 
 
-@receiver(post_save, sender=User)
-def save_student_info(sender, instance, **kwargs):
-    instance.studentinfo.save()
+class AdminInfo(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)

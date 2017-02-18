@@ -24,3 +24,4 @@ class UserInfoTestCase(TestCase):
         user = User.objects.get(username='new_user')
         self.assertEquals(
             user.basicinfo.date_of_birth, datetime.datetime.now().date())
+    
