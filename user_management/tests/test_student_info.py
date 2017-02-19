@@ -10,7 +10,7 @@ class StudentInfoTest(TestCase):
     def setUpTestData(cls):
         global test_user
         group, created = Group.objects.get_or_create(name='Public')
-        test_user, created = User.objects.get_or_create(username='test_user')
+        test_user, created = User.objects.get_or_create(username='u_test_student_info')
         test_user.basicinfo.date_of_birth = datetime.datetime.now().date()
         test_user.basicinfo.contact_number = '2929292929'
         test_user.basicinfo.group = group

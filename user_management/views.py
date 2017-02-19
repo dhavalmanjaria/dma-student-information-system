@@ -5,6 +5,7 @@ from .models.group_info import BasicInfo
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import Group
 
 
 import logging
@@ -29,14 +30,18 @@ def profile(request):
         return redirect('login', next='profile')
 
 
-def getSecondForm(request, user=None):
+class BasicInfoDetailView(DetailView):
+    model = BasicInfo
+
+
+def _getSecondForm(request, user=None):
     if request.method == 'POST':
         group = request.POST.get('group')
         LOG.debug("POST option: " + group)
-        if group == '4':
+        if "Student" == Group.objects.get(id=group).name:
             return StudentInfoForm(
                 request.POST, instance=user)
-        if group == '5':
+        if "Faculty" == Group.objects.get(id=group).name:
             return FacultyInfoForm(
                 request.POST, instance=user)
     else:
@@ -51,7 +56,6 @@ def getSecondForm(request, user=None):
             return FacultyInfoForm()
         if group == '7':
             return AdminInfoForm()
-
 
 def registration_view(request):
     """
@@ -71,7 +75,7 @@ def registration_view(request):
             if basic_info_form.is_valid():
                 basic_info_form.save()
 
-                second_form = getSecondForm(request, user=user)
+                second_form = _getSecondForm(request, user=user)
 
                 if second_form.is_valid():
                     second_form.save()
@@ -89,7 +93,7 @@ def registration_view(request):
         basic_info_form = BasicInfoForm()
 
         if request.is_ajax():
-            second_form = getSecondForm(request)
+            second_form = _getSecondForm(request)
             return HttpResponse(second_form.as_table())  # For JQuery
 
     return render(request, 'registration/new.html', {
@@ -117,6 +121,3 @@ def registration_view(request):
     # return render(request, 'registration/new.html',
     #               {'basic_info_form': basic_info_form.as_table()})
 
-
-class BasicInfoDetailView(DetailView):
-    model = BasicInfo

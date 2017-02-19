@@ -97,7 +97,7 @@ class Command(BaseCommand):
         perms = set()
         for p in PERMISSIONS_BY_ROLE[groupname]:
             current_perm = Permission.objects.filter(codename=p).first()
-            LOG.debug("_getPerm: Adding " + current_perm.codename)
+            # LOG.debug("_getPerm: Adding " + current_perm.codename)
             perms.add(current_perm)
 
         return perms
@@ -110,9 +110,9 @@ class Command(BaseCommand):
             for p in Group.objects.get(name=g).permissions.all():
                 additional_perms.add(p)
 
-        LOG.debug("GROUPNAME: " + groupname)
-        for p in additional_perms:
-            LOG.debug(p)
+        # LOG.debug("GROUPNAME: " + groupname)
+        # for p in additional_perms:
+            # LOG.debug(p)
         group.permissions.set(additional_perms)
 
     def add_arguments(self, parser):

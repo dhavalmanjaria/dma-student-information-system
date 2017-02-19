@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import Group, User
-from user_management.forms import UserForm, BasicInfoForm, StudentInfoForm
+from user_management.forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
 from user_management.models.curriculum import Semester, Course
 
 
@@ -11,6 +11,7 @@ class RegistrationViewTestCase(TestCase):
         group, created = Group.objects.get_or_create(name='GUAc')
         group, created = Group.objects.get_or_create(name='GUAd')
         group, created = Group.objects.get_or_create(name='Student')
+        group, created = Group.objects.get_or_create(name='Faculty')
         course, created = Course.objects.get_or_create(short_name='CCP')
         sem, created = Semester.objects.get_or_create(
             course=course, semester_number=2)
@@ -35,37 +36,65 @@ class RegistrationViewTestCase(TestCase):
 
     def test_second_form_is_student(self):
         second_form = StudentInfoForm()
-        resp = self.client.get('/user_management/register/new.html?option=3')
+        resp = self.client.get(
+            '/user_management/register/new.html?group=' + str(
+                Group.objects.get(name='Student').pk),
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(second_form.as_table().encode(), resp.content)
 
-    def test_second_form_success(self):
+    def test_second_form_student_success(self):
         data = {
-            'username': 'test_user',
+            'username': 'u_test_registration_view',
             'email': 'dhv2712@gmail.com',
             'password1': 'dhaval27',
             'password2': 'dhaval27',
             'date_of_birth': '22/7/1989',
             'contact_number': '9881585223',
-            'group': '4',
+            'group': Group.objects.get(name='Student').pk,
             'semester': '1'
         }
         resp = self.client.post(
             '/user_management/register/new.html', data=data)
-        print(resp.content)
         self.assertTrue('SUCCESS'.encode() in resp.content)
 
     def test_second_form_adds_semester(self):
         data = {
-            'username': 'test_user_with_sem',
+            'username': 'u_test_registration_view_with_sem',
             'email': 'dhv2712@gmail.com',
             'password1': 'dhaval27',
             'password2': 'dhaval27',
             'date_of_birth': '22/7/1989',
             'contact_number': '9881585223',
-            'group': '4',
+            'group': Group.objects.get(name='Student').pk,
             'semester': '1'
         }
         resp = self.client.post(
             '/user_management/register/new.html', data=data)
-        test_user = User.objects.get(username='test_user_with_sem')
+        test_user = User.objects.get(username='u_test_registration_view_with_sem')
         self.assertEquals(test_user.studentinfo.semester.semester_number, 2)
+
+    def test_second_form_is_faculty(self):
+        
+        second_form = FacultyInfoForm()
+        resp = self.client.get(
+            '/user_management/register/new.html?group=' + str(
+                Group.objects.get(name='Faculty').pk),
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(second_form.as_table().encode(), resp.content)
+
+    def test_second_form_faculty_success(self):
+        data = {
+            'username': 'u_test_registration_view',
+            'email': 'dhv2712@gmail.com',
+            'password1': 'dhaval27',
+            'password2': 'dhaval27',
+            'date_of_birth': '22/7/1989',
+            'contact_number': '9881585223',
+            'group': Group.objects.get(name='Faculty').pk,
+            'course': '1'
+        }
+        resp = self.client.post(
+            '/user_management/register/new.html', data=data)
+        self.assertTrue('SUCCESS'.encode() in resp.content)
+
+    

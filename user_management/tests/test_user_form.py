@@ -13,7 +13,7 @@ class UserFormTest(TestCase):
 
     def setUp(self):
         form_data = {
-            'username': 'test_u1a',
+            'username': 'u_test_user_form',
             'password1': 'dhaval27',
             'password2': 'dhaval27',
             'email': 'mail@dhaval.com'
@@ -29,7 +29,7 @@ class UserFormTest(TestCase):
         self.assertTrue(True)
     
     def test_user_name(self):
-        self.assertEquals(test_user.username, 'test_u1a')
+        self.assertEquals(test_user.username, 'u_test_user_form')
 
     def test_user_password(self):
         # form_data = {
@@ -40,7 +40,7 @@ class UserFormTest(TestCase):
         # }
         # form = UserForm(data=form_data)
         # u = form.save()
-        u = User.objects.get(username='test_u1a')
+        u = User.objects.get(username='u_test_user_form')
         self.assertTrue(check_password('dhaval27', u.password))
 
     def test_user_email(self):
