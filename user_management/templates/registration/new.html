@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block jsfiles %}
+
+{% load static %}
+<script src="{% static 'js/load_form.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+    <div >
+    <form method="POST">
+    {% csrf_token %}
+    <div>
+        <table id="id_form" class="panel table">
+            {{ user_form }}
+            {{ basic_info_form }}
+        </table>
+        <table id="second_form" class="panel table">
+        </table>
+        <input type="submit" name="SAVE" value="Save!">
+    </div>
+
+    </form>
+    </div>
+    <div id='success'>
+    </div>
+
+{% endblock %}
+   {# {% for field in form %}
+            <tr>
+                <td>{{ field.label_tag }}</td>
+                <td>{{ field }}</td>
+                {{ field.errors }}
+                <br />
+            </tr>
+            {% endfor %} #}
