@@ -29,6 +29,11 @@ class UserForm(UserCreationForm):
 
 
 class BasicInfoForm(forms.ModelForm):
+    student_pk = None
+    faculty_pk = None
+    subadmin_pk = None
+    accounts_pk = None
+    library_pk = None
     try:
         student_pk = Group.objects.get(name='Student').pk
         faculty_pk = Group.objects.get(name='Faculty').pk
