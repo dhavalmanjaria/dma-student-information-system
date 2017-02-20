@@ -29,11 +29,15 @@ class UserForm(UserCreationForm):
 
 
 class BasicInfoForm(forms.ModelForm):
-    student_pk = Group.objects.get(name='Student').pk
-    faculty_pk = Group.objects.get(name='Faculty').pk
-    subadmin_pk = Group.objects.get(name='SubAdmin').pk
-    accounts_pk = Group.objects.get(name='Accounts').pk
-    library_pk = Group.objects.get(name='Library').pk
+    try:
+        student_pk = Group.objects.get(name='Student').pk
+        faculty_pk = Group.objects.get(name='Faculty').pk
+        subadmin_pk = Group.objects.get(name='SubAdmin').pk
+        accounts_pk = Group.objects.get(name='Accounts').pk
+        library_pk = Group.objects.get(name='Library').pk
+
+    except Exception:
+        print("forms.py: Group matching query does not exist, probably")
 
     group_choices = (
                     ('0', '     '),

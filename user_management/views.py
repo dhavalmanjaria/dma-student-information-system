@@ -38,12 +38,15 @@ def _getSecondForm(request, user=None):
     if request.method == 'POST':
         group = request.POST.get('group')
         LOG.debug("POST option: " + group)
-        if "Student" == Group.objects.get(id=group).name:
-            return StudentInfoForm(
-                request.POST, instance=user)
-        if "Faculty" == Group.objects.get(id=group).name:
-            return FacultyInfoForm(
-                request.POST, instance=user)
+        try:
+            if "Student" == Group.objects.get(id=group).name:
+                return StudentInfoForm(
+                        request.POST, instance=user)
+            if "Faculty" == Group.objects.get(id=group).name:
+                return FacultyInfoForm(
+                    request.POST, instance=user)
+        except Exception:   
+            print("Group matching query does not exist, probably")
     else:
         group = request.GET.get('group')
         LOG.debug('request is GET and group is ' + group)
