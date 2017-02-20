@@ -19,6 +19,8 @@ class BasicInfo(models.Model):
         blank=True,
         max_length=10)
 
+    def get_default_group():
+        return Group.objects.get(name='Public').pk or None
     group = models.ForeignKey(Group,
                               default=Group.objects.get(name='Public').pk)
 
