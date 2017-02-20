@@ -22,7 +22,7 @@ class BasicInfo(models.Model):
     def get_default_group():
         return Group.objects.get(name='Public').pk or None
     group = models.ForeignKey(Group,
-                              default=Group.objects.get(name='Public').pk)
+                              default=get_default_group())
 
     # TODO: Figure out how to get a hash of the email, later
     def _get_hash():
