@@ -23,7 +23,9 @@
             <div class="panel-heading"><strong>Actions</strong></div>
             <div class="panel-body">
                 {% if not user.is_authenticated %}
-                    You must log in to view actions
+                    <p>You must log in to view actions</p>
+                    <br />
+                    <a class="btn btn-info btn-sm" href="{% url 'login' %}">Login</a>
                 {% endif %}
             </div>
             

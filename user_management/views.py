@@ -96,11 +96,11 @@ def registration_view(request):
 
         if request.is_ajax():
             second_form = _getSecondForm(request)
-            return HttpResponse(second_form.as_table())  # For JQuery
+            return HttpResponse(second_form.as_ul())  # For JQuery
 
     return render(request, 'registration/new.html', {
-        'user_form': user_form.as_table(),
-        'basic_info_form': basic_info_form.as_table()
+        'user_form': user_form.as_ul(),
+        'basic_info_form': basic_info_form.as_ul()
     })
 
     # if request.method == 'POST':
@@ -118,8 +118,8 @@ def registration_view(request):
     #     basic_info_form = BasicInfoForm()
     #     if request.GET.get('option'):
     #         std_form = StudentInfoForm()
-    #         return HttpResponse(std_form.as_table())
+    #         return HttpResponse(std_form.as_ul())
 
     # return render(request, 'registration/new.html',
-    #               {'basic_info_form': basic_info_form.as_table()})
+    #               {'basic_info_form': basic_info_form.as_ul()})
 
