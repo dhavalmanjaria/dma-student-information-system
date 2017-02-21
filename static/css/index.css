@@ -1,16 +1,25 @@
 #content-div {
-    text-align: center;
+    /*text-align: center;*/
     background: white;
-    padding: 10px 10px 10px 10px;
+    padding: 10px 10px;
     min-height: 680px;
 }
 
-body {
-    margin: 0 0 0 0;
-    background: #FAFAFA;
+.info {
+    margin: 2px;
+    text-align: left;
 }
 
-.info {
-    padding: 10px 10px 10px 10px;
+
+#page-header {
+    background-color: #5fedf3;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    padding-right: 15px;
+    padding-left: 15px;
+
+    margin-bottom: 1rem;
     text-align: left;
+    font-size: 1rem;
+    font-weight: 400;
 }

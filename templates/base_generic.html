@@ -41,15 +41,27 @@
 
     <body>
         <!-- Standard container so you don't forget -->
+
         {% block header %}
-            <div id="site-header">
-                <h1>Student Information System</h1>
-            </div>
+            <header>
+                <div id="site-header" class="container">
+                    <h3>Student Information System</h3>
+                </div>
+            </header>
         {% endblock %}
 
-        <div class="container">
-        {% block content %}
+
+        {% block pageheader %}
         {% endblock %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    {% block left_sidebar %}{% endblock %}
+                </div>
+                <div class="col-sm-10">          
+                        {% block content %}{% endblock %}
+                </div>
+            </div>
         </div>
     </body>
     

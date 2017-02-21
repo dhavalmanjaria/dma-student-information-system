@@ -5,13 +5,34 @@
    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
 {% endblock %}
 
+{% block pageheader %}
+<div id="page-header">
+    <div class="container"><h1 class="display-3">Welcome</h1>
+        <hr style="border-top: 1px solid" />
+        <p class="lead">
+        This is the landing page for unregistered users. Feel free to look around.
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block left_sidebar %}
+    <div class="sidebar-nav">
+        <div id="notices" class="panel panel-info">
+            <div class="panel-heading"><strong>Actions</strong></div>
+            <div class="panel-body">
+                {% if not user.is_authenticated %}
+                    You must log in to view actions
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}
+
 {% block content %}
-
 <div id="content-div">
-
-    {% if not user.is_authenticated %}
-        <a class="btn btn-info btn-large" href="{% url 'login' %}">LOGIN</a>
-    {% endif %}
     <div class="info">
         <div id="notices" class="panel panel-info">
             <div class="panel-heading"><strong>Notices</strong></div>
