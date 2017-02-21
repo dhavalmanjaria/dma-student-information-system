@@ -16,9 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+]
+
+urlpatterns += [
+    url(r'^$', TemplateView.as_view(template_name='index.html'), name='index')
 ]
 
 urlpatterns += [
@@ -28,3 +33,12 @@ urlpatterns += [
 urlpatterns += [
     url(r'^user_management/', include('user_management.urls'))
 ]
+
+
+# # Use static() to add url mapping to serve static files during development (only)
+from django.conf import settings
+from django.conf.urls.static import static 
+
+urlpatterns += [
+    # ... the rest of your URLconf goes here ...
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

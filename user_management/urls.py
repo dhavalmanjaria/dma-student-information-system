@@ -5,7 +5,7 @@ from django.contrib import auth
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    url('^$', views.index, name='index')
+#    url('^$', RedirectView.as_view(url='/user_management/accounts/profile/'), name='index')
 ]
 
 urlpatterns += [

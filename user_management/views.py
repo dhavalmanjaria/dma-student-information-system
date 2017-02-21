@@ -15,7 +15,6 @@ LOG = logging.getLogger('app')
 def index(request):
     return render(request, 'index.html')
 
-
 def profile(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -26,7 +25,7 @@ def profile(request):
 
         return redirect('basicinfo-detail', pk=request.user.pk)
     else:
-        LOG.debug("invalid username or password")
+        # LOG.debug("invalid username or password")
         return redirect('login', next='profile')
 
 

@@ -1,0 +1,8 @@
+#site-header {
+    margin: 0px 0px 0px 0px;
+    background: red;
+    color: #FFFFFF;
+    min-height: 100px;
+    position: relative;
+    position-top: 0px;
+}

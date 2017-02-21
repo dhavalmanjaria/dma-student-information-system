@@ -6,8 +6,6 @@
         <meta name="description" content="INSERT SITE DESCRIPTION HERE">
         <meta name="author" content="INSERT CONTENT HERE">
         
-        <link rel="stylesheet" href="css/styles.css?v=1.0">
-
         <!--[if lt IE 9]>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
         <![endif]-->
@@ -31,14 +29,24 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         
         <!-- Google fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+        <!-- css for common stuff -->
+           {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 
         {% block jsfiles %}
         {% endblock %}
     
     </head>
+
     <body>
         <!-- Standard container so you don't forget -->
+        {% block header %}
+            <div id="site-header">
+                <h1>Student Information System</h1>
+            </div>
+        {% endblock %}
+
         <div class="container">
         {% block content %}
         {% endblock %}
