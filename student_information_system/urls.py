@@ -16,32 +16,23 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-<<<<<<< HEAD
-=======
 from django.views.generic.base import TemplateView
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
 urlpatterns += [
-<<<<<<< HEAD
-=======
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index')
 ]
 
 urlpatterns += [
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
     url(r'^accounts/', include('django.contrib.auth.urls')),
 ]
 
 urlpatterns += [
     url(r'^user_management/', include('user_management.urls'))
 ]
-<<<<<<< HEAD
-=======
-
 
 # # Use static() to add url mapping to serve static files during development (only)
 from django.conf import settings
@@ -50,4 +41,3 @@ from django.conf.urls.static import static
 urlpatterns += [
     # ... the rest of your URLconf goes here ...
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe

@@ -12,18 +12,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-<<<<<<< HEAD
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-=======
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -32,53 +25,32 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '59wj=k1*ard7lo+t+ze)ocngbv$r4on9vo8halu((d*$1&5cup'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-<<<<<<< HEAD
-DEBUG = True
-
-ALLOWED_HOSTS = ['10.1.2.3', '127.0.0.1']
-
-=======
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 # ALLOWED_HOSTS = ['10.1.2.3', '127.0.0.1']
 ALLOWED_HOSTS = ['*']
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-=======
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
     'django.contrib.staticfiles',
     'user_management.apps.UserManagementConfig'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-<<<<<<< HEAD
-=======
     'whitenoise.middleware.WhiteNoiseMiddleware',
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-<<<<<<< HEAD
-=======
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -97,10 +69,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-<<<<<<< HEAD
-=======
             'debug': DEBUG
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
         },
     },
 ]
@@ -155,19 +124,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-<<<<<<< HEAD
-=======
 # Update database config with $DATABASE_URL
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-<<<<<<< HEAD
-STATIC_URL = '/static/'
-=======
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 STATIC_URL = '/static/'
@@ -177,7 +140,6 @@ STATICFILES_DIRS = [
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
 # LOGGING
 LOGGING = {
@@ -187,20 +149,12 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-<<<<<<< HEAD
-            'filename': '/var/log/django/django.log'
-=======
             'filename': '/tmp/django.log'
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
         },
         'applog': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-<<<<<<< HEAD
-            'filename': '/var/log/django/app.log'
-=======
             'filename': '/tmp/app.log'
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
         },
         'consolehandler': {
             'level': 'DEBUG',

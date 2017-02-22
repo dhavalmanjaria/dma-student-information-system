@@ -26,21 +26,13 @@ class RegistrationViewTestCase(TestCase):
     def test_user_form_is_table(self):
         user_form = UserForm()
         resp = self.client.get('/user_management/register/new.html')
-<<<<<<< HEAD
-        self.assertEqual(user_form.as_table(), resp.context['user_form'])
-=======
         self.assertEqual(user_form.as_ul(), resp.context['user_form'])
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
     def test_basic_info_form_is_table(self):
         basic_info = BasicInfoForm()
         resp = self.client.get('/user_management/register/new.html')
         self.assertEqual(
-<<<<<<< HEAD
-            basic_info.as_table(), resp.context['basic_info_form'])
-=======
             basic_info.as_ul(), resp.context['basic_info_form'])
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
     def test_second_form_is_student(self):
         second_form = StudentInfoForm()
@@ -48,11 +40,7 @@ class RegistrationViewTestCase(TestCase):
             '/user_management/register/new.html?group=' + str(
                 Group.objects.get(name='Student').pk),
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-<<<<<<< HEAD
-        self.assertEqual(second_form.as_table().encode(), resp.content)
-=======
         self.assertEqual(second_form.as_ul().encode(), resp.content)
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
     def test_second_form_student_success(self):
         data = {
@@ -92,11 +80,7 @@ class RegistrationViewTestCase(TestCase):
             '/user_management/register/new.html?group=' + str(
                 Group.objects.get(name='Faculty').pk),
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-<<<<<<< HEAD
-        self.assertEqual(second_form.as_table().encode(), resp.content)
-=======
         self.assertEqual(second_form.as_ul().encode(), resp.content)
->>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 
     def test_second_form_faculty_success(self):
         data = {
