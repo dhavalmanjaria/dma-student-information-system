@@ -56,12 +56,16 @@ PERMISSIONS_BY_ROLE = {
                 ('can_write_internal_assessment'),
                 ('can_write_assignments'),
                 ('can_write_activity_log'),
-                ('can_read_meeting_details')),
+                ('can_read_meeting_details'),
+                ('can_auth_Student')),
 
     'SubAdmin': (('can_authenticate_users'),
                  ('can_write_activity_log'),
                  ('can_write_exam_hall_plan'),
-                 ('can_read_fee_collections')),
+                 ('can_read_fee_collections'),
+                 ('can_auth_SubAdmin'),
+                 ('can_auth_Accounts'),
+                 ('can_auth_Library')),
 
     'Accounts': (('can_read_fee_collections'),
                  ('can_write_fee_collections'),
@@ -77,7 +81,8 @@ PERMISSIONS_BY_ROLE = {
                    ('can_write_university_credits'),
                    ('can_write_meeting_details'),
                    ('can_write_exam_schedule'),
-                   ('can_write_exam_hall_plan')),
+                   ('can_write_exam_hall_plan'),
+                   ('can_auth_Faculty')),
 
     'UpperManagement': (('can_read_pass_my_book'),
                         ('can_write_pass_my_book'),

@@ -132,5 +132,19 @@ class AllPermissions(models.Model):
                        'can read pass my book'),
 
                       ('can_write_pass_my_book',
-                       'can write pass my book')
-                    ))
+                       'can write pass my book'),
+
+                      ('can_auth_Student',
+                       'can auth Student'),
+
+                      ('can_auth_Faculty',
+                       'can auth Faculty'),
+
+                      ('can_auth_SubAdmin',
+                       'can auth SubAdmin'),
+
+                      ('can_auth_Accounts',
+                       'can auth Accounts'),
+
+                      ('can_auth_Library',
+                       'can auth Library')))

@@ -104,23 +104,10 @@ def registration_view(request):
         'basic_info_form': basic_info_form.as_table()
     })
 
-    # if request.method == 'POST':
-    #     basic_info_form = BasicInfoForm(request.POST)
-    #     std_form = StudentInfoForm(request.POST)
 
-    #     LOG.debug(basic_info_form)
-    #     LOG.debug(std_form)
-
-    #     if basic_info_form.is_valid() and std_form.is_valid():
-    #         basic_info_form.save()
-    #         std_form.save()
-
-    # else:
-    #     basic_info_form = BasicInfoForm()
-    #     if request.GET.get('option'):
-    #         std_form = StudentInfoForm()
-    #         return HttpResponse(std_form.as_ul())
-
-    # return render(request, 'registration/new.html',
-    #               {'basic_info_form': basic_info_form.as_ul()})
-
+@login_required
+def auth_request(request):
+    pass
+    # For every auth permission that a user has,
+    # add those types of requests to the context? thing
+    # We see where to go from there
