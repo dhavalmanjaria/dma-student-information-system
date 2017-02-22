@@ -15,7 +15,10 @@ LOG = logging.getLogger('app')
 def index(request):
     return render(request, 'index.html')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 def profile(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -26,7 +29,11 @@ def profile(request):
 
         return redirect('basicinfo-detail', pk=request.user.pk)
     else:
+<<<<<<< HEAD
         LOG.debug("invalid username or password")
+=======
+        # LOG.debug("invalid username or password")
+>>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
         return redirect('login', next='profile')
 
 
@@ -38,12 +45,24 @@ def _getSecondForm(request, user=None):
     if request.method == 'POST':
         group = request.POST.get('group')
         LOG.debug("POST option: " + group)
+<<<<<<< HEAD
         if "Student" == Group.objects.get(id=group).name:
             return StudentInfoForm(
                 request.POST, instance=user)
         if "Faculty" == Group.objects.get(id=group).name:
             return FacultyInfoForm(
                 request.POST, instance=user)
+=======
+        try:
+            if "Student" == Group.objects.get(id=group).name:
+                return StudentInfoForm(
+                        request.POST, instance=user)
+            if "Faculty" == Group.objects.get(id=group).name:
+                return FacultyInfoForm(
+                    request.POST, instance=user)
+        except Exception:   
+            print("Group matching query does not exist, probably")
+>>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
     else:
         group = request.GET.get('group')
         LOG.debug('request is GET and group is ' + group)
@@ -94,11 +113,19 @@ def registration_view(request):
 
         if request.is_ajax():
             second_form = _getSecondForm(request)
+<<<<<<< HEAD
             return HttpResponse(second_form.as_table())  # For JQuery
 
     return render(request, 'registration/new.html', {
         'user_form': user_form.as_table(),
         'basic_info_form': basic_info_form.as_table()
+=======
+            return HttpResponse(second_form.as_ul())  # For JQuery
+
+    return render(request, 'registration/new.html', {
+        'user_form': user_form.as_ul(),
+        'basic_info_form': basic_info_form.as_ul()
+>>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
     })
 
     # if request.method == 'POST':
@@ -116,8 +143,15 @@ def registration_view(request):
     #     basic_info_form = BasicInfoForm()
     #     if request.GET.get('option'):
     #         std_form = StudentInfoForm()
+<<<<<<< HEAD
     #         return HttpResponse(std_form.as_table())
 
     # return render(request, 'registration/new.html',
     #               {'basic_info_form': basic_info_form.as_table()})
+=======
+    #         return HttpResponse(std_form.as_ul())
+
+    # return render(request, 'registration/new.html',
+    #               {'basic_info_form': basic_info_form.as_ul()})
+>>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
 

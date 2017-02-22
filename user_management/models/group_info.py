@@ -19,9 +19,18 @@ class BasicInfo(models.Model):
         blank=True,
         max_length=10)
 
+<<<<<<< HEAD
     group = models.ForeignKey(Group,
                               default=Group.objects.get(name='Public').pk)
 
+=======
+    try:
+        group = models.ForeignKey(Group,
+                                  default=Group.objects.get(name='Public'))
+
+    except Exception:
+        pass
+>>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
     # TODO: Figure out how to get a hash of the email, later
     def _get_hash():
         m = hashlib.sha256()

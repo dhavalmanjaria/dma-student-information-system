@@ -1,4 +1,5 @@
 appdirs==1.4.0
+<<<<<<< HEAD
 blessings==1.6
 colour-runner==0.0.5
 Django==1.10.5
@@ -8,3 +9,14 @@ psycopg2==2.6.2
 Pygments==2.2.0
 pyparsing==2.1.10
 six==1.10.0
+=======
+dj-database-url==0.4.2
+Django==1.10.5
+freeze==1.0.10
+gunicorn==19.6.0
+packaging==16.8
+psycopg2==2.6.2
+pyparsing==2.1.10
+six==1.10.0
+whitenoise==3.3.0
+>>>>>>> 43d358a9a56880351ce932aa6aeb993dfde1e6fe
