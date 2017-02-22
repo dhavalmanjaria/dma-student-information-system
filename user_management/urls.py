@@ -20,6 +20,11 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    url(r'^accounts/logout/$', auth.views.logout,
+        {'next_page': 'index'})
+]
+
+urlpatterns += [
     url('^accounts/', include('django.contrib.auth.urls'))
 ]
 

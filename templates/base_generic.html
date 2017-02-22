@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8">
         
-        <title>INSERT SITE TITLE HERE</title>
+        <title>{% block title %}DMA SIS {% endblock %}</title>
         <meta name="description" content="INSERT SITE DESCRIPTION HERE">
         <meta name="author" content="INSERT CONTENT HERE">
         
@@ -30,15 +30,18 @@
         
         <!-- Google fonts -->
            {% load static %}
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+        <link rel="stylesheet" href="/static/css/styles.css" />
 
-        {% block jsfiles %}
+        {% block staticfiles %}
         {% endblock %}
     
     </head>
 
     <body>
         <!-- Standard container so you don't forget -->
+
+        {% block specialcontent %}
+        {% endblock %}
 
         {% block header %}
             <header>

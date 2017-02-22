@@ -1,75 +1,44 @@
-<html lang="en">
-        <head>
-                <meta charset="utf-8">
+{% extends "base_generic.html" %}
 
-                <title>INSERT SITE TITLE HERE</title>
-                <meta name="description" content="INSERT SITE DESCRIPTION HERE">
-                <meta name="author" content="INSERT CONTENT HERE">
+{% block staticfiles %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
+<<script src="js/add_form_class.js" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock %}
 
-                <link rel="stylesheet" href="css/styles.css?v=1.0">
+{% block title %}Login {% endblock %}
+{% block specialcontent %}
+<div class="container">
+<!-- I think this is deprecated but it works rather well
+to perfectly center the form -->
+    <center>
+        <div class="panel panel-info login-ul">
+            <div class="panel-heading"><strong>Login</strong></div>
+            <div class="panel-body">
+                <form class="form-group" action="{% url 'profile' %}" method="POST">
+                {% csrf_token %}
+                    <ul class="list-group ">
+                        <li class="list-group-item"><strong>{{ form.username.label }}</strong>
+                            {{ form.username }}
+                        </li>
 
-                <!--[if lt IE 9]>
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
-                <![endif]-->
+                        <li class="list-group-item"><strong>{{ form.password.label }}</strong>
+                        {{ form.password }}
+                        </li>
+                        {% for error in form.non_field_errors %}
+                        <li class="list-group-item" style="color: red">{{ error }}</li>
+                        {% endfor %}
+                        <li class="list-group-item">
+                            <input type="submit" class="btn btn-info btn-md" value="Login" />
+                        </li>
+                </ul>
+                </form>
+                <a href="#"><p>Forgot Password?</p></a>
+            </div>
+        </div>
+    </center>
+</div>
+{% endblock %}
 
-                <!-- Bootstrap stuff -->
-                <!-- Latest compiled and minified CSS -->
-                <link rel="stylesheet"
-                        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-                <!-- Latest compiled JavaScript -->
-
-                <script
-                        src="httpss://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-                <script
-                        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-                <!-- So it works on mobile -->
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-
-                <!-- jquery -->
-                <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-                <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-
-                <!-- Google fonts -->
-                <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
-                {% load static %}
-                <link rel="stylesheet" href="{% static 'css/login.css' %}" />
-                <script src="{% static 'js/add_form_classes.js' %}"></script>
-
-        </head>
-        <body>
-                <!-- Standard container so you don't forget -->
-                <div class="container">
-                        <!-- I think this is deprecated but it works rather well
-                        to perfectly center the form -->
-                        <center>
-                        <div class="panel panel-info login-ul">
-                                <div class="panel-heading"><strong>Login</strong></div>
-                                <div class="panel-body">
-                                        <form class="form-group" action="" method="POST">
-                                        {% csrf_token %}
-                                                <ul class="list-group ">
-                                                        <li class="list-group-item"><strong>{{ form.username.label }}</strong>
-                                                        {{ form.username }}
-                                                        </li>
-
-                                                        <li class="list-group-item"><strong>{{ form.password.label }}</strong>
-                                                        {{ form.password }}
-                                                        </li>
-                                                        {% for error in form.non_field_errors %}
-                                                                <li class="list-group-item" style="color: red">{{ error }}</li>
-                                                        {% endfor %}
-                                                        <li class="list-group-item">
-
-                                                <input type="submit" class="btn btn-info btn-md" value="Login" />
-                                                </li>
-                                                </ul>
-                                        </form>
-                                        <a href="#"><p>Forgot Password?</p></a>
-                                </div>
-                        </center>
-                </div>
-        </body>
-
-</html>
+{% block header %}
+{% endblock %}

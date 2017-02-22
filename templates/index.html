@@ -1,6 +1,6 @@
 {% extends "base_generic.html" %}
 
-{% block jsfiles %}
+{% block staticfiles %}
     {% load static %}
    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
 {% endblock %}
@@ -8,7 +8,7 @@
 {% block pageheader %}
 <div id="page-header">
     <div class="container"><h1 class="display-3">Welcome</h1>
-        <hr style="border-top: 1px solid" />
+        <hr style="border-top: 1px solid; border-color: white;" />
         <p class="lead">
         This is the landing page for unregistered users. Feel free to look around.
         </p>
@@ -21,16 +21,25 @@
     <div class="sidebar-nav">
         <div id="notices" class="panel panel-info">
             <div class="panel-heading"><strong>Actions</strong></div>
-            <div class="panel-body">
-                {% if not user.is_authenticated %}
+            {% if user.is_authenticated %}
+                <div class="panel-body">
+                    <a class="btn btn-link" href="{% url 'basicinfo-detail' pk=user.id%}">My Profile</a>
+                </div>
+            
+            {% else %}
+
+                <div class="panel-body">
+                 
                     <p>You must log in to view actions</p>
                     <br />
-                    <a class="btn btn-info btn-sm" href="{% url 'login' %}">Login</a>
-                {% endif %}
-            </div>
-            <div class="panel-body">
-                <a class="btn btn-warning btn-sm" href="{% url 'register' %}">Register</a>
-            </div>
+                    <a class="btn btn-link" href="{% url 'login' %}">Login</a>
+                    <a class="btn btn-link" href="{% url 'register' %}">Register</a>
+
+                </div>
+                <div class="panel-body">
+                   
+                </div>
+            {% endif %}
             
         </div>
     </div>
