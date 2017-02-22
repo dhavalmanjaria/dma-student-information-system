@@ -48,17 +48,23 @@
                                 <div class="panel-heading"><strong>Login</strong></div>
                                 <div class="panel-body">
                                         <form class="form-group" action="" method="POST">
+                                        {% csrf_token %}
                                                 <ul class="list-group ">
+
+                                                
+
                                                         <li class="list-group-item"><strong>{{ form.username.label }}</strong>
                                                         {{ form.username }}
-                                                        {{ form.errors }}
                                                         </li>
 
                                                         <li class="list-group-item"><strong>{{ form.password.label }}</strong>
                                                         {{ form.password }}
-                                                        {{ form.errors }}
                                                         </li>
+                                                        {% for error in form.non_field_errors %}
+                                                                <li class="list-group-item" style="color: red">{{ error }}</li>
+                                                        {% endfor %}
                                                         <li class="list-group-item">
+
                                                 <input type="submit" class="btn btn-info btn-md" value="Login" />
                                                 </li>
                                                 </ul>
