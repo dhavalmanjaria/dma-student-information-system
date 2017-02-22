@@ -44,7 +44,7 @@ def _getSecondForm(request, user=None):
             if "Faculty" == Group.objects.get(id=group).name:
                 return FacultyInfoForm(
                     request.POST, instance=user)
-        except Exception:   
+        except Exception:
             print("Group matching query does not exist, probably")
     else:
         group = request.GET.get('group')
@@ -58,6 +58,7 @@ def _getSecondForm(request, user=None):
             return FacultyInfoForm()
         if group == '7':
             return AdminInfoForm()
+
 
 def registration_view(request):
     """
@@ -83,7 +84,7 @@ def registration_view(request):
                     second_form.save()
                     LOG.debug('second_form saved')
 
-                    return HttpResponse("SUCCESS!!!")
+                    return redirect("index")
                 else:
                     LOG.debug("SECOND FORM ERRORS:" + str(second_form.errors))
 
@@ -96,11 +97,11 @@ def registration_view(request):
 
         if request.is_ajax():
             second_form = _getSecondForm(request)
-            return HttpResponse(second_form.as_ul())  # For JQuery
+            return HttpResponse(second_form.as_table())  # For JQuery
 
     return render(request, 'registration/new.html', {
-        'user_form': user_form.as_ul(),
-        'basic_info_form': basic_info_form.as_ul()
+        'user_form': user_form.as_table(),
+        'basic_info_form': basic_info_form.as_table()
     })
 
     # if request.method == 'POST':

@@ -70,6 +70,7 @@ class RegistrationViewTestCase(TestCase):
         }
         resp = self.client.post(
             '/user_management/register/new.html', data=data)
+        print("SECOND FORM RESP: ")
         test_user = User.objects.get(username='u_test_registration_view_with_sem')
         self.assertEquals(test_user.studentinfo.semester.semester_number, 2)
 

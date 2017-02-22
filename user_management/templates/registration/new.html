@@ -4,6 +4,7 @@
 
 {% load static %}
 <script src="{% static 'js/load_form.js' %}"></script>
+<script src="{% static 'js/add_form_classes.js' %}"></script>
 
 {% endblock %}
 
@@ -11,16 +12,20 @@
     <div >
     <form method="POST">
     {% csrf_token %}
-    <div>
-        <table id="id_form" class="panel table">
-            {{ user_form }}
-            {{ basic_info_form }}
-        </table>
-        <table id="second_form" class="panel table">
-        </table>
-        <input type="submit" name="SAVE" value="Save!">
+    <div class="panel panel-info" style="max-width: 540px;">
+        <div class="panel-heading"><strong>Enter your user information</strong></div>
+        <div class="panel-body">
+            <table id="id_form" class="table">
+                {{ user_form }}
+                {{ basic_info_form }}
+            </table>
+        </div>
+        <div class="panel-body">
+            <table id="second_form" class="table">
+            </table>
+            <input type="submit" name="SAVE" value="Save!">
+        </div>
     </div>
-
     </form>
     </div>
     <div id='success'>

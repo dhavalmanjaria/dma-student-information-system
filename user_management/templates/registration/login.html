@@ -35,7 +35,7 @@
 
                 {% load static %}
                 <link rel="stylesheet" href="{% static 'css/login.css' %}" />
-                <script src="{% static 'js/add_login_form_classes.js' %}"></script>
+                <script src="{% static 'js/add_form_classes.js' %}"></script>
 
         </head>
         <body>
@@ -50,9 +50,6 @@
                                         <form class="form-group" action="" method="POST">
                                         {% csrf_token %}
                                                 <ul class="list-group ">
-
-                                                
-
                                                         <li class="list-group-item"><strong>{{ form.username.label }}</strong>
                                                         {{ form.username }}
                                                         </li>
