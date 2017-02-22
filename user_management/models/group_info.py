@@ -21,11 +21,12 @@ class BasicInfo(models.Model):
 
     try:
         group = models.ForeignKey(Group,
-                                  default=Group.objects.get(name='Public'))
+                                  default=Group.objects.get(name='Public').pk)
 
     except Exception:
         pass
     # TODO: Figure out how to get a hash of the email, later
+   
     def _get_hash():
         m = hashlib.sha256()
         m.update(str(datetime.datetime.now()).encode())
