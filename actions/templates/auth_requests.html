@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+
+{% block pageheader %}
+<div id="page-header">
+    <div class="container"><h1 class="display-3">Authentication Requests</h1>
+        <hr style="border-top: 1px solid; border-color: white;" />
+        <p class="lead">
+        This is where requests for authentication are shown. Here you can grant a user all the privileges of the group they have requested to join.
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <strong>Authentication Requests</strong>
+    </div>
+    <div class="panel-body">
+    <table class="table table-striped">
+        <tr>
+            <th>Username</th>
+            <th>Applied to Group</th>
+            <th>Request Date</th>
+        </tr>
+    {% for request in all_requests %}
+        <tr>
+            <td>{{ request.user }}</td>
+            <td>{{ request.group }}</td>
+            <td>{{ request.request_date}}</td>
+            <form action="" method="POST">
+            </form>
+        </tr>
+    {% endfor %}
+    </td>
+    </div>
+</div>
+{% endblock %}

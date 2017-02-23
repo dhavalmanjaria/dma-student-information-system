@@ -17,8 +17,10 @@ class Command(BaseCommand):
         if created:
             um0.password = make_password('dhaval27')
 
-        perms = Group.objects.get(name='UpperManagement').permissions.all()
+        umg = Group.objects.get(name='UpperManagement')
         um0.groups.add(Group.objects.get(name='UpperManagement'))
+        um0.basicinfo.group = umg
+        perms = umg.permissions.all()
         um0.user_permissions.set(perms)
 
         um0.save()

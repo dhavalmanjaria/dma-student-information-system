@@ -23,7 +23,7 @@
             <div class="panel-heading"><strong>Actions</strong></div>
             {% if user.is_authenticated %}
                 <div class="panel-body">
-                    <a class="btn btn-link" href="{% url 'basicinfo-detail' pk=user.id%}">My Profile</a>
+                    <a href="{% url 'user-detail' pk=user.id%}">My Profile</a>
                 </div>
             
             {% else %}

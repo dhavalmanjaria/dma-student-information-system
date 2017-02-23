@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'user_management.apps.UserManagementConfig',
-    'curriculum.apps.CurriculumConfig'
+    'curriculum.apps.CurriculumConfig',
+    'actions.apps.ActionsConfig'
 ]
 
 MIDDLEWARE = [

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from curriculum.models import Course, Semester, Subject
+from django.urls import reverse
 import hashlib
 import datetime
 
@@ -36,6 +37,9 @@ class BasicInfo(models.Model):
         help_text='Simpler unique identifier for this user',
         max_length=6,
         unique=True)
+
+    def get_absolute_url(self):
+        return reverse('basicinfo-detail', args=[str(self.user.pk)])
 
 
 # This is basic basic info HAS to be saved.
