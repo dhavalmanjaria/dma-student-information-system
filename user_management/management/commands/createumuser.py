@@ -20,3 +20,5 @@ class Command(BaseCommand):
         perms = Group.objects.get(name='UpperManagement').permissions.all()
         um0.groups.add(Group.objects.get(name='UpperManagement'))
         um0.user_permissions.set(perms)
+
+        um0.save()

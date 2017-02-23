@@ -59,8 +59,7 @@ PERMISSIONS_BY_ROLE = {
                 ('can_read_meeting_details'),
                 ('can_auth_Student')),
 
-    'SubAdmin': (('can_authenticate_users'),
-                 ('can_write_activity_log'),
+    'SubAdmin': (('can_write_activity_log'),
                  ('can_write_exam_hall_plan'),
                  ('can_read_fee_collections'),
                  ('can_auth_SubAdmin'),
@@ -76,8 +75,7 @@ PERMISSIONS_BY_ROLE = {
                 ('can_read_library_card_req'),
                 ('can_write_library_card_req')),
 
-    'FacultyHOD': (('can_authenticate_users'),
-                   ('can_write_time_table'),
+    'FacultyHOD': (('can_write_time_table'),
                    ('can_write_university_credits'),
                    ('can_write_meeting_details'),
                    ('can_write_exam_schedule'),

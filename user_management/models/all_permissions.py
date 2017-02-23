@@ -110,9 +110,6 @@ class AllPermissions(models.Model):
                       ('can_read_meeting_details',
                        'can read meeting details'),
 
-                      ('can_authenticate_users',
-                       'can authenticate users'),
-
                       ('can_write_time_table',
                        'can write time table'),
 

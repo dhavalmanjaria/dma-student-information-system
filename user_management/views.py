@@ -3,7 +3,7 @@ from .forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
 from django.http import HttpResponse
 from .models.group_info import BasicInfo
 from .models.auth_requests import AuthenticationRequest
-from django.views.generic.detail import DetailView
+from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import Group
@@ -32,6 +32,9 @@ def profile(request):
 
 class BasicInfoDetailView(DetailView):
     model = BasicInfo
+
+    def get(request, pk):
+        LOG.debug(""+ request.user)
 
 
 def _getSecondForm(request, user=None):
