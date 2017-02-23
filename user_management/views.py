@@ -33,30 +33,6 @@ def profile(request):
         return redirect('login')
 
 
-class UserDetailView(generic.detail.DetailView, LoginRequiredMixin):
-
-    model = User
-    template_name = 'user_management/user_detail.html'
-
-    # Append requests to context data
-    # Theoretically this should be in it's own view. Added to the GIGANTIC
-    # TODO list
-    def get_context_data(self, **kwargs):
-        context = super(UserDetailView, self).get_context_data(**kwargs)
-        user = context['user']
-        can_auth_perms = [p.codename for p in user.user_permissions.filter(
-            codename__startswith='can_auth_')]
-
-        can_auth_groups = [n.replace('can_auth_', '') for n in can_auth_perms]
-
-        all_requests = set(
-            [r for r in AuthenticationRequest.objects.filter(
-                group__name__in=can_auth_groups)])
-
-        LOG.debug(all_requests)
-        context['all_requests'] = all_requests
-        return context
-
 
 def _getSecondForm(request, user=None):
     if request.method == 'POST':
@@ -133,12 +109,27 @@ def registration_view(request):
     })
 
 
-@login_required
-def auth_request(request):
-    pass
-    # For every auth permission that a user has,
-    # add those types of requests to the context? thing
-    # We see where to go from there
-    #
-    #
-    # But first you need to create a request
+class UserDetailView(generic.detail.DetailView, LoginRequiredMixin):
+
+    model = User
+    template_name = 'user_management/user_detail.html'
+
+    # Append requests to context data
+    # Theoretically this should be in it's own view. Added to the GIGANTIC
+    # TODO list
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        user = context['user']
+        can_auth_perms = [p.codename for p in user.user_permissions.filter(
+            codename__startswith='can_auth_')]
+
+        can_auth_groups = [n.replace('can_auth_', '') for n in can_auth_perms]
+
+        all_requests = set(
+            [r for r in AuthenticationRequest.objects.filter(
+                group__name__in=can_auth_groups)])
+
+        LOG.debug(all_requests)
+        context['all_requests'] = all_requests
+        return context
+

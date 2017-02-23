@@ -33,6 +33,6 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'^(?P<pk>[-\d]+)/$', views.UserDetailView.as_view(),
+    url('^(?P<pk>[-\d]+)/$', views.UserDetailView.as_view(),
         name='user-detail')
 ]

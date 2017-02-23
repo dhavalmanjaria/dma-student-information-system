@@ -58,8 +58,22 @@ body {
     font-family: Verdana, "DejaVu Sans";
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 .sidebar-nav {
     margin-top: 20px;
     padding: 0;
     background-color: white;
+}
+
+
+#page-header {
+    background-color: rgb(47, 182, 255);
+    padding-top: 3em;
+    padding-bottom: 3em;
+    color: white;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 5px rgba(155,155,155, 1);
 }

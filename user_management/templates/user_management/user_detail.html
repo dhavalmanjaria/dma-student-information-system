@@ -1,8 +1,32 @@
 {% extends "base_generic.html" %}
 
+
+{% block pageheader %}
+<div id="page-header">
+    <div class="container"><h1 class="display-3">My Profile</h1>
+        <hr style="border-top: 1px solid; border-color: white;" />
+        <p class="lead">
+        This is the basic profile page. It shows your personal details along with some relevant stuff.
+        </p>
+    </div>
+</div>
+{% endblock %}
+
 {% block left_sidebar %}
-<div class="well well-sm">
-    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    <div class="panel panel-info">
+    <div class="panel-heading">
+        <strong>View</strong>
+    </div>
+     <div class="panel-content">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+            </li>
+        </ul>
+    </div>
 </div>
 {% endblock %}
 
@@ -24,27 +48,6 @@
             <li class="list-group-item"><strong>Email: </strong>{{ user.email }}</li>
             <li class="list-group-item"><strong>Group: </strong> {{ user.basicinfo.group}}</li>
         </ul>
-    </div>
-</div>
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <strong>Authentication Requests</strong>
-    </div>
-    <div class="panel-body">
-    <table class="table table-striped">
-        <tr>
-            <th>Username</th>
-            <th>Applied to Group</th>
-            <th>Request Date</th>
-        </tr>
-    {% for request in all_requests %}
-        <tr>
-            <td>{{ request.user }}</td>
-            <td>{{ request.group }}</td>
-            <td>{{ request.request_date}}</td>
-        </tr>
-    {% endfor %}
-    </td>
     </div>
 </div>
 {% endblock %}

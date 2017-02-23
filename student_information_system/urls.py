@@ -34,6 +34,10 @@ urlpatterns += [
     url(r'^user_management/', include('user_management.urls'))
 ]
 
+urlpatterns += [
+    url(r'^actions/', include('actions.urls'))
+]
+
 # # Use static() to add url mapping to serve static files during development (only)
 from django.conf import settings
 from django.conf.urls.static import static 
