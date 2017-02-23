@@ -1,0 +1,50 @@
+{% extends "base_generic.html" %}
+
+{% block left_sidebar %}
+<div class="well well-sm">
+    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<h1>
+{{ user.last_name }}, {{ user.first_name }}
+</h1>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <strong>My Details</strong>
+    </div>
+     <div class="panel-content">
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Username: </strong>{{user.username}}</li>
+            <li class="list-group-item"><strong>Date of Birth:</strong> {{user.basicinfo.date_of_birth }}</li>
+            <li class="list-group-item"><strong>Contact: </strong>{{ user.basicinfo.contact_number }}</li>
+            <li class="list-group-item"><strong>Email: </strong>{{ user.email }}</li>
+            <li class="list-group-item"><strong>Group: </strong> {{ user.basicinfo.group}}</li>
+        </ul>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <strong>Authentication Requests</strong>
+    </div>
+    <div class="panel-body">
+    <table class="table table-striped">
+        <tr>
+            <th>Username</th>
+            <th>Applied to Group</th>
+            <th>Request Date</th>
+        </tr>
+    {% for request in all_requests %}
+        <tr>
+            <td>{{ request.user }}</td>
+            <td>{{ request.group }}</td>
+            <td>{{ request.request_date}}</td>
+        </tr>
+    {% endfor %}
+    </td>
+    </div>
+</div>
+{% endblock %}

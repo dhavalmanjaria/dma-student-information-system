@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
 from django.http import HttpResponse
 from .models.group_info import BasicInfo
 from .models.auth_requests import AuthenticationRequest
-from django.views.generic.detail import DetailView
+from django.views import generic
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 
 import logging
@@ -16,6 +17,7 @@ LOG = logging.getLogger('app')
 def index(request):
     return render(request, 'index.html')
 
+
 def profile(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -23,15 +25,37 @@ def profile(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
-
-        return redirect('basicinfo-detail', pk=request.user.pk)
+        LOG.debug(request)
+        LOG.debug("profile: " + str(user.pk))
+        return redirect('user-detail', pk=user.pk)
     else:
         # LOG.debug("invalid username or password")
-        return redirect('login', next='profile')
+        return redirect('login')
 
 
-class BasicInfoDetailView(DetailView):
-    model = BasicInfo
+class UserDetailView(generic.detail.DetailView, LoginRequiredMixin):
+
+    model = User
+    template_name = 'user_management/user_detail.html'
+
+    # Append requests to context data
+    # Theoretically this should be in it's own view. Added to the GIGANTIC
+    # TODO list
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        user = context['user']
+        can_auth_perms = [p.codename for p in user.user_permissions.filter(
+            codename__startswith='can_auth_')]
+
+        can_auth_groups = [n.replace('can_auth_', '') for n in can_auth_perms]
+
+        all_requests = set(
+            [r for r in AuthenticationRequest.objects.filter(
+                group__name__in=can_auth_groups)])
+
+        LOG.debug(all_requests)
+        context['all_requests'] = all_requests
+        return context
 
 
 def _getSecondForm(request, user=None):
@@ -65,7 +89,6 @@ def registration_view(request):
     """
     Registration page
     """
-
     if request.method == "POST":
         user_form = UserForm(request.POST)
         basic_info_form = BasicInfoForm()
