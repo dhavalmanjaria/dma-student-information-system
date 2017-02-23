@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
 import datetime
 from .models.group_info import BasicInfo, StudentInfo, FacultyInfo
-from .models.curriculum import Course, Semester, Subject
+from curriculum.models import Course, Semester, Subject
 import logging
 LOG = logging.getLogger('app')
 

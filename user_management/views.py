@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
 from django.http import HttpResponse
 from .models.group_info import BasicInfo
+from .models.auth_requests import AuthenticationRequest
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
@@ -67,13 +68,13 @@ def registration_view(request):
 
     if request.method == "POST":
         user_form = UserForm(request.POST)
+        basic_info_form = BasicInfoForm()
 
         if user_form.is_valid():
             user = user_form.save()
             LOG.debug('user_form saved')
 
-            basic_info_form = BasicInfoForm(
-                request.POST, instance=user)
+            basic_info_form = BasicInfoForm(request.POST, instance=user)
 
             if basic_info_form.is_valid():
                 basic_info_form.save()
@@ -83,6 +84,10 @@ def registration_view(request):
                 if second_form.is_valid():
                     second_form.save()
                     LOG.debug('second_form saved')
+                    req = AuthenticationRequest.objects.create(
+                        user=user,
+                        group=user.basicinfo.group)
+                    req.save()
 
                     return redirect("index")
                 else:
@@ -111,3 +116,6 @@ def auth_request(request):
     # For every auth permission that a user has,
     # add those types of requests to the context? thing
     # We see where to go from there
+    #
+    #
+    # But first you need to create a request

@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
+from datetime import datetime
+from django.utils.timezone import now
 
 
 class AuthenticationRequest(models.Model):
@@ -10,7 +12,7 @@ class AuthenticationRequest(models.Model):
     by existing members. This class houses the requests for those permissions
     """
 
-    user = models.ForiegnKey(User, null=True)
-    group = models.ForiegnKey(Group, null=True)
-    request_date = models.DateField(null=True)
+    user = models.ForeignKey(User, null=True)
+    group = models.ForeignKey(Group, null=True)
+    request_date = models.DateField(auto_now=True)
     is_approved = models.BooleanField(default=False)

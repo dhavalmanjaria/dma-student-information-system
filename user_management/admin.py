@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-from .models import curriculum, all_permissions, group_info
+from .models import all_permissions, group_info
+from curriculum.models import Course, Semester, Subject
 
-admin.site.register(curriculum.Course)
-admin.site.register(curriculum.Semester)
-admin.site.register(curriculum.Subject)
+admin.site.register(Course)
+admin.site.register(Semester)
+admin.site.register(Subject)
 

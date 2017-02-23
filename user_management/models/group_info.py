@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .curriculum import Course, Semester, Subject
+from curriculum.models import Course, Semester, Subject
 import hashlib
 import datetime
 
@@ -26,7 +26,7 @@ class BasicInfo(models.Model):
     except Exception:
         pass
     # TODO: Figure out how to get a hash of the email, later
-   
+
     def _get_hash():
         m = hashlib.sha256()
         m.update(str(datetime.datetime.now()).encode())
