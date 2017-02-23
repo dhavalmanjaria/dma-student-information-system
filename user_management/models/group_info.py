@@ -22,7 +22,7 @@ class BasicInfo(models.Model):
 
     try:
         group = models.ForeignKey(Group,
-                                  default=Group.objects.get(name='Public').pk)
+                                  null=True)
 
     except Exception:
         pass
