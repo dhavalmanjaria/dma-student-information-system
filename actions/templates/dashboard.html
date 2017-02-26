@@ -21,6 +21,16 @@
                 <td><strong>Requests</strong></td>
                 <td><a class="btn btn-info" href="{% url 'requests' %}">View</a>
                 </td>
+                
+            </tr>
+            <tr>
+                <td><strong>Notices</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'notices' %}">View</a>
+                    {% if perms.user_management.can_write_notices %}
+                    <a class="btn btn-primary" href="{% url 'create_notice' %}">Create</a>
+                    {% endif %}
+                </td>
             </tr>
         </table>
     </div>

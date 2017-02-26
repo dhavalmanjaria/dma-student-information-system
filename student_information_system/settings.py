@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_management.apps.UserManagementConfig',
     'curriculum.apps.CurriculumConfig',
-    'actions.apps.ActionsConfig'
+    'actions.apps.ActionsConfig',
+    'notices.apps.NoticesConfig'
 ]
 
 MIDDLEWARE = [

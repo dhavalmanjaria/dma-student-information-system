@@ -29,7 +29,7 @@ def auth_requests(request):
 
     all_requests = set(
         [r for r in AuthenticationRequest.objects.filter(
-            group__name__in=can_auth_groups)])
+            group__name__in=can_auth_groups).filter(is_approved=False)])
 
     context = {}
     context['all_requests'] = all_requests
