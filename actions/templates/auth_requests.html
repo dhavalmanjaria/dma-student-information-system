@@ -11,6 +11,10 @@
 </div>
 {% endblock %}
 
+{% block staticfiles %}
+{% load static %}
+<script src="{% static 'js/approve_request.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="panel panel-info">
@@ -25,15 +29,25 @@
             <th>Request Date</th>
         </tr>
     {% for request in all_requests %}
-        <tr>
+        <tr id="row-{{request.pk}}">
             <td>{{ request.user }}</td>
             <td>{{ request.group }}</td>
             <td>{{ request.request_date}}</td>
-            <form action="" method="POST">
-            </form>
+            <td>
+                <form id="{{ request.pk }}" class="auth_req" 
+                action="{% url 'grant_request' %}" method="GET">
+                    {% csrf_token %}
+                    <input class="btn btn-danger" type="submit" value="Approve" />
+                </form>
+            </td>
         </tr>
+        </form>
     {% endfor %}
     </td>
     </div>
 </div>
+
+<script type="text/javascript">
+
+</script>
 {% endblock %}

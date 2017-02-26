@@ -13,14 +13,16 @@
 {% endblock %}
 
 {% block content %}
-<table class="table">
-    <tr>
-        <th>Action</th>
-    </tr>
-    <tr>
-        <td>Requests</td>
-        <td><a class="btn btn-info" href="{% url 'requests' %}">View</a>
-        </td>
-    </tr>
-</table>
+<div class="panel panel-info">
+    <div class="panel-heading">Actions</div>
+    <div class="panel-body">
+        <table class="table action-table">
+            <tr>
+                <td><strong>Requests</strong></td>
+                <td><a class="btn btn-info" href="{% url 'requests' %}">View</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 {% endblock %}

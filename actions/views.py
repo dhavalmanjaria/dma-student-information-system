@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group, Permission
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from user_management.models.auth_requests import AuthenticationRequest
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -31,7 +32,21 @@ def auth_requests(request):
             group__name__in=can_auth_groups)])
 
     context = {}
-    LOG.debug(all_requests)
     context['all_requests'] = all_requests
 
     return render(request, 'auth_requests.html', context)
+
+
+@login_required
+def grant_request(request):
+    auth_request = AuthenticationRequest.objects.get(pk=request.POST['pk'])
+    auth_request.is_approved = True
+    auth_request.save()
+
+    user = auth_request.user
+    group = auth_request.group
+
+    perms = group.permissions.all()
+    user.user_permissions.set(perms)
+
+    return HttpResponse("<strong>BELH</strong>")

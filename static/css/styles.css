@@ -63,17 +63,42 @@ a:hover {
 }
 
 .sidebar-nav {
-    margin-top: 20px;
     padding: 0;
     background-color: white;
 }
 
 
 #page-header {
-    background-color: rgb(47, 182, 255);
+    /* background-color: rgb(47, 182, 255); */
+    background-color: #103242;
     padding-top: 3em;
     padding-bottom: 3em;
     color: white;
     margin-bottom: 2rem;
-    text-shadow: 1px 1px 5px rgba(155,155,155, 1);
+    font-weight: 400;
+    /* text-shadow: 1px 1px 5px rgba(155,155,155, 1); */
+}
+
+#site-header > h3 {
+    max-width: 480px;
+    float: left;
+}
+
+.lead {
+    font-weight: 400;
+}
+
+.header-nav {
+    float: right;
+    padding: 0px;
+    border-bottom: 0px;
+    border-collapse: collapse;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px; 
+}
+
+.header-nav li {
+    padding-top: 0px;
+    border-collapse: collapse;
 }

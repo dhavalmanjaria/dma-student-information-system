@@ -7,5 +7,10 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url('^requests/', views.auth_requests, name='requests')
+    url(r'^requests/', views.auth_requests, name='requests')
+]
+
+urlpatterns += [
+    url(r'^grant_request/$', views.grant_request,
+        name='grant_request')
 ]
