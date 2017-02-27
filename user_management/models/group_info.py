@@ -69,6 +69,3 @@ class FacultyInfo(models.Model):
     course = models.ForeignKey(Course, null=True, blank=True)
     subjects = models.ManyToManyField(Subject, null=True, blank=True)
 
-
-class AdminInfo(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)

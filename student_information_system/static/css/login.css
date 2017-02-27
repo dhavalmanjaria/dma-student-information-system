@@ -1,0 +1,15 @@
+label {
+    padding-bottom: 10px;
+}
+
+.login-ul {
+    max-width: 390px;
+    text-align: left;
+    margin-top: 200px;
+
+body {
+    background-color: #FAFAFA;
+    font-family: Verdana, "DejaVu Sans";
+    text-align: center;
+    line-height: 1.6;
+}

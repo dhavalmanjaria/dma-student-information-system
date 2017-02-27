@@ -1,5 +1,6 @@
 from django import forms
-from noties.models import Notice
+from notices.models import Notice
+from django.urls import reverse_lazy
 import logging
 
 LOG = logging.getLogger('app')

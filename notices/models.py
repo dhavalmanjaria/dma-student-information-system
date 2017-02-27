@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 
 
 class Notice(models.Model):
@@ -15,3 +16,5 @@ class Notice(models.Model):
     other_details = models.TextField()
     signed_by = models.CharField(max_length=255)
 
+    def get_absolute_url(self):
+        return reverse('view-notice')  # TODO: Change to view_notice/pk

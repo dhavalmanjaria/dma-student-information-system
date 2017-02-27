@@ -1,7 +1,51 @@
 {% extends "base_generic.html" %}
 
+{% block staticfiles %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/notice_list.css' %}" />
+    }
+{% endblock %}
+
+{% block pageheader %}
+<div id="page-header">
+    <div class="container"><h1 class="display-3">All Notices</h1>
+        <hr style="border-top: 1px solid; border-color: white;" />
+        <p class="lead">
+        These are all of the notices issued to date.
+        </p>
+    </div>
+</div>
+{% endblock %}
+
 {% block content %}
-{% for x in notice %}
-    {{ x }}
-{% endfor %}
+    <div class="panel panel-info">
+        <div class="panel-heading">Notices</div>
+        <div class="panel-body table-responsive">
+            <table class="table ">
+            <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Text</th>
+                <th>Priority</th>
+            </tr>
+        {% for notice in notice_list %}
+            <tr>
+                <td>{{ notice.date }}</td>
+                <td>{{ notice.title }}</td>
+                <td>
+                    <p class="notice-text">{{ notice.text }}</p>
+                </td>
+                <td>{{ notice.get_priority_display }}</td>
+                <td>
+                    <a href="{% url 'view-notice' pk=notice.pk %}">View</a>
+                </td>
+                {% if perms.user_management.can_write_notices %}
+                <td>
+                    <a href="{% url 'update-notice' pk=notice.pk %}">Edit</a>
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </div>
+    </div>
 {% endblock %}

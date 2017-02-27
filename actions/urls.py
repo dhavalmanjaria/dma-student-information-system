@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
 from notices import views as noticesviews
 
@@ -16,10 +16,6 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url('^notices/', noticesviews.NoticesListView.as_view(), name='notices')
+    url('^notices/', include('notices.urls'))
 ]
 
-urlpatterns += [
-    url('^create_notice/', noticesviews.CreateNotice.as_view(),
-        name='create_notice')
-]

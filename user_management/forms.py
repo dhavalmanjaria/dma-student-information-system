@@ -41,8 +41,8 @@ class BasicInfoForm(forms.ModelForm):
         accounts_pk = Group.objects.get(name='Accounts').pk
         library_pk = Group.objects.get(name='Library').pk
 
-    except Exception:
-        print("forms.py: Group matching query does not exist, probably")
+    except Exception as ex:
+        print("forms.py: " + str(ex))
 
     group_choices = (
                     ('0', '     '),

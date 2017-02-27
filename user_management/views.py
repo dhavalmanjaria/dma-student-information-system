@@ -25,11 +25,12 @@ def profile(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
-        LOG.debug(request)
-        LOG.debug("profile: " + str(user.pk))
+        # LOG.debug(request)
+        # LOG.debug("profile: " + str(user.pk))
         return redirect('user-detail', pk=user.pk)
     else:
         # LOG.debug("invalid username or password")
+        # LOG.debug("username: " + username + ", password: " + password)
         return redirect('login')
 
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import Group, User
 from user_management.forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
-from user_management.models.curriculum import Semester, Course
+from curriculum.models import Semester, Course
 
 
 class RegistrationViewTestCase(TestCase):
@@ -74,6 +74,23 @@ class RegistrationViewTestCase(TestCase):
             username='u_test_registration_view_with_sem')
         self.assertEquals(test_user.studentinfo.semester.semester_number, 2)
 
+    def test_student_form_creates_basic_info(self):
+        data = {
+            'username': 'u_test_registration_view_with_sem',
+            'email': 'dhv2712@gmail.com',
+            'password1': 'dhaval27',
+            'password2': 'dhaval27',
+            'date_of_birth': '22/7/1989',
+            'contact_number': '9881585223',
+            'group': Group.objects.get(name='Student').pk,
+            'semester': '1'
+        }
+        resp = self.client.post(
+            '/user_management/register/new.html', data=data)
+        test_user = User.objects.get(
+            username='u_test_registration_view_with_sem')
+        self.assertTrue(test_user.basicinfo is not None)
+
     def test_second_form_is_faculty(self):
         
         second_form = FacultyInfoForm()
@@ -85,7 +102,7 @@ class RegistrationViewTestCase(TestCase):
 
     def test_second_form_faculty_success(self):
         data = {
-            'username': 'u_test_registration_view',
+            'username': 'u_test_faculty_success',
             'email': 'dhv2712@gmail.com',
             'password1': 'dhaval27',
             'password2': 'dhaval27',
@@ -96,8 +113,23 @@ class RegistrationViewTestCase(TestCase):
         }
         resp = self.client.post(
             '/user_management/register/new.html', data=data)
-        print(resp.content)
-        print(resp.status_code)
+        self.assertEqual(resp.status_code, 302)
 
+    def test_faculty_form_creates_basic_info(self):
+        data = {
+            'username': 'u_test_faculty_form_basic_info',
+            'email': 'dhv2712@gmail.com',
+            'password1': 'dhaval27',
+            'password2': 'dhaval27',
+            'date_of_birth': '22/7/1989',
+            'contact_number': '9881585223',
+            'group': Group.objects.get(name='Faculty').pk,
+            'course': '1'
+        }
+        self.client.post(
+            '/user_management/register/new.html', data=data)
 
-    
+        test_user = User.objects.get(
+            username='u_test_faculty_form_basic_info')
+
+        self.assertTrue(test_user.basicinfo is not None)
