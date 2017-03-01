@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <ul class="list-group">
+    {% for sem in semester %}
+    {# note: turn this into a combobox or something eventually #}
+        <li class="list-group-item"><a href="{% url 'view-timetable' pk=sem.pk %}">{{ sem }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

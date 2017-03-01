@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 # from django.contrib.auth.models import User
-from curriculum.models import Course, Semester
+from curriculum.models import Course, Semester, Subject
 import logging
 LOG = logging.getLogger('app')
 
@@ -43,20 +43,78 @@ class Command(BaseCommand):
             course=mba, semester_number=4)
 
         # BBA
-        bba_2 = Semester.objects.get_or_create(course=bba, semester_number=2)
+        bba_2, created = Semester.objects.get_or_create(course=bba, semester_number=2)
 
-        bba_4 = Semester.objects.get_or_create(
+        bba_4, created = Semester.objects.get_or_create(
             course=bba, semester_number=4)
 
-        bba_6 = Semester.objects.get_or_create(
+        bba_6, created = Semester.objects.get_or_create(
             course=bba, semester_number=6)
 
         # BCA
-        bca_2 = Semester.objects.get_or_create(
+        bca_2, created = Semester.objects.get_or_create(
             course=bca, semester_number=2)
 
-        bca_4 = Semester.objects.get_or_create(
+        bca_4, created = Semester.objects.get_or_create(
             course=bca, semester_number=4)
 
-        bca_6 = Semester.objects.get_or_create(
+        bca_6, created = Semester.objects.get_or_create(
             course=bca, semester_number=6)
+
+        # Subject
+
+        # BBA IV
+        Subject.objects.get_or_create(name='B.Eco', semester=bba_4)
+
+        Subject.objects.get_or_create(name='OB-II', semester=bba_4)
+
+        Subject.objects.get_or_create(name='B.Envt', semester=bba_4)
+
+        Subject.objects.get_or_create(name='Cost & Mgmt a/c', semester=bba_4)
+
+        Subject.objects.get_or_create(name='Lead. Skills', semester=bba_4)
+
+        Subject.objects.get_or_create(name='Prod. & OP', semester=bba_4)
+
+        Subject.objects.get_or_create(name='Advanced Excel', semester=bba_4)
+
+        # BBA II
+
+        Subject.objects.get_or_create(name='MM-I', semester=bba_2)
+
+        Subject.objects.get_or_create(name='B.Statistics', semester=bba_2)
+
+        Subject.objects.get_or_create(name='Comm. Skills', semester=bba_2)
+
+        Subject.objects.get_or_create(name='FA', semester=bba_2)
+
+        Subject.objects.get_or_create(name='EVS', semester=bba_2)
+
+        Subject.objects.get_or_create(name='B. Economics', semester=bba_2)
+
+        # BCA II
+
+        Subject.objects.get_or_create(name='OS', semester=bca_2)
+
+        Subject.objects.get_or_create(name='SSAD', semester=bca_2)
+
+        Subject.objects.get_or_create(name='PPM-I', semester=bca_2)
+
+        Subject.objects.get_or_create(name='AWD', semester=bca_2)
+
+        Subject.objects.get_or_create(name='Prac. AWD', semester=bca_2)
+
+        # BCA IV
+
+        Subject.objects.get_or_create(name='Java', semester=bca_4)
+
+        Subject.objects.get_or_create(name='Prac. Java', semester=bca_4)
+
+        Subject.objects.get_or_create(name='Oracle', semester=bca_4)
+
+        Subject.objects.get_or_create(name='Prac. Oracle', semester=bca_4)
+
+        Subject.objects.get_or_create(name='EVS', semester=bca_4)
+
+        Subject.objects.get_or_create(name='BA', semester=bca_4)
+
