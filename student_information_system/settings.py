@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'curriculum.apps.CurriculumConfig',
     'actions.apps.ActionsConfig',
     'notices.apps.NoticesConfig'
+    'timetable.apps.TimetableConfig'
 ]
 
 MIDDLEWARE = [

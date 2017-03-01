@@ -1,0 +1,50 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div id="create-table">
+    <form action="" method="POST" name="form" class="form-group">
+    {% csrf_token %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                </th>
+                
+                {% for t in formatted_times %}
+                    <th>{{ t|time:"g:i A"}}</th>
+                {% endfor %}
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in timetable %}
+                <tr>
+                    <td><strong>{{ row.0 }}</strong></td>
+                    {% for cell in row|slice:"1:" %}
+                        <td>
+                            <select class="form-control" name="{{ row.0 }}" form="form">
+                                {% for sub in subjects %}
+                                    {# This just seems more readable than having an if statement inline #}
+                                    {% if cell == sub %}
+                                        <option selected>
+                                            {{ sub }}
+                                        </option>
+
+                                        {% else %}
+                                        <option>
+                                            {{ sub }}
+                                        </option>                 
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                    {% endfor %}
+                </tr>    
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    <input type="submit" value="Save" class="btn btn-primary" />
+    </form>
+</div>
+{% endblock %}
