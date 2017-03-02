@@ -5,13 +5,13 @@ from .forms import CreateNoticeForm
 from django.urls import reverse_lazy
 
 
-class NoticesListView(generic.ListView):
+class NoticesListView(generic.ListView):    
+    paginate_by = 10
     model = Notice
 
 class CreateNotice(generic.edit.CreateView):
     model = Notice
     fields = '__all__'
-
     success_url = reverse_lazy('notices')
 
     def get_queryset(self):

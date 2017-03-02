@@ -3,6 +3,7 @@
 {% block staticfiles %}
     {% load static %}
    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+   <link rel="stylesheet" href="{% static 'css/notice_list.css' %}" />
 {% endblock %}
 
 {% block pageheader %}
@@ -50,10 +51,34 @@
     <div class="info">
         <div id="notices" class="panel panel-info">
             <div class="panel-heading"><strong>Notices</strong></div>
-            <div class="panel-body">
-                <table class="table table-striped">
-                    
+            <div class="panel-body table-responsive">
+                <table class="table table-striped ">
+                    <tr>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Text</th>
+                        <th>Priority</th>
+                    </tr>
+                    {% for notice in notices %}
+                        <tr>
+                            <td>{{ notice.date }}</td>
+                            <td>{{ notice.title }}</td>
+                            <td>
+                                <p class="notice-text">{{ notice.text }}</p>
+                            </td>
+                            <td>{{ notice.get_priority_display }}</td>
+                            <td>
+                                <a href="{% url 'view-notice' pk=notice.pk %}">View</a>
+                            </td>
+                            {% if perms.user_management.can_write_notices %}
+                            <td>
+                                <a href="{% url 'update-notice' pk=notice.pk %}">Edit</a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
                 </table>
+                <a class="btn btn-danger" href="{% url 'notices' %}">View All</a>
             </div>
         </div>
         <div id="notices" class="panel panel-info">

@@ -1,0 +1,9 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <ul class="list-group">
+    {% for att in attendance_list %}
+        <li class="list-group-item">{{ att.date }} | {{ att.lecture.subject }} | {{ att.lecture.semester }} | {{ att.student.user.first_name }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

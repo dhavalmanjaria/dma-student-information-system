@@ -7,6 +7,7 @@ urlpatterns = [
     url('^$', views.dashboard, name='dashboard')
 ]
 
+
 urlpatterns += [
     url(r'^requests/', views.auth_requests, name='requests')
 ]
@@ -22,4 +23,8 @@ urlpatterns += [
 
 urlpatterns += [
     url(r'^timetable/', include('timetable.urls'))
+]
+
+urlpatterns += [
+    url(r'^attendance/', include('attendance.urls'))
 ]

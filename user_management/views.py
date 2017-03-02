@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import Group, User
+from notices.models import Notice
+
 
 
 import logging
@@ -15,7 +17,21 @@ LOG = logging.getLogger('app')
 
 
 def index(request):
-    return render(request, 'index.html')
+    context = {}
+    # Here we show the first five records for:
+    # Notices
+    # TimeTable
+    # Activites
+    # Assignments
+    # Study Materials
+    # Exam Schedule
+    # Exam Hall Plan
+
+    notices = Notice.objects.all().order_by('date')[:5]
+
+    context['notices'] = notices
+
+    return render(request, 'index.html', context)
 
 
 def profile(request):

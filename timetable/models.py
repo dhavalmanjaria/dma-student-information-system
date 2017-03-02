@@ -27,3 +27,6 @@ class TimeTable(models.Model):
         help_text='Start time in 24h format (easier to work with this way')
 
     semester = models.ForeignKey(Semester)
+
+    class Meta:
+        unique_together = ['semester', 'day_of_week']

@@ -17,13 +17,14 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 from django.views.generic.base import TemplateView
+from user_management import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
 urlpatterns += [
-    url(r'^$', TemplateView.as_view(template_name='index.html'), name='index')
+    url(r'^$', views.index, name='index')
 ]
 
 urlpatterns += [
