@@ -14,3 +14,8 @@ urlpatterns += [
     url(r'^edit-timetable/(?P<pk>[\d]+)', views.edit_timetable,
         name='edit-timetable')
 ]
+
+urlpatterns += [
+    url(r'^edit-times/(?P<pk>[\d]+)', views.edit_times,
+        name='edit-times')
+]

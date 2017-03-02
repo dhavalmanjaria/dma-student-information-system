@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block staticfiles %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/input.css' %}" />
+<script src="{% static 'js/validate.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+{% for t in formatted_times %}
+<form action="" class="form-group" method="POST">
+{% csrf_token %}
+    <div class="input-group">
+        <input class="form-control time-input hour-input" name="hours" value="{{ t|time:'g' }}" name="{{ forloop.counter0 }}" />
+        <input class="form-control time-input min-input" name="minutes" value="{{ t|time:'i' }}" />
+        <input type="button" class="form-control time-input btn-a" name="a" value="{{ t|time:'a' }}" />
+        <input type="hidden" name="a" class="hidden-a" />
+        <input type="hidden" name="lecture_number" value="{{forloop.counter0}}" />
+    </div>
+    <input type="submit" class="btn btn-sm btn-primary" value="Save" />
+</form>
+{% endfor %}
+
+{% endblock %}

@@ -1,11 +1,7 @@
 from django.conf.urls import url, include
 from . import views
-<<<<<<< HEAD
 from notices import views as noticesviews
-=======
 from timetable import views as timetableviews
-
->>>>>>> add-time-table
 
 urlpatterns = [
     url('^$', views.dashboard, name='dashboard')

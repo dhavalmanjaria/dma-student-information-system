@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'user_management.apps.UserManagementConfig',
     'curriculum.apps.CurriculumConfig',
     'actions.apps.ActionsConfig',
-    'notices.apps.NoticesConfig'
+    'notices.apps.NoticesConfig',
     'timetable.apps.TimetableConfig'
 ]
 

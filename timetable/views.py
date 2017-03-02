@@ -103,6 +103,21 @@ def edit_timetable(request, pk):
     context['timetable'] = timetable
     # context['times'] = times
     context['formatted_times'] = [datetime.strptime(t, "%H%M") for t in times]
-
+    context['semester'] = semester
 
     return render(request, 'timetable/edit_timetable.html', context)
+
+
+def edit_times(request, pk):
+    semester = Semester.objects.get(pk=pk)
+
+    times = [x.start_time for x in TimeTable.objects.filter(
+        semester=semester)]
+    times = sorted(set(times), key=int)
+
+    context = {} 
+    context['semester'] = semester
+
+    context['formatted_times'] = [datetime.strptime(t, "%H%M") for t in times]
+
+    return render(request, 'timetable/edit_times.html', context)
