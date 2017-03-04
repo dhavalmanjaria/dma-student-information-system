@@ -1,3 +1,4 @@
+"use strict"
 
 $(function(){
     var a = $(".btn-a").val();
@@ -32,15 +33,16 @@ $(function(){
     });
 
     $(".btn-a").click(function(event) {
-        if ($(this).val() == "a.m.") {
-            $(this).val('p.m.');
-            $(this).next(".hidden-a").val('p.m.');
+        if ($(this).val() == "AM") {
+            $(this).val('PM');
+            $(this).next(".hidden-a").val('PM');
         }
         else {
-            $(this).val('a.m.');
+            $(this).val('AM');
             $(this).next().val('a');
-            $(this).next(".hidden-a").val('a.m.');
+            $(this).next(".hidden-a").val('AM');
         }
         event.preventDefault();
     });
+
 });

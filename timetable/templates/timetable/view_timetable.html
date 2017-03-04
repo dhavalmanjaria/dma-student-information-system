@@ -12,10 +12,10 @@
                     <th>{{ t|time:"g:i A" }}</th>
                 {% endfor %}
             </tr>
-            {% for row in timetable %}
+            {% for row, cells in timetable.items %}
             <tr>
-                <td><strong>{{ row.0 }}</strong></td>
-                {% for cell in row|slice:"1:" %}
+                <td><strong>{{ row }}</strong></td>
+                {% for cell in cells %}
                     <td>
                         {{ cell }}
                     </td>
@@ -27,5 +27,6 @@
     <div class="panel-body">
         <a class="btn btn-danger" href="{% url 'edit-timetable' pk=semester.pk %}">Edit</a>
     </div>
+
 </div>
 {% endblock %}

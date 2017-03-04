@@ -20,7 +20,7 @@ class TimeTable(models.Model):
         choices=DAY_OF_WEEK_CHOICES,
         help_text='Day of week as per date.isoweekday()')
 
-    subject = models.ForeignKey(Subject)
+    subject = models.ForeignKey(Subject, blank=True, null=True)
 
     start_time = models.CharField(
         max_length=4,
@@ -29,4 +29,4 @@ class TimeTable(models.Model):
     semester = models.ForeignKey(Semester)
 
     class Meta:
-        unique_together = ['semester', 'day_of_week']
+        unique_together = ['semester', 'day_of_week', 'start_time']

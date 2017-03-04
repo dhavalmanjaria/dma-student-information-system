@@ -10,17 +10,34 @@
 {% block content %}
 
 {% for t in formatted_times %}
-<form action="" class="form-group" method="POST">
+<form id="form-{{forloop.counter0}}" action="{% url 'edit-times' pk=semester.pk %}" class="form-group time-form" method="POST">
 {% csrf_token %}
     <div class="input-group">
         <input class="form-control time-input hour-input" name="hours" value="{{ t|time:'g' }}" name="{{ forloop.counter0 }}" />
         <input class="form-control time-input min-input" name="minutes" value="{{ t|time:'i' }}" />
-        <input type="button" class="form-control time-input btn-a" name="a" value="{{ t|time:'a' }}" />
+        <input type="button" class="form-control time-input btn-a" value="{{ t|time:'A' }}" />
         <input type="hidden" name="a" class="hidden-a" />
         <input type="hidden" name="lecture_number" value="{{forloop.counter0}}" />
     </div>
-    <input type="submit" class="btn btn-sm btn-primary" value="Save" />
+    <input type="submit" class="btn btn-sm btn-primary btn-save" name="submit" value="Save" />
+    <input type="submit" class="btn btn-sm btn-danger btn-save" name="submit" value="Delete" />
 </form>
 {% endfor %}
+
+
+{% if errors %}
+    <p style="color: red">{{ errors }}</p>
+{% endif %}
+<form id="new-form" action="{% url 'edit-times' pk=semester.pk %}" class="form-group time-form" method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+        <input class="form-control time-input hour-input" name="hours" />
+        <input class="form-control time-input min-input" name="minutes" />
+        <input type="button" class="form-control time-input btn-a" value="AM" />
+        <input type="hidden" name="a" class="hidden-a" />
+        <input type="hidden" name="new_lecture" value=true />
+    </div>
+    <input name="submit" type="submit" class="btn btn-sm btn-info btn-save" value="Add New" />
+</form>
 
 {% endblock %}

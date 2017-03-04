@@ -2,7 +2,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.select_semester, name='select-semester')
+    url(r'^$', views.select_semester, name='semester-timetables')
 ]
 
 urlpatterns += [
@@ -18,4 +18,9 @@ urlpatterns += [
 urlpatterns += [
     url(r'^edit-times/(?P<pk>[\d]+)', views.edit_times,
         name='edit-times')
+]
+
+urlpatterns += [
+    url(r'^edit-days/(?P<pk>[\d]+)/(?P<day>[-\w]+)', views.edit_days,
+        name='edit-days')
 ]

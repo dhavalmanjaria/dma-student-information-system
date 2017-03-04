@@ -1,8 +1,27 @@
 {% extends "base_generic.html" %}
 
+{% block left_sidebar %}
+<ul class="list-group">
+<li class="list-group-item">
+    <a class="btn" href="{% url 'view-timetable' pk=semester.pk %}">View Timetable</a>
+</li>
+<li class="list-group-item">
+    <a class="btn" href="{% url 'edit-times' pk=semester.pk %}">Edit Times</a>
+</li>
+<li class="list-group-item">
+    <a class="btn btn-info btn-sm" href="{% url 'edit-days' pk=semester.pk day='add' %}">Add New Day</a>
+</li>
+<li class="list-group-item">
+    <a class="btn btn-danger btn-sm" href="{% url 'edit-days' pk=semester.pk day='remove' %}">Delete Last Day</a>
+</li>
+</ul>
+{% endblock %}
+
 {% block content %}
-<div id="create-table">
-    <form action="" method="POST" name="form" class="form-group">
+<div class="panel panel-info">
+<div class="panel-heading">Edit time table for <strong>{{ semester }}</strong> </div>
+<div id="panel-body">
+    <form action="{% url 'edit-timetable' pk=semester.pk %}" method="POST" id="tt-form" class="form-group">
     {% csrf_token %}
     <table class="table">
         <thead>
@@ -17,12 +36,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for row in timetable %}
+            {% for row, cells in timetable.items %}
                 <tr>
-                    <td><strong>{{ row.0 }}</strong></td>
-                    {% for cell in row|slice:"1:" %}
+                    <td><strong>{{ row }}</strong></td>
+                    {% for cell in cells %}
                         <td>
-                            <select class="form-control" name="{{ row.0 }}" form="form">
+                            <select class="form-control" name="{{ row }}" form="tt-form">
                                 {% for sub in subjects %}
                                     {# This just seems more readable than having an if statement inline #}
                                     {% if cell == sub %}
@@ -33,7 +52,7 @@
                                         {% else %}
                                         <option>
                                             {{ sub }}
-                                        </option>                 
+                                        </option>            
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -44,8 +63,11 @@
             
         </tbody>
     </table>
-    <input type="submit" value="Save" class="btn btn-primary" />
+    <div class="panel-body">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+
     </form>
-    <a class="btn btn-danger" href="{% url 'edit-times' pk=semester.pk %}">Edit Times</a>
+</div>
 </div>
 {% endblock %}
