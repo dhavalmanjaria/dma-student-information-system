@@ -1,36 +1,46 @@
 {% extends "base_generic.html" %}
 
+{% block staticfiles %}
+    {% load static %}
+
+    <script src="{% static 'js/attendance-list.js' %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock %}
+
 {% block content %}
+{# {% url 'save-attendance-list' pk=semester.pk date=date %} #}
+    <form action="{% url 'save-attendance-list' pk=semester.pk date=date %}" method="POST" id="save-form">
+    {% csrf_token %}
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Student</th>
-                <th>Subject</th>
-                <th>Subject</th>
-                <th>Subject</th>
-                <th>Attended</th>
+                <th>
+                    <p>Student</p>
+                </th>
+                {% for sub in subjects %}
+                    <th>
+                        {{ sub }}
+                    </th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
 
-        {% for row, values in attendance_list.items %}
+        {% for student, presence in attendance_list.items %}
             <tr>
-                <td>
-                    {{ row.user.username }}
+                <td class="student-name"><!-- for use in JS code-->
+                    <span style="display: none">{{ student.user.username }}</span>
+                    <p>{{ student.user.first_name }} {{ student.user.last_name}}</p>
                 </td>
-                {% for a in values %}
-                <td>
-                    {{ a }}
-                </td>
+                {% for key, val in presence.items %}
+                    <td class="student-check">
+                        <span style="display: none">{{ key.pk }}</span>
+                        <input type="checkbox" name="{{ student.user.username }}" {% if val == True %} checked {% endif %}/>
+                    </td>
                 {% endfor %}
-                {# <td>{{ att.student.user.first_name}} {{ att.student.user.last_name}}
-                </td>
-                <td>{{ att.lecture.subject.name }}
-                </td>
-                <td>
-                    {{ att.is_present }}
-                </td> #}
             </tr>
         {% endfor %}
     </table>
+
+    <input type="submit" value="save">
+    </form>
 {% endblock %}

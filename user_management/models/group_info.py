@@ -63,6 +63,9 @@ class StudentInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, null=True, blank=True)
 
+    def __str__(self):
+        return self.user.username
+
 
 class FacultyInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

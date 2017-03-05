@@ -20,3 +20,6 @@ class Attendance(models.Model):
     class Meta:
         unique_together = [['date', 'student', 'lecture'], ]
 
+    def __str__(self):
+        return str(self.date) + " " + self.student.user.username +\
+            " " + self.lecture.subject.name + " " + str(self.is_present)
