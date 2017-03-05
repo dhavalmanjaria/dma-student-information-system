@@ -19,3 +19,4 @@ class Attendance(models.Model):
 
     class Meta:
         unique_together = [['date', 'student', 'lecture'], ]
+
