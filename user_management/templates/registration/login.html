@@ -3,11 +3,12 @@
 {% block staticfiles %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/login.css' %}" />
-<<script src="js/add_form_class.js" type="text/javascript" charset="utf-8" async defer></script>
+<script src="js/add_form_class.js" type="text/javascript" charset="utf-8" async defer></script>
 {% endblock %}
 
 {% block title %}Login {% endblock %}
 {% block specialcontent %}
+
 <div class="container">
 <!-- I think this is deprecated but it works rather well
 to perfectly center the form -->
@@ -15,7 +16,7 @@ to perfectly center the form -->
         <div class="panel panel-info login-ul">
             <div class="panel-heading"><strong>Login</strong></div>
             <div class="panel-body">
-                <form class="form-group" action="{% url 'profile' %}" method="POST">
+                <form class="form-group" action="{% url 'login' %}" method="POST">
                 {% csrf_token %}
                     <ul class="list-group ">
                         <li class="list-group-item"><strong>{{ form.username.label }}</strong>
@@ -25,11 +26,18 @@ to perfectly center the form -->
                         <li class="list-group-item"><strong>{{ form.password.label }}</strong>
                         {{ form.password }}
                         </li>
-                        {% for error in form.non_field_errors %}
-                        <li class="list-group-item" style="color: red">{{ error }}</li>
-                        {% endfor %}
                         <li class="list-group-item">
                             <input type="submit" class="btn btn-info btn-md" value="Login" />
+                        </li>
+                        {% if form.errors %}
+                        <li class="list-group-item" style="color: red">
+                            <p>Please enter a correct username and password. Note that both fields may be case-sensitive.
+                            </p>
+                        </li>    
+                        
+                        {% endif %}
+                        <li class="list-group-item">
+                            <input type="hidden" name='next' value="/user_management/accounts/profile" />
                         </li>
                 </ul>
                 </form>

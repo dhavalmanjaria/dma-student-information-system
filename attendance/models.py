@@ -1,5 +1,4 @@
 from django.db import models
-from curriculum.models import Course, Semester, Subject
 from user_management.models.group_info import StudentInfo
 from timetable.models import TimeTable
 

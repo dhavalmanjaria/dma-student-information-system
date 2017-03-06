@@ -1,0 +1,10 @@
+.time-input {
+    min-width: 60px; /* to overwrite Boostrap input-group's width propery */
+    max-width: 60px;
+    display: inline;
+    float: right;
+}
+
+.btn-save {
+    margin-top: 10px;
+}

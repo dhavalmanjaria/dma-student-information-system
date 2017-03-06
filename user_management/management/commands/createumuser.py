@@ -14,8 +14,7 @@ class Command(BaseCommand):
     """
     def handle(self, *args, **options):
         um0, created = User.objects.get_or_create(username='um0')
-        if created:
-            um0.password = make_password('dhaval27')
+        um0.password = make_password('dhaval27')
 
         umg = Group.objects.get(name='UpperManagement')
         um0.groups.add(Group.objects.get(name='UpperManagement'))

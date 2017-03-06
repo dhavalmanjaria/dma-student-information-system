@@ -183,4 +183,4 @@ LOGGING = {
 TEST_RUNNER = 'student_information_system.runner.MyTestRunner'
 
 LOGIN_URL = '/user_management/accounts/login/'
-# LOGIN_REDIRECT_URL = '/user_management/'
+# LOGIN_REDIRECT_URL = '/user_management/accounts/profile'

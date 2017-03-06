@@ -1,0 +1,26 @@
+/* .ui-datepicker-calendar td, th, .ui-datepicker span {
+    padding: 5px;
+}
+
+.ui-selectmenu-button {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid;
+}
+
+.ui-selectmenu-button li{
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid;
+    width: 200px;
+}
+ */
+fieldset {
+    border: 0;
+    max-width: 200px;
+}
+
+label {
+    display: block;
+    margin: 30px 0 0 0;
+}

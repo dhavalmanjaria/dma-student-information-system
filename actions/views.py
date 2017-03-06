@@ -39,14 +39,17 @@ def auth_requests(request):
 
 @login_required
 def grant_request(request):
-    auth_request = AuthenticationRequest.objects.get(pk=request.POST['pk'])
-    auth_request.is_approved = True
-    auth_request.save()
+    if request.method == "POST":
+        auth_request = AuthenticationRequest.objects.get(pk=request.POST['pk'])
+        auth_request.is_approved = True
+        auth_request.save()
 
-    user = auth_request.user
-    group = auth_request.group
+        user = auth_request.user
+        group = auth_request.group
 
-    perms = group.permissions.all()
-    user.user_permissions.set(perms)
+        perms = group.permissions.all()
+        user.user_permissions.set(perms)
 
-    return HttpResponse("<strong>BELH</strong>")
+        LOG.debug("hello from grant_request")
+
+    return HttpResponse("view complete")

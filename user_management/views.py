@@ -33,25 +33,9 @@ def index(request):
 
     return render(request, 'index.html', context)
 
-
+@login_required
 def profile(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    # Must use both authenticate() and login()
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        login(request, user)
-        # LOG.debug(request)
-        # LOG.debug("profile: " + str(user.pk))
-        return redirect('user-detail', pk=user.pk)
-    else:
-        # LOG.debug("invalid username or password")
-        # LOG.debug("username: " + username + ", password: " + password)
-        return redirect('login')
-
-
-    def get(request, pk):
-        LOG.debug(""+ request.user)
+    return redirect('user-detail', pk=request.user.pk)
 
 
 def _getSecondForm(request, user=None):
