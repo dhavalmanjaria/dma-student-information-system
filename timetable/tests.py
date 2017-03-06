@@ -34,6 +34,11 @@ class TimeTableTest(TestCase):
 
         self.subjects = [self.os, self.ssad, self.awd]
 
+        self.days = [1, 2, 3]
+
+        # Delete all old ones
+        TimeTable.objects.all().delete()
+
         # Create 3 day time table
         for sub, t in zip(self.subjects, self.start_times):
             TimeTable.objects.create(day_of_week=1, subject=sub,
@@ -100,6 +105,75 @@ class TimeTableTest(TestCase):
 
         self.assertEqual(new_times, expected_times)
 
-    #TODO: Add test to delete time and day
+    def test_time_order_maps_to_subject(self):
+        times = [x.start_time for x in TimeTable.objects.filter(
+            semester=self.bca2)]
+
+        times = sorted(set(times), key=int)
+
+        tt_set = [tt for tt in TimeTable.objects.filter(
+            day_of_week=1, semester=self.bca2).order_by('start_time')]
+
+        subject_times = [tt.start_time for tt in tt_set]
+
+        self.assertEqual(subject_times, times)
+
+    def test_times_added_to_all_rows(self):
+        post_data = {
+            'hours': '9',
+            'minutes': '21',
+            'a': 'AM',
+            'new_lecture': True,
+            'submit': 'Add New'
+        }
+
+        self.client.login(username='um0', password='dhaval27')
+
+        # Save time
+        resp = self.client.post(
+            '/actions/timetable/edit-times/' + str(self.bca2.pk),
+            data=post_data)
+
+        new_time = '0921'
+
+        self.days = [1, 2, 3]
+
+        days_with_new_time = 0
+        for d in self.days:
+            for tt_set in TimeTable.objects.filter(
+                    semester=self.bca2, day_of_week=d):
+                if tt_set.start_time == '0921':
+                    days_with_new_time += 1
+
+        self.assertEqual(days_with_new_time, len(self.days))
+
+    def test_times_saved_to_all_rows(self):
+        post_data = {
+            'hours': '9',
+            'minutes': '21',
+            'a': 'AM',
+            'lecture_number': 0,
+            'submit': 'Save'
+        }
+
+        self.client.login(username='um0', password='dhaval27')
+
+        # Save time
+        resp = self.client.post(
+            '/actions/timetable/edit-times/' + str(self.bca2.pk),
+            data=post_data)
+
+        new_time = '0921'
+
+        self.days = [1, 2, 3]
+
+        days_with_new_time = 0
+        for d in self.days:
+            for tt_set in TimeTable.objects.filter(
+                    semester=self.bca2, day_of_week=d):
+                if tt_set.start_time == '0921':
+                    days_with_new_time += 1
+
+        self.assertEqual(days_with_new_time, len(self.days))
 
 

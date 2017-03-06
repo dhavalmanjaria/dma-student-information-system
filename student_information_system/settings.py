@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'actions.apps.ActionsConfig',
     'notices.apps.NoticesConfig',
     'timetable.apps.TimetableConfig',
-    'attendance.apps.AttendanceConfig'
+    'attendance.apps.AttendanceConfig',
+    'internal_assessment.apps.InternalAssessmentConfig'
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,42 @@
+{% extends "base_generic.html" %}
+
+{% block staticfiles %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/internal-assessment.css' %}" />
+{% endblock %}
+
+{% block content %}
+{% for metric in metrics %}
+<form action="{{ request.path }}" id="form-{{forloop.counter0}}" class="form-group metric-form">
+{% csrf_token %}
+    <ul class="list-group">
+    <li class="list-group-item">
+        <strong>Metric Name: </strong>
+    </li>
+    <li class="list-group-item">
+        <input class="metric-input" name="metric_name" value="{{ metric.name }}" required/>
+    </li>
+    <li class="list-group-item">
+        <strong>Max Marks: </strong>
+    </li>
+    <li class="list-group-item">
+        <input min="0" name="max_marks" type="number" required class="metric-input" value="{{ metric.max_marks }}"/>
+    </li>
+    
+    <input type="hidden" name="metric-pk" value="{{ metric.pk }}" />
+    <li class="list-group-item"><input type="submit" class="btn btn-primary btn-sm" value="Save" /></li>
+    </ul>
+</form>
+{% endfor %}
+
+<form action="{{ request.path }}" id="form-{{forloop.counter0}}" class="form-group metric-form" method="POST">
+{% csrf_token %}
+    <ul class="list-group">
+    <li class="list-group-item"><strong>Metric Name: </strong></li>
+    <li class="list-group-item"><input class="metric-input" name="metric_name" required/></li>
+    <li class="list-group-item"><strong>Max Marks: </strong></li>
+    <li class="list-group-item"><input min="0" name="max_marks" type="number" required class="metric-input" /></li>
+    <input type="hidden" name="new" value="new" />
+    <li class="list-group-item"><input type="submit" class="btn btn-primary btn-sm" value="Save" /></li>
+</form>
+{% endblock %}

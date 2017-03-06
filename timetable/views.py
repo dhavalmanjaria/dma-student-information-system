@@ -163,7 +163,6 @@ def edit_times(request, pk):
                 tt.save()
 
         if submit == "Save":
-            new_time = None
             try:
                 LOG.debug(new_time)
             except ValueError as ve:

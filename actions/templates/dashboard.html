@@ -41,6 +41,15 @@
                     {% endif %}
                 </td>
             </tr>
+             <tr>
+                <td><strong>Internal Assessment</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'internal-assessment' %}">View</a>
+                    {% if perms.user_management.can_write_internal_assessment %}
+                    <a class="btn btn-primary" href="#">Create</a>
+                    {% endif %}
+                </td>
+            </tr>
         </table>
     </div>
 </div>

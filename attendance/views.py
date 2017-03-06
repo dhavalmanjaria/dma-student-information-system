@@ -17,8 +17,7 @@ def get_attendance_list(request, pk, date):
     """
     This view returns the attendance for a particular
     semester on a particular date. The template this
-    renders also allows editing of attendance
-    (as of 2017-03-05). Though the template uses a form
+    renders also allows editing of attendance Though the template uses a form
     this view does not actually have a form object that it
     uses.
     """
