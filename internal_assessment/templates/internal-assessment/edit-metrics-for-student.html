@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block staticfiles %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/internal-assessment.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<h4>Student: <strong>{{ student.user.first_name }} {{ student.user.last_name }}</strong></h4>
+<h4>Subject: <strong>{{ subject }} </strong></h4>
+
+{% for smetric in student_metrics %}
+<form action="{{ request.path }}" id="form-{{forloop.counter0}}" class="form-group metric-form" method="POST">
+{% csrf_token %}
+    <ul class="list-group">
+    <li class="list-group-item">
+        <strong>{{ smetric.metric.name }}</strong>
+    </li>
+    <li class="list-group-item">
+        <input name="max_marks" type="hidden" class="metric-input" value="{{ smetric.metric.max_marks }}"/>
+        <input name="marks" type="number" max="{{ smetric.metric.max_marks }}" min=0 required class="metric-input" value="{{ smetric.marks }}"/>
+    </li>
+    
+    <input type="hidden" name="metric_pk" value="{{ smetric.metric.pk }}" />
+    <li class="list-group-item"><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Save" />
+    </li>
+    </ul>
+</form>
+{% endfor %}
+
+{% endblock %}

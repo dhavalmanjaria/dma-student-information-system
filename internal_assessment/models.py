@@ -19,6 +19,7 @@ class Metric(models.Model):
         # Each record that belongs to a metric of a subject, will have
         # the same maximum marks. Theoretically
         unique_together = ('subject', 'name', 'max_marks')
+        ordering = ('name', )
 
     def __str__(self):
         return self.subject.name + ": " + self.name
@@ -40,8 +41,8 @@ class StudentMetric(models.Model):
 
     class Meta:
         unique_together = ('student', 'subject', 'metric')
+        ordering = ('metric', )
 
     def __str__(self):
-        return ', '.join([self.student.name, self.subject.name,
+        return ', '.join([str(self.student), self.subject.name,
                           self.metric.name])
-

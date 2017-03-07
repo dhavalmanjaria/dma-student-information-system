@@ -1,13 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
 from django.http import HttpResponse
-from .models.group_info import BasicInfo
+from .models.group_info import FacultyInfo
 from .models.auth_requests import AuthenticationRequest
 from django.views import generic
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import Group, User
+from curriculum.models import Course, Subject, Semester
 from notices.models import Notice
 
 
@@ -137,3 +137,57 @@ class UserDetailView(generic.detail.DetailView, LoginRequiredMixin):
         context['all_requests'] = all_requests
         return context
 
+
+@login_required
+@permission_required('user_management.can_write_subject_faculty')
+def select_subject(request):
+
+    context = {}
+
+    courses = Course.objects.all()
+
+    context['courses'] = {}
+
+    for c in courses:
+        context['courses'][c.short_name] = []
+
+        semesters = Semester.objects.filter(course=c)
+        subjects = []
+        for sem in semesters:
+            subjects.append([sub for sub in sem.subject_set.all()])
+        for s in subjects:
+            context['courses'][c.short_name].append(s)
+
+
+    return render(request, 'user_management/edit_subject_faculty.html',
+                  context)
+
+@login_required
+@permission_required('user_management.can_write_subject_faculty')
+def set_faculty(request, pk):
+
+    context = {}
+
+    faculty = FacultyInfo.objects.all()
+
+    context['faculty'] = faculty
+
+    subject = Subject.objects.get(pk=pk)
+    context['subject'] = subject
+
+    current_faculty = subject.faculty
+    context['current_faculty'] = current_faculty
+    
+    if request.method == "POST":
+        fac_pk = request.POST.get('fac_pk')
+
+        faculty = FacultyInfo.objects.get(pk=fac_pk)
+
+        subject.faculty = faculty
+
+        subject.save()
+
+        return redirect('select-subject')
+
+    return render(request, 'user_management/set_faculty.html',
+                  context)

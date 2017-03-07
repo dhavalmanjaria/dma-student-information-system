@@ -1,8 +1,6 @@
 $(function() {
 
-    $("#datepicker").datepicker({
-        dateFormat: "dd/mm/yy"
-    });
+    $("#select-course").index = 0;
 
     function getCookie(name) {
         var cookieValue = null;
@@ -22,7 +20,7 @@ $(function() {
 
     $(".select").selectmenu();
     $("#select-course").selectmenu({
-        change: function(event, ui) {
+        select: function(event, ui) {
             $.ajax({
                 url: $("#select-form").attr("action"),
                 data: {
@@ -39,7 +37,7 @@ $(function() {
     });
 
     $("#select-semester").selectmenu({
-        change: function(event, ui) {
+        select: function(event, ui) {
             $.ajax({
                 url: $("#select-form").attr("action"),
                 data: {

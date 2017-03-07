@@ -151,6 +151,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '[%(filename)s:%(lineno)s - %(funcName)s()] %(message)s',
+        }
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
@@ -160,7 +165,8 @@ LOGGING = {
         'applog': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/tmp/app.log'
+            'filename': '/tmp/app.log',
+            'formatter': 'default'
         },
         'consolehandler': {
             'level': 'DEBUG',

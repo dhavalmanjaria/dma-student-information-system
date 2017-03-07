@@ -92,14 +92,14 @@ class FacultyInfoForm(forms.ModelForm):
 
     class Meta:
         model = FacultyInfo
-        fields = ('course',)
+        fields = ('course', )
 
     def save(self, commit=True):
         if self.instance is not None:
             f_info = FacultyInfo(user=self.instance)
             f_info.course = self.cleaned_data['course']
             f_info.save()
-            self.instance.factultyinfo = f_info
+            self.instance.facultyinfo = f_info
             self.instance.save()
 
         return f_info

@@ -36,3 +36,15 @@ urlpatterns += [
     url('^(?P<pk>[-\d]+)/$', views.UserDetailView.as_view(),
         name='user-detail')
 ]
+
+
+urlpatterns += [
+    url(r'^select-subject/(?P<pk>[\d]+)', views.select_subject,
+        name="select-subject")
+]
+
+
+urlpatterns += [
+    url(r'^set-faculty/(?P<pk>[\d]+)', views.set_faculty,
+        name="set-faculty")
+]

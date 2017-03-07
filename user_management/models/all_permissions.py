@@ -29,6 +29,9 @@ class AllPermissions(models.Model):
                       ('can_write_personal_profile',
                        'can write personal profile'),
 
+                      ('can_write_subject_faculty',
+                       'can write subject faculty'),
+
                       ('can_read_attendance',
                        'can read attendance'),
 
@@ -104,8 +107,14 @@ class AllPermissions(models.Model):
                       ('can_write_internal_assessment',
                        'can write internal assessment'),
 
+                      ('can_write_all_internal_assessment',
+                       'can write all internal assessment'),
+
                       ('can_write_assignments',
                        'can write assignments'),
+
+                      ('can_write_all_assignments',
+                       'can write all assignments'),
 
                       ('can_read_meeting_details',
                        'can read meeting details'),
@@ -136,6 +145,9 @@ class AllPermissions(models.Model):
 
                       ('can_auth_Faculty',
                        'can auth Faculty'),
+
+                      ('can_auth_FacultyHOD',
+                       'can auth FacultyHOD'),
 
                       ('can_auth_SubAdmin',
                        'can auth SubAdmin'),

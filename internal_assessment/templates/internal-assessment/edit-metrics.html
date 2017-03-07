@@ -7,7 +7,7 @@
 
 {% block content %}
 {% for metric in metrics %}
-<form action="{{ request.path }}" id="form-{{forloop.counter0}}" class="form-group metric-form">
+<form action="{{ request.path }}" id="form-{{forloop.counter0}}" class="form-group metric-form" method="POST">
 {% csrf_token %}
     <ul class="list-group">
     <li class="list-group-item">
@@ -23,8 +23,9 @@
         <input min="0" name="max_marks" type="number" required class="metric-input" value="{{ metric.max_marks }}"/>
     </li>
     
-    <input type="hidden" name="metric-pk" value="{{ metric.pk }}" />
-    <li class="list-group-item"><input type="submit" class="btn btn-primary btn-sm" value="Save" /></li>
+    <input type="hidden" name="metric_pk" value="{{ metric.pk }}" />
+    <li class="list-group-item"><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Save" />
+    <input type="submit" class="btn btn-danger btn-sm" name="submit" value="Delete" /></li>
     </ul>
 </form>
 {% endfor %}

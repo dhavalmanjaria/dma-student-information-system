@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from curriculum.models import Course, Semester, Subject
 from django.urls import reverse
+from curriculum.models import Semester, Course
 import hashlib
 import datetime
 
@@ -69,6 +69,7 @@ class StudentInfo(models.Model):
 
 class FacultyInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, null=True, blank=True)
-    subjects = models.ManyToManyField(Subject, null=True, blank=True)
+    course = models.ForeignKey(Course, null=True)
 
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name

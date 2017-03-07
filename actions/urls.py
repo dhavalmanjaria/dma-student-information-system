@@ -3,6 +3,7 @@ from . import views
 from notices import views as noticesviews
 from timetable import views as timetableviews
 from internal_assessment import views as iaviews
+import user_management
 
 urlpatterns = [
     url('^$', views.dashboard, name='dashboard')
@@ -35,6 +36,6 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'select-course-semester', views.select_course_semester,
-        name='select-course-semester')
+    url(r'select-subject', user_management.views.select_subject,
+        name='select-subject')
 ]

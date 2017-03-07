@@ -80,11 +80,15 @@ PERMISSIONS_BY_ROLE = {
                    ('can_write_meeting_details'),
                    ('can_write_exam_schedule'),
                    ('can_write_exam_hall_plan'),
-                   ('can_auth_Faculty')),
+                   ('can_auth_Faculty'),
+                   ('can_write_subject_faculty')),
 
     'UpperManagement': (('can_read_pass_my_book'),
                         ('can_write_pass_my_book'),
-                        ('can_read_id_card_req'))
+                        ('can_read_id_card_req'),
+                        ('can_auth_FacultyHOD'),
+                        ('can_write_all_internal_assessment'),
+                        ('can_write_all_assignments'))
 }
 
 
@@ -100,7 +104,8 @@ class Command(BaseCommand):
         perms = set()
         for p in PERMISSIONS_BY_ROLE[groupname]:
             current_perm = Permission.objects.filter(codename=p).first()
-            # LOG.debug("_getPerm: Adding " + current_perm.codename)
+            if groupname == "UpperManagement":
+                LOG.debug("_getPerm: Adding " + current_perm.codename)
             perms.add(current_perm)
 
         return perms

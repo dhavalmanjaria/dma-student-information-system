@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% for course, subjects in courses.items %}
+    <div class="panel panel-info">
+    <div class="panel-heading"><strong>{{ course }}</strong></div>
+
+    {% for sems in subjects %}
+        {% csrf_token %}
+        <div class="panel-body">
+            <ul class="list-group">
+            {% for sub in sems %}
+                   <li class="list-group-item">
+                        <a href="{% url 'set-faculty' pk=sub.pk %}">
+                        {{ sub.name }}
+                        </a>
+                        (current: {{ sub.faculty }})
+
+                    </li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+    </div>
+{% endfor %}
+
+{% endblock %}
