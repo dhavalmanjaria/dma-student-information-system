@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+Assignments: 
+{% for assn in assignments %}
+    {{ assn }}
+{% endfor %}
+Subject: {{ subject.pk }}
+{% if perms.user_management.can_write_assignments %}
+    
+<a href="{% url 'create-assignment' subject_pk=subject.pk %}">Create new</a>
+
+{% endif %}
+{% endblock %}

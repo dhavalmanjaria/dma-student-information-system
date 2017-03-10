@@ -1,8 +1,23 @@
 $(function() {
 
-    $("#datepicker").datepicker({
-        dateFormat: "dd/mm/yy"
+    var options;
+
+    console.log('ready!');
+
+    $.ajax({
+        url: window.location.href ,
+        method: 'GET',
+        success: function(resp){
+            options = resp;
+            $.each(options, function(key, value){
+                console.log("key = " + key);
+                $("#select-course").append("<option>" + key + "</option>");
+            });
+
+        }
     });
+    console.log(options);
+
 
     function getCookie(name) {
         var cookieValue = null;
@@ -21,21 +36,40 @@ $(function() {
     }
 
     $(".select").selectmenu();
-    $("#select-course").selectmenu({
-        change: function(event, ui) {
-            $.ajax({
-                url: $("#select-form").attr("action"),
-                data: {
-                    'course': $(this).val(),
-                    'csrfmiddlewaretoken': getCookie('csrftoken')
-                },
-                success: function(msg) {
-                    $("#select-semester").html(msg);
-                    $( "#select-semester" ).selectmenu( "refresh" );
-                },
-                method: 'POST'
-            });
-        }
-    });
 
+    
+    $("#select-course").selectmenu({
+            change: function(event, ui) {
+               var x = ui.item.label;
+               $("#select-semester").find('option').remove().end();
+               var option_html = "<option> --- </option>";
+
+               $.each(options[x], function(index, value) {
+                    option_html += "<option>" + index + "</option>";
+               });
+               console.log(option_html);
+               $("#select-semester").append(option_html);
+               $("#select-semester").selectmenu("refresh");
+            }
+        });
+
+    /* including this here because several templates have a select-subject div */
+    $("#select-semester").selectmenu({
+            change: function(event, ui) {
+               var x = ui.item.label;
+               $("#select-subject").find('option').remove().end();
+
+               var course = $("#select-course :selected").text();
+
+               var option_html = "<option> --- </option>";
+
+               $.each(options[course][x], function(index, value) {
+                    option_html += "<option value="+value[0]+">" + value[1] + "</option>";
+               });
+               console.log(option_html);
+               $("#select-subject").append(option_html);
+               $("#select-subject").selectmenu("refresh");
+            }
+        })
+    
 });

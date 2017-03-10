@@ -1,0 +1,32 @@
+{% extends "select-course-semester.html" %}
+
+{% block staticfiles %}
+{% load static %}
+    {{ block.super }}
+<script src="{% static 'js/select-assignment.js' %}"></script>
+{% endblock %}
+
+{% block pageheader %}
+Select Assignment
+{% endblock %}
+
+{% block form_url %}
+    {% url 'select-assignment' %}
+{% endblock %}
+
+{% block other_options %}
+<tr>
+<td><p><strong>Subject</strong></p></td>
+<td>
+    <fieldset>
+        <select name="subject" id="select-subject" class="select" form="select-form" >
+        {% for s in semesters %}
+            <option>
+                {{ s }}
+            </option>
+        {% endfor %}
+        </select>
+    </fieldset>
+</td>
+</tr>
+{% endblock %}

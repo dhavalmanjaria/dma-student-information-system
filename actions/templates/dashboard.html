@@ -18,6 +18,11 @@
     <div class="panel-body">
         <table class="table action-table">
             <tr>
+                <td><strong>Select</strong></td>
+                <td><a class="btn btn-info" href="{% url 'select-option' action='none' %}">View</a>
+                </td>
+            </tr>
+            <tr>
                 <td><strong>Requests</strong></td>
                 <td><a class="btn btn-info" href="{% url 'requests' %}">View</a>
                 </td>
@@ -53,6 +58,12 @@
                     {% endif %}
                 </td>
                 {% endif %}
+            </tr>
+            <tr>
+                <td><strong>Assignments</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'select-assignment' %}">View</a>
+                </td>
             </tr>
         </table>
     </div>

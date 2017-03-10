@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h3>Create Assignment for <strong>{{ subject }}</strong></h3>
+    <form action="{{ request.path }}" method="POST" />
+    {% csrf_token %}
+    <table class="table">
+        {{ form.as_table }}
+        <input type="hidden" id="subject" name="subject_id" value="{{ subject.pk }}" />
+    </table>
+    
+    <input type="submit" class="btn btn-primary" value="Save" />
+    </form>
+{% endblock %}

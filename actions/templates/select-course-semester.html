@@ -3,12 +3,16 @@
 {% block staticfiles %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/select_attendance.css' %}" />
-    <script src="{% static 'js/select_attendance.js' %}"></script>
+    <script src="{% static 'js/select-course-semester.js' %}"></script>
 {% endblock %}
 
+{% block pageheader %}
+{% endblock %}
+
+
 {% block content %}
-<table class="table">
-<form id="select-form" class="form-group" action="{% url 'select-attendance' %}" method="POST">
+<table class="table">gf
+<form id="select-form" class="form-group" action="{% block form_url %}{{ request.path }}{% endblock %}" method="POST">
 {% csrf_token %}
 <tr>
 <td>
@@ -43,6 +47,9 @@
     </fieldset>
 </td>
 </tr>
+
+    {% block other_options %}
+    {% endblock %}
 <tr>
     <td>
         <p>
@@ -51,8 +58,6 @@
     </td>
 </tr>
 
-    {% block other_options %}
-    {% endblock %}
     
 </form>
 </table>

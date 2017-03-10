@@ -146,16 +146,18 @@ def select_course_semester(request):
     course = []
     try:
         if user.facultyinfo is not None:  # User is faculty
-            course = [user.facultyinfo.course]
             subjects = Subject.objects.filter(faculty=user.facultyinfo)
             semesters = Semester.objects.filter(subject__in=subjects)
+            courses = Course.objects.filter(semester__in=semesters)
             LOG.debug(semesters)
 
         if user.has_perm('user_management.can_auth_Faculty'):  # User is FacultyHOD level
-            course = [user.facultyinfo.course]
-            semesters = Semester.objects.filter(course=course)
-            subjects = [semester.subject for semester in semesters]
-            LOG.debug(str(course))
+            subjects = set([s for s in Subject.objects.filter(
+                faculty=user.facultyinfo)])
+            # But also all subjects in their course
+            course = [user.facultyinfo.course, ]
+            for s in Subject.objects.filter(semester__course_in=course):
+                subjects.add(s)
 
     except Exception as ex:
         LOG.debug(str(ex))

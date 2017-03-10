@@ -4,13 +4,16 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group, Permission
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from user_management.models.auth_requests import AuthenticationRequest
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from user_management.models.auth_requests import AuthenticationRequest
-from curriculum.models import Course, Semester
+from curriculum.models import Course, Semester, Subject
+from django.views import View
 import logging
+import pprint # To remove
+
 LOG = logging.getLogger('app')
 
 
@@ -20,38 +23,75 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 
-def select_course_semester(request):
+class SelectCourseSemester(View):
     """
-    This view gives the user to select a course and semester and
-    other options based on what they're trying to do. The idea is to have a
-    common view to select course and semester that adapts to the current
-    action the user is trying to perform
+    This is a view that must be inherited by other views so that it gives the 
+    user the options to select a course and semester and other options based
+    on what they're trying to do. The idea is to have a common view to select 
+    course and semester that adapts to the current action the user is trying
+    to perform.
     """
-    context = {}
-    semester = Semester.objects.all()
-    course = Course.objects.all()
-    context['course'] = course
+    subjects = []
+    def get_options(self, request):
+        user = request.user
+        subjects = []
+        try:
+            if user.facultyinfo is not None:  # User is faculty
+                subjects = Subject.objects.filter(faculty=user.facultyinfo)
 
-    #TODO: Use a form, maybe
-    if request.method == "POST":
+            # I'm trying to avoid checking if the user is assigned to a group
+            # explicitly here because if in the future I want to add a different
+            # group at the level of FacultyHOD, it would make things easier.
+            if user.has_perm('user_management.can_auth_Faculty'):  # User is probably FacHOD
+                # Subjects they teach
+                subjects = set([s for s in Subject.objects.filter(
+                    faculty=user.facultyinfo)])
+                # But also all subjects in their course
+                courses = [user.facultyinfo.course, ]
+                for s in Subject.objects.filter(semester__course_in=course):
+                    subjects.add(s)
 
-        course = request.POST.get('course')
-        semesters = Semester.objects.filter(course__short_name=course)
+        except Exception as ex:
+            LOG.debug(str(ex))
+
+        # User is Upper Management level
+        if user.has_perm('user_management.can_auth_FacultyHOD'):
+            # All subjects for all courses.
+            subjects = Subject.objects.all()
+
+        semesters = set(Semester.objects.filter(subject__in=subjects))
+        courses = set(Course.objects.filter(semester__in=semesters))
+
+        options = {}
+
+        for c in courses:
+            options[c.short_name] = {}
+        for sem in semesters:
+            course_name = sem.course.short_name
+            options[course_name][str(sem)] = []
+
+        for sub in subjects:
+            sem_name = str(sub.semester)
+            course_name = sub.semester.course.short_name
+            options[course_name][sem_name].append((sub.pk, sub.name))
+
+        return options
+
+    def redirect_to_action(self, request, action):
+        pass
+
+    def get(self, request, action):
+        context = {}
+
+        options = self.get_options(request)
 
         if request.is_ajax():
-            response = ''
-            for x in semesters:
-                response += "<option>" + str(x) + "</option>"
-            LOG.debug(response)
-            return HttpResponse(response)
+                return JsonResponse(options)
 
-        else:
-            semester = [semester for semester in semesters if str(
-                semester) == request.POST.get('semester')][0]
+        LOG.debug(action)
 
-            context['pk'] = semester.pk
-            
-    return render(request, 'actions/select_course_semester.html', context)
+        pass
+
 
 #TODO: Move to own app, or at least the user_management app
 @login_required

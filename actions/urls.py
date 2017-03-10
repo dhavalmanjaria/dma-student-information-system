@@ -15,6 +15,13 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    url(r'^select-option/(?P<action>[-\w]+)',
+        views.SelectCourseSemester.as_view(),
+        name='select-option')
+]
+
+
+urlpatterns += [
     url(r'^grant_request/$', views.grant_request,
         name='grant_request')
 ]
@@ -33,6 +40,10 @@ urlpatterns += [
 
 urlpatterns += [
     url(r'^internal-assessment/', include('internal_assessment.urls'))
+]
+
+urlpatterns += [
+    url(r'^assignments/', include('assignments.urls'))
 ]
 
 urlpatterns += [
