@@ -1,0 +1,10 @@
+{% extends 'select-course-semester.html' %}
+
+
+{% block staticfiles %}
+    {{ block.super }}
+{% endblock %}
+
+{% block form_url %}
+    {% url 'select-activity' %}
+{% endblock %}

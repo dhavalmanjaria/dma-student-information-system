@@ -3,7 +3,7 @@ from actions.views import SelectCourseSemester
 from django.http import JsonResponse
 from .models import Assignment
 from curriculum.models import Semester, Subject
-from django.views.generic import DetailView, ListView, edit
+from django.views.generic import DetailView, ListView, UpdateView
 from django.views import View
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -35,7 +35,6 @@ class SelectAssignment(SelectCourseSemester):
         return redirect('assignment-list', subject_pk=subject_pk)
 
 
-
     def get(self, request):
 
         context = {}
@@ -47,42 +46,25 @@ class SelectAssignment(SelectCourseSemester):
         return render(request, 'assignments/select-assignments.html',
                       context)
 
-    #     if request.POST.get('subject'):
-            
-    #         subject_pk = request.POST.get('subject')
 
-    #         subject = Subject.objects.get(pk=subject_pk)
+class AssignmentList(ListView):
+    model = Assignment
 
-    #         context = {}
+    def get(self, request, subject_pk, *args, **kwargs):
+        # subject_pk = self.kwargs['subject']
 
-    #         context['subject'] = subject
+        self.subject = Subject.objects.get(pk=subject_pk)
 
-    #         redirect('assignment-list', subject_pk=subject_pk)
+        return super(AssignmentList, self).get(request, subject_pk)
 
-    #     return render(request, 'assignments/assignment_list.html', context)
+    def get_context_data(self, **kwargs):
+        context = super(AssignmentList, self).get_context_data(**kwargs)
+        context['subject'] = self.subject
 
+        return context
 
-class ViewAssignmentsForSubject(View):
-    """
-    View a list of assignments for a subject.
-    """
-    
-
-    def post(self, request, subject_pk):
-        pass
-
-    def get(self, request, subject_pk):
-        context = {}
-
-        subject = Subject.objects.get(pk=subject_pk)
-
-        context['subject'] = subject
-
-        assignments = Assignment.objects.filter(subject=subject)
-
-        context['assignments'] = assignments
-
-        return render(request, 'assignments/assignment_list.html', context)
+    def get_queryset(self):
+        return Assignment.objects.filter(subject=self.subject)
 
 
 @login_required
@@ -90,12 +72,15 @@ class ViewAssignmentsForSubject(View):
 def create_assignment(request, subject_pk):
     """
     Simple view to create assignment. Since we need a subject and we need to
-    do some processing, this seems to be simpler than using a CreateView
+    do some processing, this seems to be simpler than using a CreateView. The
+    problem with using a CreateView child class is that it's a little
+    complicated to provide the user with a default for date as well as a value
+    from the request. This is just simpler.
     """
     subject = Subject.objects.get(pk=subject_pk)
     LOG.debug(subject)
 
-    form = CreateAssignmentForm()
+    form = CreateAssignmentForm(initial={'due_date': datetime.now().date()})
     context = {}
     context['subject'] = subject
     context['form'] = form
@@ -115,6 +100,23 @@ def create_assignment(request, subject_pk):
 
             return redirect('assignment-list', subject_pk=subject_pk)
 
-
-
     return render(request, 'assignments/assignment_form.html', context)
+
+
+class AssignmentUpdate(UpdateView, LoginRequiredMixin,
+                       PermissionRequiredMixin):
+
+    model = Assignment
+    fields = '__all__'
+
+    class Meta:
+        permission_required = ('user_management.can_write_assignments', )
+
+
+class AssignmentDetail(DetailView):
+    model = Assignment
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignmentDetail, self).get_context_data(**kwargs)
+
+        return context

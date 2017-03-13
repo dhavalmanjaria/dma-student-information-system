@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+Create Activity for {{ semester }}
+
+<table class="table">
+    <form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <tr>
+        <td>
+            <input type="hidden" name="semester_pk" value="{{ semester.pk }}" />    
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </td>
+    </tr>
+    </form>
+</table>
+{% endblock %}

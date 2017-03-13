@@ -60,9 +60,21 @@
                 {% endif %}
             </tr>
             <tr>
+                <td><strong>Time Table</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'semester-timetables' %}">View</a>
+                </td>
+            </tr>
+            <tr>
                 <td><strong>Assignments</strong></td>
                 <td>
                     <a class="btn btn-info" href="{% url 'select-assignment' %}">View</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Activity Log</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'select-activity' %}">View</a>
                 </td>
             </tr>
         </table>

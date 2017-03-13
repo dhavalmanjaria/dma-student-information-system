@@ -1,5 +1,6 @@
 from django.db import models
 from curriculum.models import Subject
+from django.urls import reverse
 
 
 class Assignment(models.Model):
@@ -14,3 +15,6 @@ class Assignment(models.Model):
 
     def __str__(self):
         return self.title + ", " + self.subject.name + ", due: " + str(self.due_date)
+
+    def get_absolute_url(self):
+        return reverse('assignment-detail', args=[self.id])

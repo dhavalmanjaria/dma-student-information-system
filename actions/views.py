@@ -68,19 +68,21 @@ class SelectCourseSemester(View):
             options[c.short_name] = {}
         for sem in semesters:
             course_name = sem.course.short_name
+            # options[course_name][(sem.pk, str(sem))] = []
             options[course_name][str(sem)] = []
 
+
         for sub in subjects:
-            sem_name = str(sub.semester)
+            sem = str(sub.semester)
             course_name = sub.semester.course.short_name
-            options[course_name][sem_name].append((sub.pk, sub.name))
+            options[course_name][sem].append((sub.pk, sub.name))
 
         return options
 
     def redirect_to_action(self, request, action):
         pass
 
-    def get(self, request, action):
+    def get(self, request):
         context = {}
 
         options = self.get_options(request)

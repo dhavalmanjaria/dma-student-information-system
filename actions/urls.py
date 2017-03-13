@@ -47,6 +47,11 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    url(r'^activity-log/', include('activity_log.urls'))
+]
+
+
+urlpatterns += [
     url(r'select-subject', user_management.views.select_subject,
         name='select-subject')
 ]

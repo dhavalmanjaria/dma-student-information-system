@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'attendance.apps.AttendanceConfig',
     'internal_assessment.apps.InternalAssessmentConfig',
     'assignments.apps.AssignmentsConfig',
+    'activity_log.apps.ActivityLogConfig',
 ]
 
 MIDDLEWARE = [

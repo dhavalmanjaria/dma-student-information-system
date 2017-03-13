@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<form action="{% url 'activity-detail' pk=activity.pk %}" method="POST">
+{% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="submit" value="Update" />
+</form>
+{% endblock %}
