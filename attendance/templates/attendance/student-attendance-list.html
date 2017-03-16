@@ -1,0 +1,49 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Attendance for student: {{ user }}
+{% endblock %}
+
+{% block staticfiles %}
+{% load static %}
+{{ block.super }}
+<script src="{% static 'js/student-attendance-list.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+Month: 
+<select id="select-month">
+    {% for i, name in months.items %} 
+        {% if i == current_month %}
+            <option value="{{ i }}" selected="selected">{{ name }}</option>
+        {% else %}
+            <option value="{{ i }}" >{{ name }}</option>
+        {% endif %}
+    {% endfor %}
+</select>
+<a href="#" class="btn btn-default" id="btn-go">GO</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            {% for t in formatted_times %}
+                <th>{{ t|time:"g:i A" }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for dt, att in attendance.items %}
+            <tr>
+                <td>{{ dt }}</td>
+                {% for a in att %}
+                    <td>
+                        {{ a.lecture.subject.name }}
+                        <input type="checkbox" {% if a.is_present %} checked {% endif %} disabled />
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

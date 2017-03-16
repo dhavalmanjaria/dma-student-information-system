@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views import generic
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from .models import Attendance
-from curriculum.models import Semester, Course
-from user_management.models.group_info import StudentInfo
+from curriculum.models import Semester
 from timetable.models import TimeTable
 from collections import OrderedDict
 from datetime import datetime
@@ -11,6 +10,23 @@ from actions.views import SelectCourseSemester
 import logging
 
 LOG = logging.getLogger('app')
+
+# Why bother with strftime and datetime and everything when this is just fine?
+# This does corresspond to the month numbers in python's datetime
+MONTHS = {
+    1: 'January',
+    2: 'February',
+    3: 'March',
+    4: 'Apri',
+    5: 'May',
+    6: 'June',
+    7: 'July',
+    8: 'August',
+    9: 'September',
+    10: 'October',
+    11: 'November',
+    12: 'December'
+}
 
 def get_faculty_subject_list(request):
     """
@@ -29,6 +45,49 @@ def get_faculty_subject_list(request):
                 subjects.append(s[1])
 
     return subjects
+
+
+def get_student_attendance_list(request):
+
+    requested_month = request.GET.get('month')
+
+    context = {}
+    current_month = datetime.now().month
+    if requested_month:
+        current_month = int(requested_month)
+
+    context['current_month'] = current_month
+    user = request.user
+
+    attendance_list = Attendance.objects.filter(
+        student=request.user.studentinfo)
+
+    times = [x.start_time for x in TimeTable.objects.filter(
+        semester=user.studentinfo.semester)]
+
+    times = sorted(set(times), key=int)
+
+    context['formatted_times'] = [datetime.strptime(
+        t, "%H%M") for t in times]
+
+    dates = set([att.date for att in attendance_list if att.date.month == current_month])
+
+    dates = sorted(dates)
+
+    attendance_dict = OrderedDict()
+
+    for d in dates:
+        attendance_dict[d] = attendance_list.filter(
+            date=d, student=user.studentinfo)
+
+    context['attendance'] = attendance_dict
+
+    context['months'] = MONTHS
+
+    return render(request,
+                  'attendance/student-attendance-list.html', context)
+
+
 
 def get_semester_attendance_list(request, pk, date):
     """

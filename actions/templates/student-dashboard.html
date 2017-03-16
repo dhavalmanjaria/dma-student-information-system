@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends "dashboard.html" %}
 
 {% block pageheader %}
 <div id="page-header">
@@ -18,46 +18,25 @@
     <div class="panel-body">
         <table class="table action-table">
             <tr>
-                <td><strong>Requests</strong></td>
-                <td><a class="btn btn-info" href="{% url 'requests' %}">View</a>
-                </td>
-            </tr>
-            <tr>
                 <td><strong>Notices</strong></td>
                 <td>
                     <a class="btn btn-info" href="{% url 'notices' %}">View</a>
                 </td>
             </tr>
             <tr>
-                <td><strong>Attendance</strong></td>
+                <td><strong>My Attendance</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-attendance' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'student-attendance-list' %}">View</a>
                 </td>
             </tr>
              <tr>
-                <td><strong>Internal Assessment</strong></td>
+                <td><strong>My Internal Assessment</strong></td>
                 <td>
                     <a class="btn btn-info" href="{% url 'select-internal-assessment' %}">View</a>
                 </td>
             </tr>
             <tr>
-                {% if perms.user_management.can_write_subject_faculty %}
-                <td><strong>Set Faculty Subject</strong></td>
-                <td>
-                    <a class="btn btn-info" href="{% url 'select-subject' %}">View</a>
-                </td>
-                {% endif %}
-            </tr>
-            <tr>
-                {% if perms.user_management.can_auth_FacultyHOD %}
-                <td><strong>Set Course HOD</strong></td>
-                <td>
-                    <a class="btn btn-info" href="{% url 'select-hod-course' %}">View</a>
-                </td>
-                {% endif %}
-            </tr>
-            <tr>
-                <td><strong>Time Table</strong></td>
+                <td><strong>My Time Table</strong></td>
                 <td>
                     <a class="btn btn-info" href="{% url 'semester-timetables' %}">View</a>
                 </td>
@@ -66,12 +45,6 @@
                 <td><strong>Assignments</strong></td>
                 <td>
                     <a class="btn btn-info" href="{% url 'select-assignment' %}">View</a>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Activity Log</strong></td>
-                <td>
-                    <a class="btn btn-info" href="{% url 'select-activity' %}">View</a>
                 </td>
             </tr>
         </table>

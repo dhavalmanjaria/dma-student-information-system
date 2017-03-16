@@ -20,6 +20,10 @@ LOG = logging.getLogger('app')
 @login_required
 def dashboard(request):
     # TODO: Filter actions based on permissions
+
+    if request.user.studentinfo is not None:  # User is student
+        return render(request, 'student-dashboard.html')
+
     return render(request, 'dashboard.html')
 
 
