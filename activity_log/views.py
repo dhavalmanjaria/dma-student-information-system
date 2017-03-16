@@ -98,7 +98,8 @@ class ActivityUpdate(UpdateView, LoginRequiredMixin,
                        PermissionRequiredMixin):
 
     model = Activity
-    fields = '__all__'
+
+    form_class = CreateActivityForm
 
     class Meta:
         permission_required = ('user_management.can_write_activity_log', )

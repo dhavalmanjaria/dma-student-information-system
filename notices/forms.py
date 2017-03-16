@@ -7,6 +7,9 @@ LOG = logging.getLogger('app')
 
 
 class CreateNoticeForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(attrs={
+        'class': 'datepicker'}))
+
     class Meta:
         model = Notice
         fields = '__all__'

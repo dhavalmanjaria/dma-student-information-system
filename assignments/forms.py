@@ -8,7 +8,8 @@ LOG = logging.getLogger('app')
 
 class CreateAssignmentForm(forms.ModelForm):
 
-    due_date = forms.DateField(widget=forms.SelectDateWidget)
+    due_date = forms.DateField(widget=forms.DateInput(attrs={
+        'class': 'datepicker'}))
 
     class Meta:
         model = Assignment

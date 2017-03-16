@@ -1,8 +1,11 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Activities for {{ semester }}
+{% endblock %}
 
 {% block content %}
 
-Actvities for {{ semester }}
 
 <table class="table">
 <tr>
@@ -18,11 +21,9 @@ Actvities for {{ semester }}
         <td> {{ activity.description|slice:":20" }}... </td>
         <td> {{ activity.conductor }} </td>
         <td><a href="{% url 'activity-detail' pk=activity.pk %}">View</a> </td>
-        <li class="list-group-item">
                 {% if perms.user_management.can_write_activity_log %}
                     <td><a href="{% url 'activity-update' pk=activity.pk %}">Edit</a> </td>
                 {% endif %}
-            </li>
     </tr>
 {% endfor %}
 </table>

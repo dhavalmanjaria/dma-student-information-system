@@ -1,7 +1,10 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Assignments for {{ subject }}
+{% endblock %}
 
 {% block content %}
-Assignments for {{ subject }}:
 <table class="table"> 
 <tr>
     <th>Title</th>

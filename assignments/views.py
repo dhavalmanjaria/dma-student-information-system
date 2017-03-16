@@ -101,7 +101,7 @@ class AssignmentUpdate(UpdateView, LoginRequiredMixin,
                        PermissionRequiredMixin):
 
     model = Assignment
-    fields = '__all__'
+    form_class = CreateAssignmentForm
 
     class Meta:
         permission_required = ('user_management.can_write_assignments', )

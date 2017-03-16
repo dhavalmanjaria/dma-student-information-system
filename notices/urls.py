@@ -7,7 +7,7 @@ urlpatterns = [
 
 urlpatterns += [
     url('^create_notice/', views.CreateNotice.as_view(),
-        name='create_notice')
+        name='create-notice')
 ]
 
 urlpatterns += [
