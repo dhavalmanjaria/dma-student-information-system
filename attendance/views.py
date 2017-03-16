@@ -84,6 +84,20 @@ def get_student_attendance_list(request):
 
     context['months'] = MONTHS
 
+    # Additional bells and whistles for this page
+    total_lectures = len(dates) * len(times)
+    attended_lectures = len([att.is_present for att in attendance_list.filter(
+        is_present=True)])
+    if total_lectures == 0:
+        percentage_attended = "-"
+    else:
+        percentage_attended = round(attended_lectures / total_lectures * 100)
+
+    context['total_lectures'] = total_lectures
+    context['attended_lectures'] = attended_lectures
+    context['percentage_attended'] = percentage_attended
+    context['curr_month_name'] = MONTHS[current_month]
+
     return render(request,
                   'attendance/student-attendance-list.html', context)
 

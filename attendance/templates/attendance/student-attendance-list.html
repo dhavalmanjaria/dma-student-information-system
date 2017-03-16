@@ -3,6 +3,9 @@
 {% block header_title %}
 Attendance for student: {{ user }}
 {% endblock %}
+{% block header_subtitle %}
+For {{ curr_month_name }}: {{ attended_lectures }} / {{ total_lectures }} attended. {{ percentage_attended }}%
+{% endblock %}
 
 {% block staticfiles %}
 {% load static %}
@@ -36,7 +39,7 @@ Month:
             <tr>
                 <td>{{ dt }}</td>
                 {% for a in att %}
-                    <td>
+                    <td {% if a.is_present %} style="color: green" {% endif %}>
                         {{ a.lecture.subject.name }}
                         <input type="checkbox" {% if a.is_present %} checked {% endif %} disabled />
                     </td>
