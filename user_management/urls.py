@@ -38,13 +38,18 @@ urlpatterns += [
 ]
 
 
+# urlpatterns += [
+#     url(r'^select-subject/', views.SelectSubjectForFaculty.as_view(),
+#         name="select-subject")
+# ]
+
+
 urlpatterns += [
-    url(r'^select-subject/(?P<pk>[\d]+)', views.select_subject,
-        name="select-subject")
+    url(r'^set-faculty/(?P<subject_pk>[\d]+)', views.set_faculty,
+        name="set-faculty")
 ]
 
-
 urlpatterns += [
-    url(r'^set-faculty/(?P<pk>[\d]+)', views.set_faculty,
-        name="set-faculty")
+    url(r'^set-hod/(?P<course_pk>[\d]+)', views.set_hod,
+        name="set-hod")
 ]

@@ -1,0 +1,45 @@
+{% extends "base-action-page.html" %}
+
+<h3>Change Faculty for <strong>{{ subject.name }}</strong></h3>
+<p>Current: <strong>{{ subject.faculty }}  </strong></p>
+    
+{% block header_title %}
+    Change Faculty for <strong>{{ subject.name }}</strong>
+{% endblock %}
+
+{% block header_subtitle %}
+Current: <strong>{{ subject.faculty }}  </strong>
+{% endblock %}
+{% block content %}
+    
+    <h3>Change Faculty for <strong>{{ subject.name }}</strong></h3>
+    <p>Current: <strong>{{ subject.faculty }}  </strong></p>
+    <table id="factable" class="table">
+        <tr>
+            <th>Sr. No.</th>
+            <th>Name</th>
+            <th>Course</th>
+        </tr>
+        {% for fac in faculty %}
+            <tr class="facinfo-row" >
+                <td>{{ fac.user.basicinfo.serial_no }}</td>
+                <td>{{ fac.user.first_name }}</td>
+                <td>{{ fac.user.last_name }}</td>
+                <td>
+                    <form action="{{ request.path }}" method="POST">
+                        {%csrf_token %}
+                        <input type="hidden" name="fac_pk" value="{{ fac.pk }}">
+                         <input type="hidden" name="subject_pk" value="{{ subject.pk }}">
+                         {% if fac.pk == subject.faculty.pk %}
+                            
+                            <input type="submit" class="btn btn-sm btn-default" value="Set" />    
+                            {% else %}
+                            <input type="submit" class="btn btn-sm btn-primary" value="Set" />
+                         {% endif %}
+                        
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

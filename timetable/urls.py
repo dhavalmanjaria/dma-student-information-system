@@ -2,7 +2,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.select_semester, name='semester-timetables')
+    url(r'^$', views.SelectTimeTable.as_view(), name='semester-timetables')
 ]
 
 urlpatterns += [

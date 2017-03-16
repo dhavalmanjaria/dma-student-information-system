@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^(?P<pk>[\d]+)/(?P<date>\d\d\d\d-\d\d-\d\d)$',
-        views.get_attendance_list, name='attendance-list')
+        views.get_semester_attendance_list, name='attendance-list')
 ]
 
 urlpatterns += [
@@ -14,5 +14,5 @@ urlpatterns += [
 
 
 urlpatterns += [
-    url(r'^select-attendance', views.select, name='select-attendance')
+    url(r'^select-attendance', views.SelectAttendance.as_view(), name='select-attendance')
 ]

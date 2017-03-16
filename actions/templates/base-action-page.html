@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block staticfiles %}
+    {% load static %}
+    <script src="{% static 'js/select-course-semester.js' %}"></script>
+    <!-- common JS code available to all base-action-page children, eg: the Jquery UI Datepicker -->
+    <script src="{% static 'js/base-action-common.js' %}"></script>
+{% endblock %}
+
+{% block pageheader %}
+        <div id="page-header">
+            <div class="container"><h1 class="display-3">
+                    {% block header_title %}
+                    {% endblock %}
+                    </h1>
+                <hr style="border-top: 1px solid; border-color: white;" />
+                <p class="lead">
+                    {% block header_subtitle %}
+                    {% endblock %}
+                </p>
+            </div>
+        </div>
+{% endblock %}
+

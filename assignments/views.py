@@ -20,19 +20,13 @@ class SelectAssignment(SelectCourseSemester):
     """
 
     def post(self, request):
-        subject_pk = request.POST.get('subject')
-
-        LOG.debug('post called')
-
-        subject = Subject.objects.get(pk=subject_pk)
+        subject = super(SelectAssignment, self).get_subject_from_post(request)
 
         context = {}
 
         context['subject'] = subject
 
-        assignments = Assignment.objects.filter(subject=subject)
-
-        return redirect('assignment-list', subject_pk=subject_pk)
+        return redirect('assignment-list', subject_pk=subject.pk)
 
 
     def get(self, request):

@@ -8,6 +8,8 @@
 
 {% block content %}
 {# {% url 'save-attendance-list' pk=semester.pk date=date %} #}
+    <div id="alert-div" class="alert alert-success" style="display: none">
+    </div>
     <form action="{% url 'save-attendance-list' pk=semester.pk date=date %}" method="POST" id="save-form">
     {% csrf_token %}
     <table class="table table-striped">
@@ -24,7 +26,6 @@
             </tr>
         </thead>
         <tbody>
-
         {% for student, presence in attendance_list.items %}
             <tr>
                 <td class="student-name"><!-- for use in JS code-->
@@ -34,13 +35,23 @@
                 {% for key, val in presence.items %}
                     <td class="student-check">
                         <span style="display: none">{{ key.pk }}</span>
-                        <input type="checkbox" name="{{ student.user.username }}" {% if val == True %} checked {% endif %}/>
+                        <input type="checkbox" name="{{ student.user.username }}" {% if val == True %} checked {% endif %}
+                        {% if key.subject.name not in faculty_subjects %} disabled {% endif %} />
                     </td>
                 {% endfor %}
             </tr>
         {% endfor %}
     </table>
 
-    <input type="submit" value="save">
+    <input id="save-button" class="btn btn-primary" type="submit" value="Save">
     </form>
+
+    <script>
+    $(function () {
+        $("#save-button").click(function (event) {
+            $("#alert-success").html("Attendance saved!");
+            $("#alert-success").css('display', '');
+        })
+    })
+    </script>
 {% endblock %}

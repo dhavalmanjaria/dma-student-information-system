@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from .models import StudentMetric, Metric
 from curriculum.models import Subject, Course, Semester
 from user_management.models.group_info import StudentInfo, FacultyInfo
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import MetricForm
+from actions.views import SelectCourseSemester
 import logging
 
 LOG = logging.getLogger('app')
@@ -97,14 +98,13 @@ def edit_metrics(request, pk):
 
                 metric.delete()
 
-
     metrics = Metric.objects.filter(subject=subject)
 
     context['pk'] = subject.pk
-   
+
     context['metrics'] = metrics
-    
-    return render(request, 'internal-assessment/edit-metrics.html', context)
+
+    return render(request, 'internal_assessment/edit-metrics.html', context)
 
 
 @login_required
@@ -135,89 +135,18 @@ def edit_metrics_for_student(request, std_pk, sub_pk):
 
         smetric.save()
 
-    return render(request, 'internal-assessment/edit-metrics-for-student.html', context)
+    return render(request, 'internal_assessment/edit-metrics-for-student.html', context)
 
-@login_required
-def select_course_semester(request):
-    context = {}
-
-    user = request.user
-
-    course = []
-    try:
-        if user.facultyinfo is not None:  # User is faculty
-            subjects = Subject.objects.filter(faculty=user.facultyinfo)
-            semesters = Semester.objects.filter(subject__in=subjects)
-            courses = Course.objects.filter(semester__in=semesters)
-            LOG.debug(semesters)
-
-        if user.has_perm('user_management.can_auth_Faculty'):  # User is FacultyHOD level
-            subjects = set([s for s in Subject.objects.filter(
-                faculty=user.facultyinfo)])
-            # But also all subjects in their course
-            course = [user.facultyinfo.course, ]
-            for s in Subject.objects.filter(semester__course_in=course):
-                subjects.add(s)
-
-    except Exception as ex:
-        LOG.debug(str(ex))
-
-    if user.has_perm('user_management.can_auth_FacultyHOD'):  # User is above FacHOD level
-        course = Course.objects.all()
-        semesters = Semester.objects.all()
-        subjects = Subject.objects.all()
-        LOG.debug(str(course))
-
-    context['course'] = course
-
-    if request.method == "POST":
-
-        if request.is_ajax():
-            response = '<option> --- </option>'
-
-            if request.POST.get('course'):
-                course = request.POST.get('course')
-
-                for x in semesters:
-                    response += "<option>" + str(x) + "</option>"
-                LOG.debug(response)
-                return HttpResponse(response)
-
-            if request.POST.get('semester'):
-                for s in semesters:
-                    if str(s) == request.POST.get('semester'):
-                        semester = s
-                # subjects = Subject.objects.filter(semester=semester)
-
-                for s in subjects:
-                    response += "<option>" + str(s) + "</option>"
-                return HttpResponse(response)
-
-        else:
-            course = request.POST.get('course')
-
-            semester = [semester for semester in semesters if str(
-                semester) == request.POST.get('semester')][0]
-
-            subject = Subject.objects.get(name=request.POST.get('subject'),
-                                          semester=semester)
-
-            context['pk'] = subject.pk
-
-            return redirect('student-metric-table', pk=subject.pk)
-
-    return render(request, 'internal-assessment/select-course-semester.html',
-                  context)
 
 @login_required
 @permission_required('user_management.can_read_internal_assessment')
-def student_metric_table(request, pk):
+def student_metric_table(request, subject_pk):
     """
     This view returns the student metrics for a particular subject
     in a particular semester.
     """
     context = {}
-    subject = Subject.objects.get(pk=pk)
+    subject = Subject.objects.get(pk=subject_pk)
     context['subject'] = subject
 
     course = subject.semester.course
@@ -225,7 +154,7 @@ def student_metric_table(request, pk):
     user = request.user
     context['auth'] = _get_auth(request, subject)
 
-    subject = Subject.objects.get(pk=pk)
+    subject = Subject.objects.get(pk=subject_pk)
     context['subject'] = subject
 
     metrics = Metric.objects.filter(subject=subject)
@@ -248,5 +177,32 @@ def student_metric_table(request, pk):
         return redirect('edit-metrics', pk=pk)
 
     else:
-        return render(request, 'internal-assessment/student-metric-table.html',
+        return render(request, 'internal_assessment/student-metric-table.html',
                       context)
+
+
+class SelectInternalAssessment(SelectCourseSemester):
+    """
+    Select course, semester and subject for internal assessment
+    """
+    def post(self, request):
+
+        subject = super(SelectInternalAssessment, self).get_subject_from_post(
+            request)
+
+        context = {}
+
+        context['subject'] = subject
+
+        student_metric = StudentMetric.objects.filter(subject=subject)
+
+        return redirect('student-metric-table', subject_pk=subject_pk)
+
+    def get(self, request):
+
+        options = super(SelectInternalAssessment, self).get_options(request)
+
+        if request.is_ajax():
+            return JsonResponse(options)
+
+        return render(request, 'internal_assessment/select-internal-assessment.html')

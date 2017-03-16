@@ -3,11 +3,11 @@ from . import views
 
 
 urlpatterns = [
-   url('^$', views.select_course_semester, name='internal-assessment')
+   url('^$', views.SelectInternalAssessment.as_view(), name='select-internal-assessment')
 ]
 
 urlpatterns += [
-    url(r'^student-metric-table/(?P<pk>[\d]+)', views.student_metric_table,
+    url(r'^student-metric-table/(?P<subject_pk>[\d]+)', views.student_metric_table,
         name='student-metric-table')
 ]
 
@@ -22,7 +22,7 @@ urlpatterns += [
         name='edit-metrics-for-student')
 ]
 
-urlpatterns += [
-    url(r'select-course-semester', views.select_course_semester,
-        name='select-course-semester')
-]
+# urlpatterns += [
+#     url(r'select-course-semester', views.select_course_semester,
+#         name='select-course-semester')
+# ]

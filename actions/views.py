@@ -25,12 +25,35 @@ def dashboard(request):
 
 class SelectCourseSemester(View):
     """
-    This is a view that must be inherited by other views so that it gives the 
+    This is a view that must be inherited by other views so that it gives the
     user the options to select a course and semester and other options based
-    on what they're trying to do. The idea is to have a common view to select 
+    on what they're trying to do. The idea is to have a common view to select
     course and semester that adapts to the current action the user is trying
     to perform.
     """
+    
+    def get_semester_from_post(self, request):
+        """
+        Gets a semester object from the POST set
+        """
+        # TODO: Change this to actually use a pk
+        semester = request.POST.get('semester')
+
+        semester = [sem for sem in Semester.objects.all() if str(
+            sem) == semester][0]
+
+        return semester
+
+    def get_subject_from_post(self, request):
+        """
+        Gets a subject object from the POST set
+        """
+        subject_pk = request.POST.get('subject')
+
+        subject = Subject.objects.get(pk=subject_pk)
+
+        return subject
+
     subjects = []
     def get_options(self, request):
         user = request.user
@@ -50,6 +73,7 @@ class SelectCourseSemester(View):
                 courses = [user.facultyinfo.course, ]
                 for s in Subject.objects.filter(semester__course_in=course):
                     subjects.add(s)
+                LOG.debug(subjects)
 
         except Exception as ex:
             LOG.debug(str(ex))
@@ -71,16 +95,12 @@ class SelectCourseSemester(View):
             # options[course_name][(sem.pk, str(sem))] = []
             options[course_name][str(sem)] = []
 
-
         for sub in subjects:
             sem = str(sub.semester)
             course_name = sub.semester.course.short_name
             options[course_name][sem].append((sub.pk, sub.name))
 
         return options
-
-    def redirect_to_action(self, request, action):
-        pass
 
     def get(self, request):
         context = {}

@@ -1,23 +1,27 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
+
+
+{% block header_title %}
+Select Attendance
+{% endblock %}
+
+{% block header_subtitle %}
+Select the course, semester and the day to view attendance for.
+{% endblock %}
+
 
 {% block staticfiles %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/select_attendance.css' %}" />
-    <script src="{% static 'js/select_attendance.js' %}"></script>
+
+{% load static %}
+{{ block.super }}
+<script src="{% static 'js/select-attendance.js' %}" type="text/javascript" charset="utf-8" async defer></script>
 {% endblock %}
 
 {% block content %}
 <table class="table">
 <form id="select-form" class="form-group" action="{% url 'select-attendance' %}" method="POST">
 {% csrf_token %}
-<tr>
-<td>
-    <p><strong>Date</strong></p>
-</td>
-<td>
-    <input name="date" id="datepicker" type="text" />
-</td>
-</tr>
+
 <tr>
 <td>
     <p><strong>Course</strong></p>
@@ -51,6 +55,15 @@
     </fieldset>
 </td>
 </tr>
+<tr>
+<td>
+    <p><strong>Date</strong></p>
+</td>
+<td>
+    <input name="date" id="datepicker" type="text" />
+</td>
+</tr>
+
 <tr>
 <td>
 <p><input type="submit" class="btn btn-primary" id="btn-view" value="View" />

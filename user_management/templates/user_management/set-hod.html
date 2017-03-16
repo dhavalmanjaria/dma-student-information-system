@@ -1,0 +1,48 @@
+{% extends "base-action-page.html" %}
+
+
+{% block header_title %}
+    Change HOD
+{% endblock %}
+
+{% block header_subtitle %}
+    Select a Faculty to set them as the HOD for that course.
+{% endblock %}
+
+{% block staticfiles %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+    
+    <h3>Change Faculty for <strong>{{ course }} </strong></h3>
+    <p>Current: <strong>{{ course.hod }}  </strong></p> 
+    <table id="factable" class="table">
+        <tr>
+            <th>Sr. No.</th>
+            <th>Name</th>
+            <th>Course</th>
+        </tr>
+        {% for fac in faculty %}
+            <tr class="facinfo-row" >
+                <td>{{ fac.user.basicinfo.serial_no }}</td>
+                <td>{{ fac.user.first_name }}</td>
+                <td>{{ fac.user.last_name }}</td>
+                <td>
+                    <form action="{{ request.path }}" method="POST">
+                        {%csrf_token %}
+                        <input type="hidden" name="fac_pk" value="{{ fac.pk }}">
+                         <input type="hidden" name="course_pk" value="{{ course.pk }}">
+                         {% if fac.pk == course.hod.facultyinfo.pk %}
+
+                            <input type="submit" class="btn btn-sm btn-default" value="Set" />    
+                            {% else %}
+                            <input type="submit" class="btn btn-sm btn-primary" value="Set" />
+                         {% endif %}
+                        
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

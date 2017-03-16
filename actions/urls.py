@@ -52,6 +52,13 @@ urlpatterns += [
 
 
 urlpatterns += [
-    url(r'select-subject', user_management.views.select_subject,
-        name='select-subject')
+    url(r'^select-subject/',
+        user_management.views.SelectSubjectForFaculty.as_view(),
+        name="select-subject")
+]
+
+urlpatterns += [
+    url(r'^select-hod-course/',
+        user_management.views.select_hod_course,
+        name="select-hod-course")
 ]

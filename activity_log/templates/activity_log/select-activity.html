@@ -1,10 +1,16 @@
 {% extends 'select-course-semester.html' %}
 
 
-{% block staticfiles %}
-    {{ block.super }}
+{% block header_title %}
+Select Activity
 {% endblock %}
 
+{% block header_subtitle %}
+Select semester to see actvities for.
+{% endblock %}
 {% block form_url %}
     {% url 'select-activity' %}
+{% endblock %}
+
+{% block other_options %}
 {% endblock %}

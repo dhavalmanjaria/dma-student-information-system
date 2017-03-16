@@ -5,8 +5,56 @@ from django.contrib.auth.decorators import login_required
 import logging
 from datetime import datetime
 from collections import OrderedDict
+from actions.views import SelectCourseSemester
+from django.http import JsonResponse
+import logging
 
 LOG = logging.getLogger('app')
+
+
+class SelectTimeTable(SelectCourseSemester):
+
+    def post(self, request):
+        semester = request.POST.get('semester')
+
+        semester = [sem for sem in Semester.objects.all() if str(sem) == semester][0]
+
+        LOG.debug(semester)
+
+        return redirect('view-timetable', pk=semester.pk)
+
+    # Override options to return all options for all users
+    def get_options(self, request):
+        subjects = Subject.objects.all()
+        semesters = set(Semester.objects.filter(subject__in=subjects))
+        courses = set(Course.objects.filter(semester__in=semesters))
+
+        options = {}
+
+        for c in courses:
+            options[c.short_name] = {}
+        for sem in semesters:
+            course_name = sem.course.short_name
+            # options[course_name][(sem.pk, str(sem))] = []
+            options[course_name][str(sem)] = []
+
+        for sub in subjects:
+            sem = str(sub.semester)
+            course_name = sub.semester.course.short_name
+            options[course_name][sem].append((sub.pk, sub.name))
+
+        return options
+
+        LOG.debug(options)
+
+    def get(self, request):
+
+        options = self.get_options(request)
+
+        if request.is_ajax():
+                return JsonResponse(options)
+
+        return render(request, 'timetable/select-timetable.html')
 
 
 def select_semester(request):
@@ -15,6 +63,7 @@ def select_semester(request):
     context['semester'] = Semester.objects.all()
 
     return render(request, 'timetable/select_semester.html', context)
+
 
 def _get_weekday(d):
     weekdays = {
@@ -35,6 +84,7 @@ def _get_sorted_times(semester):
 
     times = sorted(set(times), key=int)
     return times
+
 
 def _get_sorted_days(semester):
     return set(
@@ -68,6 +118,7 @@ def _get_timetable(semester):
 
     return timetable
 
+
 def view_timetable(request, pk):
     context = {}
     semester = Semester.objects.get(pk=pk)
@@ -80,6 +131,11 @@ def view_timetable(request, pk):
 
     context['timetable'] = timetable
     context['formatted_times'] = [datetime.strptime(t, "%H%M") for t in times]
+
+    user = request.user
+    if semester.course.hod == user or user.has_perm('user_management.can_auth_FacultyHOD'):
+        context['edit'] = True
+
 
     return render(request, 'timetable/view_timetable.html', context)
 

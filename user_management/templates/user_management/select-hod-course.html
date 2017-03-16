@@ -1,0 +1,22 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Select course to change HOD for
+{% endblock %}
+
+{% block content %}
+<div class="panel panel-info">
+    <div class="panel-heading">College Courses</div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% for course in courses %}
+                <li class="list-group-item">
+                    <a href="{% url 'set-hod' course_pk=course.pk %}">{{course}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+

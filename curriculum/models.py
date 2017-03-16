@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Course(models.Model):
     """
     Represents a course available in the college
@@ -11,6 +12,8 @@ class Course(models.Model):
     short_name = models.CharField(max_length=5,
                                   help_text='Short, abbreivated name'
                                   'that the course is referred by')
+
+    #TODO: Change this to use FacultyInfo
     hod = models.OneToOneField(User, null=True)
 
     def __str__(self):

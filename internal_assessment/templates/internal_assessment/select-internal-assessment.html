@@ -1,23 +1,22 @@
 {% extends "select-course-semester.html" %}
 
 {% block staticfiles %}
-{% load static %}
-    {{ block.super }}
-<script src="{% static 'js/select-assignment.js' %}"></script>
+{{ block.super }}
 {% endblock %}
 
-{% block header_title %}
-Select Assignment
-{% endblock %}
-
-{% block header_subtitle %}
-    Select Subject to see assignments for.
+{% block page_header %}
+    {% block header_title %}
+        Internal Assessment
+    {% endblock %}
+    {% block header_subtitle %}
+        Select a subject to view assessment for.
+    {% endblock %}
 {% endblock %}
 
 
 
 {% block form_url %}
-    {% url 'select-assignment' %}
+    {% url 'select-internal-assessment' %}
 {% endblock %}
 
 {% block other_options %}

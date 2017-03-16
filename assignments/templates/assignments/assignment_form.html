@@ -1,7 +1,10 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Create Assignment for <strong>{{ subject }}</strong>
+{% endblock %}
 
 {% block content %}
-    <h3>Create Assignment for <strong>{{ subject }}</strong></h3>
     <form action="{{ request.path }}" method="POST" />
     {% csrf_token %}
     <table class="table">

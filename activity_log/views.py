@@ -16,11 +16,7 @@ class SelectActivity(SelectCourseSemester):
     """
 
     def post(self, request):
-        semester_pk = request.POST.get('semester')
-
-        # semester = Semester.objects.get(pk=semester_pk)
-        semester = [sem for sem in Semester.objects.all() if str(
-            sem) == semester_pk][0]
+        semester = super(SelectActivity, self).get_semester_from_post(request)
 
         context = {}
 

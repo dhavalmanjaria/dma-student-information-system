@@ -31,13 +31,10 @@ $(function () {
             $("input[name="+ name.html() +"]").each(function(index) {
                 //console.log($(this).attr("name") + ":" + $(this).is(":checked"));
                 var id = $(this).prev("span").html();
-                console.log(id);
                 att_array[id] = $(this).is(":checked");
             })
             post_data[name.html()] = att_array;
         });
-        
-        console.log(post_data);
         
         // Perhaps using JSON here is a better idea but CSRF validation doesn't
         // work with JSON. So that may be changed in the future but as of now this
@@ -48,7 +45,8 @@ $(function () {
             data: post_data,
             method: "POST",
             success: function() {
-                console.log('yay');
+                $("#alert-div").css('display', 'block');
+                $("#alert-div").html("<strong>Success!</strong>");
             },
         });
     });

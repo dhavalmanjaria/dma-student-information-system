@@ -1,21 +1,22 @@
 from django.shortcuts import render, redirect
 from .forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models.group_info import FacultyInfo
 from .models.auth_requests import AuthenticationRequest
 from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group, User, Permission
+from actions.views import SelectCourseSemester
 from curriculum.models import Course, Subject, Semester
+from .management.commands import initgroups
 from notices.models import Notice
-
-
 
 import logging
 LOG = logging.getLogger('app')
 
 
+# To be removed
 def index(request):
     context = {}
     # Here we show the first five records for:
@@ -138,56 +139,142 @@ class UserDetailView(generic.detail.DetailView, LoginRequiredMixin):
         return context
 
 
+# To be removed
+# @login_required
+# @permission_required('user_management.can_write_subject_faculty')
+# def select_subject(request):
+
+#     context = {}
+
+#     courses = Course.objects.all()
+
+#     context['courses'] = {}
+
+#     for c in courses:
+#         context['courses'][c.short_name] = []
+
+#         semesters = Semester.objects.filter(course=c)
+#         subjects = []
+#         for sem in semesters:
+#             subjects.append([sub for sub in sem.subject_set.all()])
+#         for s in subjects:
+#             context['courses'][c.short_name].append(s)
+
+
+#     return render(request, 'user_management/edit_subject_faculty.html',
+#                   context)
+
+class SelectSubjectForFaculty(SelectCourseSemester,
+                              LoginRequiredMixin,
+                              PermissionRequiredMixin):
+    """
+    View allows user to select a subject to assign a faculty for.
+    """
+
+    class Meta:
+        permission_required = 'user_management.can_write_subject_faculty'
+
+    def post(self, request):
+        subject_pk = request.POST.get('subject')
+
+        return redirect('set-faculty', subject_pk=subject_pk)
+
+    def get(self, request):
+        options = super(SelectSubjectForFaculty, self).get_options(request)
+
+        if request.is_ajax():
+            return JsonResponse(options)
+
+        return render(request, 'user_management/select-subject-faculty.html')
+
+
 @login_required
 @permission_required('user_management.can_write_subject_faculty')
-def select_subject(request):
+def set_faculty(request, subject_pk):
 
     context = {}
 
-    courses = Course.objects.all()
+    if request.method == "GET":
+        context = {}
 
-    context['courses'] = {}
+        faculty = FacultyInfo.objects.all()
 
-    for c in courses:
-        context['courses'][c.short_name] = []
+        context['faculty'] = faculty
+        subject = Subject.objects.get(pk=subject_pk)
 
-        semesters = Semester.objects.filter(course=c)
-        subjects = []
-        for sem in semesters:
-            subjects.append([sub for sub in sem.subject_set.all()])
-        for s in subjects:
-            context['courses'][c.short_name].append(s)
+        context['subject'] = subject
 
-
-    return render(request, 'user_management/edit_subject_faculty.html',
-                  context)
-
-@login_required
-@permission_required('user_management.can_write_subject_faculty')
-def set_faculty(request, pk):
-
-    context = {}
-
-    faculty = FacultyInfo.objects.all()
-
-    context['faculty'] = faculty
-
-    subject = Subject.objects.get(pk=pk)
-    context['subject'] = subject
-
-    current_faculty = subject.faculty
-    context['current_faculty'] = current_faculty
-    
     if request.method == "POST":
-        fac_pk = request.POST.get('fac_pk')
 
+        fac_pk = request.POST.get('fac_pk')
         faculty = FacultyInfo.objects.get(pk=fac_pk)
+
+        subject_pk = request.POST.get('subject_pk')
+
+        subject = Subject.objects.get(pk=subject_pk)
 
         subject.faculty = faculty
 
+        LOG.debug('saving ' + str(subject.faculty) + ' as faculty for ' + str(
+            subject))
+
         subject.save()
 
-        return redirect('select-subject')
+        # That is, reload with get
+        return redirect('set-faculty', subject_pk=subject_pk)
 
-    return render(request, 'user_management/set_faculty.html',
+    return render(request, 'user_management/set-faculty.html',
+                  context)
+
+
+
+@login_required
+@permission_required('user_management.can_auth_FacultyHOD')
+def select_hod_course(request):
+
+    context = {}
+
+    context['courses'] = Course.objects.all()
+
+    return render(request, 'user_management/select-hod-course.html',
+                  context)
+
+
+
+@login_required
+@permission_required('user_management.can_auth_FacultyHOD')
+def set_hod(request, course_pk):
+
+    context = {}
+
+    context['course'] = Course.objects.get(pk=course_pk)
+
+    faculty = FacultyInfo.objects.filter(course__pk=course_pk)
+
+    context['faculty'] = faculty
+
+    if request.method == "POST":
+        faculty = FacultyInfo.objects.get(pk=request.POST.get('fac_pk'))
+        course = Course.objects.get(pk=request.POST.get('course_pk'))
+
+        # TODO: Change course.hod to FacultyInfo rather than User
+        # Here we make sure that only HODs have the permissions of HODs
+
+        old_hod = course.hod
+        new_hod = faculty.user
+
+        HOD_PERMS = initgroups.PERMISSIONS_BY_ROLE['FacultyHOD']
+
+        for perm in Permission.objects.filter(codename__in=HOD_PERMS):
+            old_hod.user_permissions.remove(perm)
+            new_hod.user_permissions.add(perm)
+
+        #TODO write test for this
+
+        course.hod = new_hod
+        course.save()
+
+        return redirect('set-hod', course_pk=course_pk)
+
+    return render(request, 'user_management/set-hod.html',
                   context)

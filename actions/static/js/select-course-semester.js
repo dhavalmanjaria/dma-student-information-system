@@ -4,6 +4,8 @@ $(function() {
 
     console.log('ready!');
 
+    $(".select").selectmenu();
+
     $.ajax({
         url: window.location.href ,
         method: 'GET',
@@ -34,8 +36,6 @@ $(function() {
         }
         return cookieValue;
     }
-
-    $(".select").selectmenu();
 
     
     $("#select-course").selectmenu({

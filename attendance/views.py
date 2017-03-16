@@ -1,19 +1,36 @@
 from django.shortcuts import render, redirect
 from django.views import generic
-from django.http import HttpResponse
+from django.http import JsonResponse
 from .models import Attendance
 from curriculum.models import Semester, Course
 from user_management.models.group_info import StudentInfo
 from timetable.models import TimeTable
 from collections import OrderedDict
 from datetime import datetime
-from .forms import SelectAttendanceForm
+from actions.views import SelectCourseSemester
 import logging
 
 LOG = logging.getLogger('app')
 
+def get_faculty_subject_list(request):
+    """
+    This function returns the subject that a user can edit / view attendance
+    for
+    """
 
-def get_attendance_list(request, pk, date):
+    actions_view = SelectCourseSemester()
+    options = actions_view.get_options(request)
+
+    subjects = []
+
+    for k in options.keys():
+        for subs in options[k].values():
+            for s in subs:
+                subjects.append(s[1])
+
+    return subjects
+
+def get_semester_attendance_list(request, pk, date):
     """
     This view returns the attendance for a particular
     semester on a particular date. The template this
@@ -35,6 +52,9 @@ def get_attendance_list(request, pk, date):
     for x in student_set:
         attendance[x] = {}
 
+    faculty_subjects = get_faculty_subject_list(request)
+    LOG.debug
+
     lecture_list = [l for l in TimeTable.objects.filter(
         semester=semester, day_of_week=date.isoweekday()).order_by(
         'start_time')]
@@ -44,7 +64,7 @@ def get_attendance_list(request, pk, date):
             attendance[x][lect] = Attendance.objects.get(
                 student=x, date=date, lecture=lect).is_present
 
-    # Display attendance
+    # Display attendance in log
     for x in student_set:
         LOG.debug(x)
         for lect in lecture_list:
@@ -53,8 +73,9 @@ def get_attendance_list(request, pk, date):
 
     context['attendance_list'] = attendance
     context['subjects'] = [lect.subject.name for lect in lecture_list]
+    context['faculty_subjects'] = faculty_subjects
 
-    return render(request, 'attendance/attendance_list.html', context)
+    return render(request, 'attendance/attendance-list.html', context)
 
 
 def save_attendance_list(request, pk, date):
@@ -87,7 +108,8 @@ def save_attendance_list(request, pk, date):
 
                 if presence == "true":  # JavaScript true
                     presence = True
-                if presence == "false": # JavaScript false
+
+                if presence == "false":  # JavaScript false
                     presence = False
 
                 att = Attendance.objects.get(
@@ -100,39 +122,28 @@ def save_attendance_list(request, pk, date):
     return redirect('attendance-list',
                              pk = semester.pk, date=(str(date.date())))
 
-def select(request):
-    """
-    This view renders a template that allows a user to select a date,
-    course and a semester and redirects to the attendance list.
-    """
-    context = {}
-    semester = Semester.objects.all()
-    course = Course.objects.all()
-    context['course'] = course
 
-    #TODO: Use a form, maybe
-    if request.method == "POST":
+class SelectAttendance(SelectCourseSemester):
 
-        course = request.POST.get('course')
-        semesters = Semester.objects.filter(course__short_name=course)
-            
+    def post(self, request):
+
+        semester = super(SelectAttendance, self).get_semester_from_post(
+            request)
+
+        context = {}
+
+        context['semester'] = semester
+
+        date = datetime.strptime(request.POST.get('date'), "%d/%m/%Y")
+
+        return redirect('attendance-list', pk=semester.pk, date=(
+            str(date.date())))
+
+    def get(self, request):
+
+        options = super(SelectAttendance, self).get_options(request)
+
         if request.is_ajax():
-            response = ''
-            for x in semesters:
-                response += "<option>" + str(x) + "</option>"
-            LOG.debug(response)
-            return HttpResponse(response)
+            return JsonResponse(options)
 
-        else:
-            semester = [semester for semester in semesters if str(
-                semester) == request.POST.get('semester')][0]
-
-            date = datetime.strptime(request.POST.get('date'), "%d/%m/%Y")
-            context['pk'] = semester.pk
-            context['date'] = str(date.date())
-            #return render(request, 'attendance/attendance_list.html', context)
-
-            return redirect('attendance-list',
-                             pk = semester.pk, date=(str(date.date())))
-
-    return render(request, 'attendance/select_attendance.html', context)
+        return render(request, 'attendance/select-attendance.html')
