@@ -70,7 +70,8 @@ def get_student_attendance_list(request):
     context['formatted_times'] = [datetime.strptime(
         t, "%H%M") for t in times]
 
-    dates = set([att.date for att in attendance_list if att.date.month == current_month])
+    dates = set(
+        [att.date for att in attendance_list if att.date.month == current_month])
 
     dates = sorted(dates)
 

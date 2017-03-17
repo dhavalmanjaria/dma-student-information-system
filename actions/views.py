@@ -21,8 +21,11 @@ LOG = logging.getLogger('app')
 def dashboard(request):
     # TODO: Filter actions based on permissions
 
-    if request.user.studentinfo is not None:  # User is student
-        return render(request, 'student-dashboard.html')
+    try:
+        if request.user.studentinfo:  # User is student
+            return render(request, 'student-dashboard.html')
+    except Exception:
+        pass  # User does not have studentinfo
 
     return render(request, 'dashboard.html')
 
@@ -69,7 +72,9 @@ class SelectCourseSemester(View):
             # I'm trying to avoid checking if the user is assigned to a group
             # explicitly here because if in the future I want to add a different
             # group at the level of FacultyHOD, it would make things easier.
-            if user.has_perm('user_management.can_auth_Faculty'):  # User is probably FacHOD
+
+            # User is probably FacHOD
+            if user.has_perm('user_management.can_auth_Faculty'):
                 # Subjects they teach
                 subjects = set([s for s in Subject.objects.filter(
                     faculty=user.facultyinfo)])
@@ -80,12 +85,20 @@ class SelectCourseSemester(View):
                 LOG.debug(subjects)
 
         except Exception as ex:
-            LOG.debug(str(ex))
+            pass  # User has no facultyinfo
 
         # User is Upper Management level
         if user.has_perm('user_management.can_auth_FacultyHOD'):
             # All subjects for all courses.
             subjects = Subject.objects.all()
+
+        try:
+            if user.studentinfo is not None:  # User is student
+                LOG.debug("user: " + str(user.studentinfo))
+                semester = user.studentinfo.semester
+                subjects = Subject.objects.filter(semester=semester)
+        except:
+            pass  # User has no studentinfo
 
         semesters = set(Semester.objects.filter(subject__in=subjects))
         courses = set(Course.objects.filter(semester__in=semesters))
@@ -107,6 +120,10 @@ class SelectCourseSemester(View):
         return options
 
     def get(self, request):
+        """
+        This is just a demonstration of a standard implementation of this
+        method
+        """
         context = {}
 
         options = self.get_options(request)

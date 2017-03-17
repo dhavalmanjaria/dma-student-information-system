@@ -1,0 +1,23 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Student Metrics
+{% endblock %}
+{% block header_subtitle %}
+View your metrics for {{ subject }}
+{% endblock %}
+
+{% block content %}
+    <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Marks</th>
+            </tr>
+        {% for smetric in student_metrics %}
+            <tr>
+                <td>{{ smetric.metric.name }}</td>
+                <td>{{ smetric.marks }} / {{ smetric.metric.max_marks }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -12,6 +12,12 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    url(r'^student-internal-assessment/(?P<subject_pk>[\d]+)',
+        views.get_student_internal_assessment,
+        name='student-internal-assessment')
+]
+
+urlpatterns += [
     url(r'^edit-metrics/(?P<pk>[\d]+)', views.edit_metrics,
         name='edit-metrics')
 ]
@@ -21,8 +27,3 @@ urlpatterns += [
         views.edit_metrics_for_student,
         name='edit-metrics-for-student')
 ]
-
-# urlpatterns += [
-#     url(r'select-course-semester', views.select_course_semester,
-#         name='select-course-semester')
-# ]

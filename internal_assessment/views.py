@@ -101,6 +101,7 @@ def edit_metrics(request, pk):
     metrics = Metric.objects.filter(subject=subject)
 
     context['pk'] = subject.pk
+    context['subject'] = subject
 
     context['metrics'] = metrics
 
@@ -118,7 +119,8 @@ def edit_metrics_for_student(request, std_pk, sub_pk):
     subject = Subject.objects.get(pk=sub_pk)
     student = StudentInfo.objects.get(pk=std_pk)
 
-    student_metrics = StudentMetric.objects.filter(student=student, subject=subject)
+    student_metrics = StudentMetric.objects.filter(
+        student=student, subject=subject)
 
     context['student_metrics'] = student_metrics
 
@@ -135,7 +137,8 @@ def edit_metrics_for_student(request, std_pk, sub_pk):
 
         smetric.save()
 
-    return render(request, 'internal_assessment/edit-metrics-for-student.html', context)
+    return render(
+        request, 'internal_assessment/edit-metrics-for-student.html', context)
 
 
 @login_required
@@ -172,14 +175,32 @@ def student_metric_table(request, subject_pk):
 
     context['student_metrics'] = student_metrics
 
-
     if len(metrics) == 0:
-        return redirect('edit-metrics', pk=pk)
+        return redirect('edit-metrics', pk=subject.pk)
 
     else:
         return render(request, 'internal_assessment/student-metric-table.html',
                       context)
 
+
+def get_student_internal_assessment(request, subject_pk):
+
+    context = {}
+
+    subject = Subject.objects.get(pk=subject_pk)
+
+    student_metrics = StudentMetric.objects.filter(
+        subject=subject, student=request.user.studentinfo)
+
+    LOG.debug(student_metrics)
+
+    context['subject'] = subject
+
+    context['student_metrics'] = student_metrics
+
+    return render(request,
+        'internal_assessment/student-internal-assessment.html',
+        context)
 
 class SelectInternalAssessment(SelectCourseSemester):
     """
@@ -194,15 +215,25 @@ class SelectInternalAssessment(SelectCourseSemester):
 
         context['subject'] = subject
 
-        student_metric = StudentMetric.objects.filter(subject=subject)
+        # student_metric = StudentMetric.objects.filter(subject=subject)
+        
+        if StudentInfo.objects.filter(user=request.user).first():
+            return redirect('student-internal-assessment',
+                            subject_pk=subject.pk)
 
-        return redirect('student-metric-table', subject_pk=subject_pk)
+        return redirect(
+            'student-metric-table', subject_pk=subject.pk)
+        
 
     def get(self, request):
 
         options = super(SelectInternalAssessment, self).get_options(request)
 
+        LOG.debug(options)
+
         if request.is_ajax():
             return JsonResponse(options)
 
-        return render(request, 'internal_assessment/select-internal-assessment.html')
+        return render(
+            request, 'internal_assessment/select-internal-assessment.html')
+
