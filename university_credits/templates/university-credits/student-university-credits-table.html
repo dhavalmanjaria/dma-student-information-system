@@ -1,0 +1,39 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+University Credits
+{% endblock %}
+{% block header_subtitle %}
+For {{ semester }}
+{% endblock %}
+
+{% block content %}
+
+<table class="table table-striped">
+<tr>
+    <th>Student</th>
+    {% for subject in subjects %}
+        <th>
+            {{ subject.name }}
+        </th>
+    {% endfor %}
+</tr>
+{% for student, ucrd in credits.items %}
+<tr>
+    <td>{{ student }}</td>
+    {% for crd  in ucrd.values %}
+        <td>{{ crd }}</td>
+    {% endfor %}
+    <td>
+        <a href="{% url 'edit-credits-for-student' std_pk=student.pk %}">Edit</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+
+{% if perms.user_management.can_auth_Faculty %}
+<a href="{% url 'edit-credits-for-semester' semester_pk=semester.pk %}">Edit Subject Credits for Semester</a>
+{% endif %}
+
+{% endblock %}

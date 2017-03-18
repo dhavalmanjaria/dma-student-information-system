@@ -64,57 +64,81 @@ class Command(BaseCommand):
         # Subject
 
         # BBA IV
-        Subject.objects.get_or_create(name='B.Eco', semester=bba_4)
+        Subject.objects.get_or_create(
+            name='B.Eco', semester=bba_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='OB-II', semester=bba_4)
+        Subject.objects.get_or_create(
+            name='OB-II', semester=bba_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='B.Envt', semester=bba_4)
+        Subject.objects.get_or_create(
+            name='B.Envt', semester=bba_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='Cost & Mgmt a/c', semester=bba_4)
+        Subject.objects.get_or_create(
+            name='Cost & Mgmt a/c', semester=bba_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='Lead. Skills', semester=bba_4)
+        Subject.objects.get_or_create(
+            name='Lead. Skills', semester=bba_4, is_university_subject=False)
 
-        Subject.objects.get_or_create(name='Prod. & OP', semester=bba_4)
+        Subject.objects.get_or_create(
+            name='Prod. & OP', semester=bba_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='Advanced Excel', semester=bba_4)
+        Subject.objects.get_or_create(
+            name='Advanced Excel', semester=bba_4, is_university_subject=True)
 
         # BBA II
 
-        Subject.objects.get_or_create(name='MM-I', semester=bba_2)
+        Subject.objects.get_or_create(
+            name='MM-I', semester=bba_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='B.Statistics', semester=bba_2)
+        Subject.objects.get_or_create(
+            name='B.Statistics', semester=bba_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='Comm. Skills', semester=bba_2)
+        Subject.objects.get_or_create(
+            name='Comm. Skills', semester=bba_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='FA', semester=bba_2)
+        Subject.objects.get_or_create(
+            name='FA', semester=bba_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='EVS', semester=bba_2)
+        Subject.objects.get_or_create(
+            name='EVS', semester=bba_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='B. Economics', semester=bba_2)
+        Subject.objects.get_or_create(
+            name='B. Economics', semester=bba_2, is_university_subject=True)
 
         # BCA II
 
-        Subject.objects.get_or_create(name='OS', semester=bca_2)
+        Subject.objects.get_or_create(
+            name='OS', semester=bca_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='SSAD', semester=bca_2)
+        Subject.objects.get_or_create(
+            name='SSAD', semester=bca_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='PPM-I', semester=bca_2)
+        Subject.objects.get_or_create(
+            name='PPM-I', semester=bca_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='AWD', semester=bca_2)
+        Subject.objects.get_or_create(
+            name='AWD', semester=bca_2, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='Prac. AWD', semester=bca_2)
+        Subject.objects.get_or_create(
+            name='Prac. AWD', semester=bca_2, is_university_subject=True)
 
         # BCA IV
 
-        Subject.objects.get_or_create(name='Java', semester=bca_4)
+        Subject.objects.get_or_create(
+            name='Java', semester=bca_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='Prac. Java', semester=bca_4)
+        Subject.objects.get_or_create(
+            name='Prac. Java', semester=bca_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='Oracle', semester=bca_4)
+        Subject.objects.get_or_create(
+            name='Oracle', semester=bca_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='Prac. Oracle', semester=bca_4)
+        Subject.objects.get_or_create(
+            name='Prac. Oracle', semester=bca_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='EVS', semester=bca_4)
+        Subject.objects.get_or_create(
+            name='EVS', semester=bca_4, is_university_subject=True)
 
-        Subject.objects.get_or_create(name='BA', semester=bca_4)
+        Subject.objects.get_or_create(
+            name='BA', semester=bca_4, is_university_subject=True)
 

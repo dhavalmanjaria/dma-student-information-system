@@ -19,7 +19,7 @@
     </li>
     <li class="list-group-item">
         <input name="max_marks" type="hidden" class="metric-input" value="{{ smetric.metric.max_marks }}"/>
-        <input name="marks" type="number" max="{{ smetric.metric.max_marks }}" min=0 required class="metric-input" value="{{ smetric.marks }}"/>
+        <input name="marks" type="number" max="{{ smetric.metric.max_marks }}" min=0 required class="metric-input" value="{{ smetric.marks }}"/> / {{ smetric.metric.max_marks }}
     </li>
     
     <input type="hidden" name="metric_pk" value="{{ smetric.metric.pk }}" />

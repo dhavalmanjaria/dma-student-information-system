@@ -50,7 +50,6 @@ urlpatterns += [
     url(r'^activity-log/', include('activity_log.urls'))
 ]
 
-
 urlpatterns += [
     url(r'^select-subject/',
         user_management.views.SelectSubjectForFaculty.as_view(),
@@ -61,4 +60,8 @@ urlpatterns += [
     url(r'^select-hod-course/',
         user_management.views.select_hod_course,
         name="select-hod-course")
+]
+
+urlpatterns += [
+    url(r'^university-credits/', include('university_credits.urls'))
 ]

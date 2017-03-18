@@ -45,6 +45,7 @@ class Subject(models.Model):
     semester = models.ForeignKey(Semester)
     faculty = models.ForeignKey('user_management.FacultyInfo',
                                 null=True, blank=True)
+    is_university_subject = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

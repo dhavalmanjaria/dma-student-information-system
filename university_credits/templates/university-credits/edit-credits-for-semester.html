@@ -1,0 +1,29 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Edit Credits for Semester 
+{% endblock %}
+{% block header_subtitle %}
+Edit maximum credits for all university subjects in a semester
+{% endblock %}
+
+{% block content %}
+{% for crd in credits %}
+    <form action="{{ request.path }}" id="form-{{forloop.counter0}}" class="form-group credit-form" method="POST">
+    {% csrf_token %}
+        <ul class="list-group">
+            <li class="list-group-item">
+                Subject: <strong>{{ crd.subject }}</strong>
+            </li>
+
+            <li class="list-group-item">
+                Max Credits:
+                <input min="0" name="max_credits" type="number" required class="crd-input" value="{{ crd.max_credits }}" />
+            </li>
+            <input type="hidden" name="crd_pk" value="{{ crd.pk }}" />
+            <li class="list-group-item"><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Save" /></li>
+        </ul>
+    </form>
+{% endfor %}
+
+{% endblock %}

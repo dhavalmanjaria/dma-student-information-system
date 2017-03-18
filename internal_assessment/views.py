@@ -23,11 +23,11 @@ def _get_auth(request, subject):
                 return True
             if user == subject.faculty.user:
                 return True
-            if user.has_perm(
-                    'user_management.can_auth_FacultyHOD'):
-                return True
     except Exception as ex:
         LOG.debug(ex)
+        
+    if user.has_perm('user_management.can_auth_FacultyHOD'):
+        return True
 
 
 @login_required
@@ -199,8 +199,8 @@ def get_student_internal_assessment(request, subject_pk):
     context['student_metrics'] = student_metrics
 
     return render(request,
-        'internal_assessment/student-internal-assessment.html',
-        context)
+                  'internal_assessment/student-internal-assessment.html',
+                  context)
 
 class SelectInternalAssessment(SelectCourseSemester):
     """

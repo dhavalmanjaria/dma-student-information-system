@@ -19,32 +19,32 @@
         <table class="table action-table">
             <tr>
                 <td><strong>Requests</strong></td>
-                <td><a class="btn btn-info" href="{% url 'requests' %}">View</a>
+                <td><a class="btn btn-info" href="{% url 'requests' %}">GO</a>
                 </td>
             </tr>
             <tr>
                 <td><strong>Notices</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'notices' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'notices' %}">GO</a>
                 </td>
             </tr>
             <tr>
                 <td><strong>Attendance</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-attendance' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'select-attendance' %}">GO</a>
                 </td>
             </tr>
              <tr>
                 <td><strong>Internal Assessment</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-internal-assessment' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'select-internal-assessment' %}">GO</a>
                 </td>
             </tr>
             <tr>
                 {% if perms.user_management.can_write_subject_faculty %}
                 <td><strong>Set Faculty Subject</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-subject' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'select-subject' %}">GO</a>
                 </td>
                 {% endif %}
             </tr>
@@ -52,26 +52,32 @@
                 {% if perms.user_management.can_auth_FacultyHOD %}
                 <td><strong>Set Course HOD</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-hod-course' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'select-hod-course' %}">GO</a>
                 </td>
                 {% endif %}
             </tr>
             <tr>
                 <td><strong>Time Table</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'semester-timetables' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'semester-timetables' %}">GO</a>
                 </td>
             </tr>
             <tr>
                 <td><strong>Assignments</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-assignment' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'select-assignment' %}">GO</a>
                 </td>
             </tr>
             <tr>
                 <td><strong>Activity Log</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-activity' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'select-activity' %}">GO</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>University Credits</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'select-credits' %}">GO</a>
                 </td>
             </tr>
         </table>
