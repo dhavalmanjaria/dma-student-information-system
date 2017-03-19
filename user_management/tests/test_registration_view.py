@@ -2,19 +2,17 @@ from django.test import TestCase
 from django.contrib.auth.models import Group, User
 from user_management.forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
 from curriculum.models import Semester, Course
+from user_management.management.commands import initgroups
+from curriculum.management.commands import initcurriculum
 
 
 class RegistrationViewTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        group, created = Group.objects.get_or_create(name='Public')
-        group, created = Group.objects.get_or_create(name='GUAc')
-        group, created = Group.objects.get_or_create(name='GUAd')
-        group, created = Group.objects.get_or_create(name='Student')
-        group, created = Group.objects.get_or_create(name='Faculty')
-        course, created = Course.objects.get_or_create(short_name='CCP')
-        sem, created = Semester.objects.get_or_create(
-            course=course, semester_number=2)
+        cmd = initgroups.Command()
+        cmd.handle()
+        cmd = initcurriculum.Command()
+        cmd.handle()
 
     def setUp(self):
         pass
@@ -131,5 +129,60 @@ class RegistrationViewTestCase(TestCase):
 
         test_user = User.objects.get(
             username='u_test_faculty_form_basic_info')
+
+        self.assertTrue(test_user.basicinfo is not None)
+
+    def test_account_registration(self):
+        data = {
+            'username': 'u_test_account_registration',
+            'email': 'dhv2712@gmail.com',
+            'password1': 'dhaval27',
+            'password2': 'dhaval27',
+            'date_of_birth': '22/7/1989',
+            'contact_number': '9881585223',
+            'group': Group.objects.get(name='Accounts').pk,
+        }
+        self.client.post(
+            '/user_management/register/new.html', data=data)
+
+        test_user = User.objects.get(
+            username='u_test_account_registration')
+
+        self.assertTrue(test_user.basicinfo is not None)
+
+    def test_sub_admin_registration(self):
+        data = {
+            'username': 'u_test_sub_admin_registration',
+            'email': 'dhv2712@gmail.com',
+            'password1': 'dhaval27',
+            'password2': 'dhaval27',
+            'date_of_birth': '22/7/1989',
+            'contact_number': '9881585223',
+            'group': Group.objects.get(name='SubAdmin').pk,
+        }
+        self.client.post(
+            '/user_management/register/new.html', data=data)
+
+        test_user = User.objects.get(
+            username='u_test_sub_admin_registration')
+
+        self.assertTrue(test_user.basicinfo is not None)
+
+
+    def test_library_registration(self):
+        data = {
+            'username': 'u_test_library_registration',
+            'email': 'dhv2712@gmail.com',
+            'password1': 'dhaval27',
+            'password2': 'dhaval27',
+            'date_of_birth': '22/7/1989',
+            'contact_number': '9881585223',
+            'group': Group.objects.get(name='Library').pk,
+        }
+        self.client.post(
+            '/user_management/register/new.html', data=data)
+
+        test_user = User.objects.get(
+            username='u_test_library_registration')
 
         self.assertTrue(test_user.basicinfo is not None)

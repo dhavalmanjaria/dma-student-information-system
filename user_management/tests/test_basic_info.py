@@ -26,3 +26,8 @@ class UserInfoTestCase(TestCase):
         user = User.objects.get(username='u_test_basic_info')
         self.assertEquals(
             user.basicinfo.date_of_birth, datetime.datetime.now().date())
+
+    def test_basic_info_reverse_url(self):
+        user = User.objects.get(username='u_test_basic_info')
+        url = user.basicinfo.get_absolute_url()
+        self.assertEquals(url, '/user_management/' + str(user.pk) + "/")

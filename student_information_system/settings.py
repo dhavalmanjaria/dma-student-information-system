@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'internal_assessment.apps.InternalAssessmentConfig',
     'assignments.apps.AssignmentsConfig',
     'activity_log.apps.ActivityLogConfig',
-    'university_credits.apps.UniversityCreditsConfig'
+    'university_credits.apps.UniversityCreditsConfig',
+    'online_discussion.apps.OnlineDiscussionConfig'
 ]
 
 MIDDLEWARE = [

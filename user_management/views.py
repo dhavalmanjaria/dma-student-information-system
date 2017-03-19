@@ -10,29 +10,9 @@ from django.contrib.auth.models import Group, User, Permission
 from actions.views import SelectCourseSemester
 from curriculum.models import Course, Subject, Semester
 from .management.commands import initgroups
-from notices.models import Notice
-
 import logging
 LOG = logging.getLogger('app')
 
-
-# To be removed
-def index(request):
-    context = {}
-    # Here we show the first five records for:
-    # Notices
-    # TimeTable
-    # Activites
-    # Assignments
-    # Study Materials
-    # Exam Schedule
-    # Exam Hall Plan
-
-    notices = Notice.objects.all().order_by('date')[:5]
-
-    context['notices'] = notices
-
-    return render(request, 'index.html', context)
 
 @login_required
 def profile(request):
@@ -85,18 +65,19 @@ def registration_view(request):
 
                 second_form = _getSecondForm(request, user=user)
 
-                if second_form.is_valid():
-                    second_form.save()
-                    LOG.debug('second_form saved')
-                    req = AuthenticationRequest.objects.create(
-                        user=user,
-                        group=user.basicinfo.group)
-                    req.save()
+                if second_form:
+                    if second_form.is_valid():
+                        second_form.save()
+                        LOG.debug('second_form saved')
+                        req = AuthenticationRequest.objects.create(
+                            user=user,
+                            group=user.basicinfo.group)
+                        req.save()
+                    else:
+                        LOG.debug("SECOND FORM ERRORS:" + str(second_form.errors))
 
-                    return redirect("index")
-                else:
-                    LOG.debug("SECOND FORM ERRORS:" + str(second_form.errors))
-
+                return redirect("index")
+                
             else:
                 LOG.debug("BASIC INFO ERRORS:" + str(basic_info_form.errors))
 

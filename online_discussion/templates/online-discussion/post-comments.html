@@ -1,0 +1,59 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+{{ post.title }}
+{% endblock %}
+{% block header_subtitle %}
+<i>{{ post.user }} | {{ post.date_created }} | last edit: {{ post.date_updated }}</i>
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-info">
+    <div class="panel-body">
+        {{ post.text }}
+    </div>
+    <div class="panel-body">
+        {% if request.user == post.user %}
+            <a href="{% url 'edit-post' post_pk=post.pk %}">Edit</a>
+        {% endif %}
+    </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    {% if user.is_authenticated %}
+        <div class="panel panel-info">
+        <div class="panel-heading">New Comment</div>
+        <form action="{{ request.path }}" method="POST">
+        {% csrf_token %}
+            <div class="panel-body">
+                <textarea style="width: 400px; height: 100px" name="text"></textarea>
+                <input type="hidden" value="{{ post.pk }}" name="post_pk" />
+            </div>
+            <div class="panel-body">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </form>
+        </div>
+    {% endif %}
+
+{% for comment in comments %}
+    <div class="panel panel-info">
+    <div class="panel-heading" style="color: black;">Comment #{{ forloop.counter }}</div>
+    <div class="panel-body">
+        {{ comment.text }}
+    </div>
+    <div class="panel-body">
+        
+        {% if comment.user.facultyinfo %}
+            <strong>(F)</strong>
+        {% endif %}
+        <i>{{ comment.user }} | {{ comment.date_created }}</i>
+    </div>
+    </div>
+{% endfor %}
+
+
+{% endblock %}

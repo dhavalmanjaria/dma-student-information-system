@@ -78,32 +78,50 @@
                         </tr>
                     {% endfor %}
                 </table>
-                <a class="btn btn-danger" href="{% url 'notices' %}">View All</a>
+                <a href="{% url 'notices' %}">View All</a>
             </div>
         </div>
         <div id="timetable" class="panel panel-info">
             <div class="panel-heading"><strong>Time Table</strong></div>
             <div class="panel-body">
                 <table class="table table-striped">
-                    <a class="btn btn-large btn-info" href="{% url 'semester-timetables' %}">View All Time Tables</a>
+                    <a href="{% url 'semester-timetables' %}">View All Time Tables</a>
                 </table>
             </div>
         </div>
-        <div id="notices" class="panel panel-info">
+        <div id="activities" class="panel panel-info">
             <div class="panel-heading"><strong>Activities</strong></div>
             <div class="panel-body">
                 <table class="table table-striped">
-                
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Conductor</th>
+                    </tr>
+                {% for activity in activities %}
+                    <tr>
+                        <td> {{ activity.title }} </td>
+                        <td> {{ activity.date }} </td>
+                        <td> {{ activity.description|slice:":20" }}... </td>
+                        <td> {{ activity.conductor }} </td>
+                        <td><a href="{% url 'activity-detail' pk=activity.pk %}">View</a> </td>
+                                {% if perms.user_management.can_write_activity_log %}
+                                    <td><a href="{% url 'activity-update' pk=activity.pk %}">Edit</a> </td>
+                                {% endif %}
+                    </tr>
+                {% endfor %}
                 </table>
+                <a class="btn btn-danger" href="{% url 'select-activity' %}">View All</a>
             </div>
             
         </div>
 
-        <div id="notices" class="panel panel-info">
+        <div id="assignments" class="panel panel-info">
             <div class="panel-heading"><strong>Assignments</strong></div>
             <div class="panel-body">
                 <table class="table table-striped">
-                
+                    <a href="{% url 'select-assignment' %}">Select class to view assignments</a>
                 </table>
             </div>
         </div>

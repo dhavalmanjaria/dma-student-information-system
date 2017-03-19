@@ -53,6 +53,7 @@ def edit_credits_for_semester(request, semester_pk):
     """
     if request.method == "POST":
         credit_pk = request.POST.get('crd_pk')
+        LOG.debug(credit_pk)
         credit = SubjectCredit.objects.get(pk=credit_pk)
         new_max_credits = request.POST.get('max_credits')
         credit.max_credits = new_max_credits

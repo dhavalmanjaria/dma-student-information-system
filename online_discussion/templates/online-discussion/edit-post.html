@@ -1,0 +1,23 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+    Edit Post
+{% endblock %}
+
+{% block content %}
+
+<form action="{{ request.path }}" method="POST" />
+<table class="table">
+{% csrf_token %}
+    {{ form.as_table }}
+    <tr>
+        <td>
+            <input type="hidden" name="post_pk" value="{{ post.pk }}" />
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+        </td>
+    </tr>
+</table>
+
+</form>
+
+{% endblock %}

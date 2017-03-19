@@ -39,7 +39,7 @@ class BasicInfo(models.Model):
         unique=True)
 
     def get_absolute_url(self):
-        return reverse('basicinfo-detail', args=[str(self.user.pk)])
+        return reverse('user-detail', args=[str(self.user.pk)])
 
 
 # This is basic basic info HAS to be saved.

@@ -1,0 +1,29 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Create Post
+{% endblock %}
+{% block header_subtitle %}
+For {{ course }}
+{% endblock %}
+
+{% block content %}
+
+<table class="table">
+
+<form action="{{ request.path }}" method="POST" />
+    {% csrf_token %}
+    {{ form.as_table }}
+   
+
+   <tr>
+        <td>
+            <input type="submit" class="btn btn-primary" value="Save" />
+        </td>
+    </tr>
+
+</form>
+</table>
+
+
+{% endblock %}

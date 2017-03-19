@@ -65,3 +65,7 @@ urlpatterns += [
 urlpatterns += [
     url(r'^university-credits/', include('university_credits.urls'))
 ]
+
+urlpatterns += [
+    url(r'^online-disussion/', include('online_discussion.urls'))
+]

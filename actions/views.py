@@ -1,20 +1,36 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
-from django.contrib.auth.models import User, Group, Permission
-from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from user_management.models.auth_requests import AuthenticationRequest
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from user_management.models.auth_requests import AuthenticationRequest
+from user_management.models.group_info import StudentInfo
 from curriculum.models import Course, Semester, Subject
 from django.views import View
+from internal_assessment.models import StudentMetric, Metric
+from university_credits.models import UniversityCredit, SubjectCredit
+from notices.models import Notice
+from activity_log.models import Activity
 import logging
-import pprint # To remove
 
 LOG = logging.getLogger('app')
+
+
+def index(request):
+    context = {}
+    # Here we show the first five records for:
+    # Notices
+    # TimeTable
+    # Activites
+    # Assignments
+    # Study Materials
+    # Exam Schedule
+    # Exam Hall Plan
+
+    notices = Notice.objects.all().order_by('date')[:5]
+
+    context['notices'] = notices
+    context['activities'] = Activity.objects.all().order_by('date')[:5]
+
+    return render(request, 'index.html', context)
 
 
 @login_required
@@ -159,6 +175,29 @@ def auth_requests(request):
     return render(request, 'auth_requests.html', context)
 
 
+def create_internal_assessment(user):
+    subjects = user.studentinfo.semester.subject_set.all()
+
+    for sub in subjects:
+        metrics = Metric.objects.filter(subject=sub)
+        for m in metrics:
+            smetric = StudentMetric(
+                student=user.studentinfo, subject=sub, metric=m)
+            smetric.marks = 0
+            smetric.save()
+
+
+def create_university_credits(user):
+    subjects = user.studentinfo.semester.subject_set.all()
+
+    for sub in subjects:
+        crd = SubjectCredit.objects.get(subject=sub)
+        smetric = UniversityCredit(
+            student=user.studentinfo, credit=crd)
+        smetric.marks = 0
+        smetric.save()
+
+
 @login_required
 def grant_request(request):
     """
@@ -175,5 +214,18 @@ def grant_request(request):
 
         perms = group.permissions.all()
         user.user_permissions.set(perms)
+
+        LOG.debug("granted user: "+ str(user))
+
+        # Also create University Credits and Internal Assessment records
+        # if user is a student
+        if StudentInfo.objects.filter(user=user).first():
+            # Internal Assessment
+            create_internal_assessment(user)
+       
+            # University Credits
+            create_university_credits(user)
+
+
 
     return HttpResponse("view complete")

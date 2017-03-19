@@ -1,0 +1,89 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Online Discussion
+{% endblock %}
+{% block header_subtitle %}
+For {{ course }}
+{% endblock %}
+
+
+{% block left_sidebar %}
+{{ block.super }}
+
+<div class="panel panel-info">
+<div class="panel-heading">Options</div>
+    <div class="panel-body">
+        {% if course.pk %}
+            <a href="{% url 'create-post' course_pk=course.pk %}">Create New</a>
+        {% endif %}
+        {% if courses %}
+        <ul class="list-group">
+        {% for course in courses %}
+            <li class="list-group-item"><a href="{% url 'create-post' course_pk=course.pk %}">Create New {{ course.short_name }} post </a></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block content %}
+
+{% for post in posts_page %}
+    <div class='panel panel-info'>
+        <div class="panel-body">
+            <h3>{{ post.title }}</h3>
+        </div>
+        <div class="panel-body">
+            <p>{{ post.text|slice:":100" }}...</p>
+        </div>
+
+        
+        <div class="panel-body">
+            <p><i>
+                {% if umperm in post.user.user_permissions.all %}
+                    <strong>(UM)</strong>
+                {% endif %}
+                
+                {% if post.user.facultyinfo %}
+                    <strong>(F)</strong>
+                {% endif %}
+                
+                
+            {{ post.user }} | {{ post.date_created }} | last edit: {{ post.date_updated }}
+            </i></p>
+        </div>
+        <div class="panel-body">
+            {% if request.user == post.user %}
+                <a href="{% url 'edit-post' post_pk=post.pk %}">Edit</a> |
+            {% endif %}
+            <a href="{% url 'post-comments' post_pk=post.pk %}">View Comments</a>
+        </div>
+    </div>
+{% endfor %}
+
+{% if posts_page.has_other_pages %}
+    <ul class="pagination">
+        {% if posts_page.has_previous %}
+            <li><a href="?page={{ posts_page.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in posts_page.paginator.page_range %}
+            {% if posts_page.number == i %}
+                <li class="active"><span>{{ i }}</span></li>
+            {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if posts_page.has_next %}
+            <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}           
+
+{% endif %}
+{% endblock %}
