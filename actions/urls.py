@@ -69,3 +69,7 @@ urlpatterns += [
 urlpatterns += [
     url(r'^online-disussion/', include('online_discussion.urls'))
 ]
+
+urlpatterns += [
+    url(r'^examinations/', include('examinations.urls'))
+]

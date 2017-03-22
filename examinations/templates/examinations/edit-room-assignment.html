@@ -1,0 +1,97 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Edit room assignment for {{ plan_date }}
+{% endblock %}
+
+
+{% block staticfiles %}
+{% load static %}
+{{ block.super }}
+<script src="{% static 'js/edit-room-assignment.js' %}"> </script>
+{% endblock %}
+
+{% block content %}
+{% for plan in plans %}
+{% if form.errors %}
+<div class="alert alert-danger">There are errors in the form: {{ form.errors }}</div>
+{% endif %}
+<form action="{{ request.path }}" id="form-{{ forloop.counter0 }}" class="form-group" method="POST">
+{% csrf_token %}
+    
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Room Name: </strong>
+        </li>
+        <li class="list-group-item">
+            <input type="text" name="room_name" value="{{ plan.room_name }}" required />
+        </li>
+        <li class="list-group-item">
+            <strong>Subject: </strong>
+        </li>
+        <li class="list-group-item">
+            <input type="text" name="subject_name" value="{{ plan.subject_name }}" required />
+        </li>
+        <li class="list-group-item">
+            <strong>Seat Range: </strong>
+        </li>
+        <li class="list-group-item">
+                <input type="number" name="start_seat" min=0 value="{{ plan.start_seat}}" required />
+                 to 
+                <input type="number" name="end_seat" value="{{ plan.end_seat }}" required />
+                <div>Seat range has to be from lower number to higher number</div>
+        </li>
+        
+        
+        <li class="list-group-item">
+            <input type="hidden" name="ra_pk" value="{{ plan.pk }}" />
+            <input type="hidden" name="date" value="{{ plan_date|date:"Y-m-d" }}" />
+            <input type="hidden" name="exam_pk" value="{{ exam.pk }}" />
+            
+            <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Save" />
+            <input type="submit" name="submit" class="btn btn-danger btn-sm" value="Delete" /></li>
+        </li>
+    </ul>
+</form>
+<br />
+{% endfor %}
+
+<!-- new room assn form -->
+<form action="{{ request.path }}" class="form-group" method="POST">
+{% csrf_token %}
+    
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Room Name: </strong>
+        </li>        
+        <li class="list-group-item">
+            <input type="text" name="room_name" />
+        </li>
+        <li class="list-group-item">
+            <strong>Subject: </strong>
+        </li>
+        <li class="list-group-item">
+            <input type="text" name="subject_name" value="{{ plan.subject_name }}" required />
+        </li>
+        <li class="list-group-item">
+            <strong>Seat Range: </strong>
+        </li>
+        <li class="list-group-item">
+                <input type="number" name="start_seat" min=0 required />
+                 to 
+                <input type="number" name="end_seat" required />
+                <div>Seat range has to be from lower number to higher number</div>
+        </li>
+        
+        <li class="list-group-item">
+
+        <input type="hidden" name="date" value="{{ plan_date|date:"Y-m-d" }}" />
+        <input type="hidden" name="exam_pk" value="{{ exam.pk }}" />
+        
+        <input type="submit" name="submit" value="Add New" class="btn btn-info btn-sm" value="Add" /></li>
+        </li>
+        
+    </ul>
+</form>
+
+{% endblock %}

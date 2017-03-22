@@ -221,3 +221,4 @@ class SelectAttendance(SelectCourseSemester):
             return JsonResponse(options)
 
         return render(request, 'attendance/select-attendance.html')
+   

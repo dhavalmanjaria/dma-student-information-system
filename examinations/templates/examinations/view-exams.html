@@ -1,0 +1,43 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Examinations
+{% endblock %}
+
+{% block staticfiles %}
+{% load static %}
+{{ block.super }}
+<!-- Borrow the year thing from the create page -->
+<script src="{% static 'js/create-exam.js' %}"></script>
+{%endblock%}
+
+{% block content %}
+<ul class="list-group">
+{% for exam in exam_list %}
+    <li class="list-group-item">
+    <h3>{{ exam.exam_name }}</h3>
+    </li >
+    <li class="list-group-item">
+        <span class="academic_year">{{ exam.academic_year }}</span>&nbsp;/
+        <span class="next-year"></span>
+        
+    </li>
+    <li class="list-group-item">
+    <a href="{% url 'room-assignments' exam_pk=exam.pk %}">Room Assignments</a>
+    </li>
+    <li class="list-group-item">
+    <a href="#">Time Table</a>
+    </li>
+    <li class="list-group-item">
+        <a href="{% url 'update-exam' pk=exam.pk %}">Edit Exam</a>
+    </li>
+    
+{% endfor %}
+
+</ul>
+{% if perms.user_management.can_write_exam_schedule %}
+    <div class="well">
+        <a href="{% url 'create-exam' %}">Create New Exam</a>    
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Select Room Assignment
+{% endblock %}
+
+
+{% block content %}
+<table class="table">
+{% for room in roomassignment_list %}
+    {{ room }}sel
+{% endfor %}
+</table>
+</form>
+{% endblock %}

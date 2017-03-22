@@ -1,0 +1,42 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Update Examination
+{% endblock %}
+
+{% block staticfiles %}
+{% load static %}
+{{ block.super }}
+<script src="{% static 'js/create-exam.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<form action="{{ request.path }}" method="POST">
+{% csrf_token %}
+<table class="table">
+    <tr>
+        <td>
+            <strong>{{ form.exam_name.label }}: </strong>
+        </td>
+        <td>
+            {{ form.exam_name }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Academic year: </strong>
+        </td>
+        <td>
+            <input type="number" min=1970 class="academic_year" name="academic_year" value="{{ exam.academic_year }}" /> / <span class="next-year"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="submit" class="btn btn-primary" value="Save" />
+        </td>
+    </tr>
+</form>
+</table>
+
+
+{% endblock %}

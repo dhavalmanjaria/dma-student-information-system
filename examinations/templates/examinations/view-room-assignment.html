@@ -1,0 +1,45 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+{{ exam }}
+{% endblock %}
+{% block header_subtitle %}
+Room Assignments 
+{% endblock %}
+
+{% block content %}
+
+{% regroup roomassignment_list by date as room_list %}
+{% for group in room_list %}
+   <div class="panel panel-default">
+    <div class="panel-heading">{{ group.grouper }}</div>
+
+    <div class="panel-body">
+    {% for room in group.list %}
+        <table class="table">
+            <tr>
+                <th>Room Name</th>
+                <th>Subject</th>
+                <th>Starting Seat no.</th>
+                <th>Ending Seat no.</th>
+            </tr>
+            <tr>
+                <td>{{ room.room_name }}</td>
+                <td>{{ room.subject_name }}</td>
+                <td>{{ room.start_seat }}</td>
+                <td>{{ room.end_seat }}</td>
+            </tr>
+        </table>
+    {% endfor %}
+    </div>
+    <div class="panel-body well">
+        <a href="{% url 'edit-room-assignment' exam_pk=exam.pk date=group.grouper|date:"d/m/Y" %}">Edit rooms</a>
+    </div>
+    </div>    
+{% endfor %}
+    {% if perms.user_management.can_write_exam_hall_plan %}
+    <div class="well">
+        <a href="{% url 'select-room-assignment' exam_pk=exam.pk %}">Add Date</a>    
+    </div>
+    {% endif %}
+{% endblock %}
