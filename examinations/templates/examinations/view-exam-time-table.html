@@ -1,0 +1,35 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+{{ exam }}
+{% endblock %}
+{% block header_subtitle %}
+Time Table
+{% endblock %}
+
+{% block content %}
+{% regroup examtimetable_list by subject.semester.course as tt_list %}
+{% for group in tt_list %}
+<div class="panel panel-default">
+    <div class="panel-heading"><strong>{{ group.grouper }}</strong></div>
+    <div class="panel-body">
+        {% for tt in group.list %}
+        <table class="table">
+            <tr>
+                <th>Date</th>
+                <th>Subject</th>
+            </tr>
+            <tr>
+                <td>{{ tt.date }}</td>
+                <td>{{ tt.subject }}</td>
+            </tr>
+        </table>
+        {% endfor %}
+</div>
+{% endfor %}
+{% if perms.user_management.can_write_exam_schedule %}
+    <div class="well">
+        <a href="{% url 'edit-exam-time-table' exam_pk=exam.pk %}">Edit Time Table</a>    
+    </div>
+    {% endif %}
+{% endblock %}

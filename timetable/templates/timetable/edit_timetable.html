@@ -45,12 +45,12 @@
                                 {% for sub in subjects %}
                                     {# This just seems more readable than having an if statement inline #}
                                     {% if cell == sub %}
-                                        <option selected>
+                                        <option value="{{ sub.pk }}" selected>
                                             {{ sub }}
                                         </option>
 
                                         {% else %}
-                                        <option>
+                                        <option value="{{ sub.pk }}" >
                                             {{ sub }}
                                         </option>            
                                     {% endif %}

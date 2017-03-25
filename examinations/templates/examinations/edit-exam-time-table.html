@@ -1,0 +1,109 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Edit Exam Time Table
+{% endblock %}
+
+{% block staticfiles %}
+{{ block.super }}
+
+{% endblock %}
+
+
+{% block content %}
+{% if form.errors %}
+    <div class="alert alert-danger">
+        There are errors in your inputs:
+        {{ form.errors }}
+    </div>
+{% endif %}
+{% for tt in timetables %}
+    <form action="{{ request.path }}" class="form-group" method="POST">
+    {% csrf_token %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Date:</strong>
+        </li>
+        <li class="list-group-item">
+            <input type="text" class="datepicker" name="date" value="{{ tt.date|date:"d/m/Y" }}" />
+        </li>
+        
+        <li class="list-group-item">
+            <strong>Subject:</strong>
+        </li>
+        <li class="list-group-item">
+            <select class="select" name="subject">
+            <option value="">----</option>
+            {{ tt.subject }}
+            {% for course, subject in subjects.items %}
+                <optgroup label="{{ course.short_name }}">
+                    {% for sub in subject %}
+                            
+                        {% if tt.subject  == sub %}
+                            <option value="{{ sub.pk }}" selected >
+                                &nbsp;&nbsp;{{ sub }}
+                            </option>
+                        {% else %}
+                            <option value="{{ sub.pk }}">
+                                &nbsp;&nbsp;{{ sub }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+            </select>
+        </li>
+        <li class="list-group-item">
+            <input type="hidden" name="exam" value="{{ exam.pk }}" />
+            <input type="hidden" name="tt_pk" value="{{ tt.pk }}" />
+            <input type="submit" name="submit" class="btn btn-sm btn-primary" value="Save" />
+            <input type="submit" name="submit" class="btn btn-sm btn-danger" value="Delete" />
+        </li>
+    </ul>
+</form>
+{% endfor %}
+
+
+<!-- new form -->
+<form action="{{ request.path }}" class="form-group" method="POST">
+{% csrf_token %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Date:</strong>
+        </li>
+        <li class="list-group-item">
+            <input type="text" class="datepicker" name="date" />
+        </li>
+        
+        <li class="list-group-item">
+            <strong>Subject:</strong>
+        </li>
+        <li class="list-group-item">
+            <select class="select" name="subject">
+            <option value="">----</option>
+            {% for course, subject in subjects.items %}
+                <optgroup label="{{ course.short_name }}">
+                    {% for sub in subject %}
+                        {{ tt.subject }}
+                        {% if tt.subject.name  == sub %}
+                            <option value="{{ sub.pk }}" selected >
+                                &nbsp;&nbsp;{{ sub }}
+                            </option>
+                        {% else %}
+                            <option value="{{ sub.pk }}">
+                                &nbsp;&nbsp;{{ sub }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+            </select>
+        </li>
+        <li class="list-group-item">
+            <input type="submit" name="submit" class="btn btn-sm btn-info" value="Add New" />
+
+            <input type="hidden" name="exam" value="{{ exam.pk }}" />
+        </li>
+    </ul>
+</form>
+{% endblock %}

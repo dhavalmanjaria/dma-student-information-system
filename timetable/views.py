@@ -41,7 +41,7 @@ class SelectTimeTable(SelectCourseSemester):
         for sub in subjects:
             sem = str(sub.semester)
             course_name = sub.semester.course.short_name
-            options[course_name][sem].append((sub.pk, sub.name))
+            options[course_name][sem].append((sub.pk, sub))
 
         return options
 
@@ -106,7 +106,7 @@ def _get_timetable(semester):
 
         for t in times:
             try:
-                row += [x.subject.name for x in TimeTable.objects.filter(
+                row += [x.subject for x in TimeTable.objects.filter(
                     day_of_week=d, start_time=t)]
             except AttributeError as at:
                 LOG.debug("_get_timetable():" + str(at))
@@ -166,13 +166,13 @@ def edit_timetable(request, pk):
 
                 tt = TimeTable.objects.get(
                     semester=semester, day_of_week=d, start_time=t)
-                tt.subject = Subject.objects.get(name=sub)
+                tt.subject = Subject.objects.get(pk=sub)
                 tt.save()
 
         return redirect('view-timetable', pk=semester.pk)
 
     context = {}
-    context['subjects'] = [s.name for s in semester.subject_set.all()]
+    context['subjects'] = [s for s in semester.subject_set.all()]
     context['timetable'] = timetable
     context['times'] = times
     context['formatted_times'] = [datetime.strptime(t, "%H%M") for t in times]

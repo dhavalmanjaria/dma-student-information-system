@@ -26,7 +26,7 @@ Examinations
     <a href="{% url 'room-assignments' exam_pk=exam.pk %}">Room Assignments</a>
     </li>
     <li class="list-group-item">
-    <a href="#">Time Table</a>
+    <a href="{% url 'view-exam-time-table' exam_pk=exam.pk %}">Time Table</a>
     </li>
     <li class="list-group-item">
         <a href="{% url 'update-exam' pk=exam.pk %}">Edit Exam</a>

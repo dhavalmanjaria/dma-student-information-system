@@ -8,6 +8,14 @@ urlpatterns = [
         name='room-assignments')
 ]
 
+
+urlpatterns += [
+    url(r'^view-exam-time-table/(?P<exam_pk>[\d]+)',
+        views.TimeTableList.as_view(),
+        name='view-exam-time-table')
+]
+
+
 urlpatterns += [
     url(r'^$',
         views.ExamListView.as_view(), name='view-exams')
@@ -32,4 +40,10 @@ urlpatterns += [
 urlpatterns += [
     url(r'edit-room-assignment/(?P<exam_pk>[\d]+)/(?P<date>[\d]{2}/[\d]{2}/[\d]{4})$',
         views.edit_room_assignment, name='edit-room-assignment')
+]
+
+
+urlpatterns += [
+    url(r'edit-exam-time-table/(?P<exam_pk>[\d]+)$',
+        views.edit_exam_time_table, name='edit-exam-time-table')
 ]

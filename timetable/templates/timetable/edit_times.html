@@ -1,7 +1,25 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Edit subject lecture start times
+{% endblock %}
+{% block header_subtitle %}
+Edit the starting times for lectures for all days. (Excluding breaks) 
+{% endblock %}
+
+
+{% block left_sidebar %}
+{{ block.super }}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <a href="{% url 'view-timetable' pk=semester.pk %}">View TimeTable</a>
+    </div>
+</div>
+{% endblock %}
 
 {% block staticfiles %}
 {% load static %}
+{{ block.super }}
 <link rel="stylesheet" href="{% static 'css/input.css' %}" />
 <script src="{% static 'js/validate.js' %}"></script>
 {% endblock %}

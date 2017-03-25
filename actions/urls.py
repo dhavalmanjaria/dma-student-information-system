@@ -67,7 +67,7 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'^online-disussion/', include('online_discussion.urls'))
+    url(r'^online-discussion/', include('online_discussion.urls'))
 ]
 
 urlpatterns += [

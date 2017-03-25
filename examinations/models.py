@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from curriculum.models import Subject
 
 
 class Exam(models.Model):
@@ -20,8 +21,8 @@ class Exam(models.Model):
 
 class ExamTimeTable(models.Model):
     exam = models.ForeignKey(Exam, null=True)
-    subject = models.CharField(max_length=200)
-    date = models.DateField()
+    subject = models.ForeignKey(Subject)
+    date = models.DateField(null=True)
 
     def __str__(self):
         return "%s %s %s" % (self.exam.exam_name,
@@ -37,7 +38,7 @@ class RoomAssignment(models.Model):
     end_seat = models.IntegerField()
     exam = models.ForeignKey(Exam, null=True)
     subject_name = models.CharField(max_length=200, null=True, blank=True)
-    date = models.DateField()
+    date = models.DateField(null=True)
 
     def __str__(self):
         return "%s %s - %s on %s" % (self.room_name,
