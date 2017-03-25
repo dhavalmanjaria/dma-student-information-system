@@ -48,7 +48,10 @@
             </table>
         </div>
         <div class="panel-body">
-            <a href="{% url 'create-notice' %}"> Create Notice </a>
+            {% if perms.user_management.can_write_notices %}
+
+                <a href="{% url 'create-notice' %}"> Create Notice </a>
+            {% endif %}
         </div>
 
     </div>

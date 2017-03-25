@@ -10,7 +10,7 @@ class NoticesListView(generic.ListView):
     paginate_by = 10
     model = Notice
 
-class CreateNotice(generic.edit.CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+class CreateNotice(LoginRequiredMixin, PermissionRequiredMixin, generic.edit.CreateView):
     model = Notice
     fields = '__all__'
     success_url = reverse_lazy('notices')
@@ -26,7 +26,7 @@ class NoticeDetailView(generic.DetailView):
     model = Notice
 
 
-class UpdateNotice(generic.UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
+class UpdateNotice(LoginRequiredMixin, PermissionRequiredMixin,  generic.edit.CreateView):
     model = Notice
     fields = '__all__'
 
