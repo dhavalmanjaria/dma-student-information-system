@@ -1,7 +1,14 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Register
+{% endblock %}
+{% block header_subtitle %}
+Please enter your details to register into the system.
+{% endblock %}
 
 {% block staticfiles %}
-
+{{ block.super }}
 {% load static %}
 <script src="{% static 'js/load_form.js' %}"></script>
 <script src="{% static 'js/add_form_classes.js' %}"></script>

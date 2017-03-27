@@ -4,6 +4,12 @@
 Create a new notice
 {% endblock %}
 
+{% block als_body %}
+    <li class="list-group-item">
+        <a href="{% url 'notices' %}">All Notices</a>
+    </li>
+{% endblock %}
+
 {% block content %}
     <div class="panel panel-info">
         {# <div class="panel-heading"><strong>Edit Notice</strong></div> #}

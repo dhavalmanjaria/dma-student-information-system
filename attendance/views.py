@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from .models import Attendance
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
 from curriculum.models import Semester
 from timetable.models import TimeTable
 from collections import OrderedDict
@@ -28,6 +30,7 @@ MONTHS = {
     12: 'December'
 }
 
+
 def get_faculty_subject_list(request):
     """
     This function returns the subject that a user can edit / view attendance
@@ -46,7 +49,8 @@ def get_faculty_subject_list(request):
 
     return subjects
 
-
+@login_required
+@permission_required('user_management.can_read_attendance')
 def get_student_attendance_list(request):
 
     requested_month = request.GET.get('month')
@@ -103,7 +107,8 @@ def get_student_attendance_list(request):
                   'attendance/student-attendance-list.html', context)
 
 
-
+@login_required
+@permission_required('user_management.can_read_attendance')
 def get_semester_attendance_list(request, pk, date):
     """
     This view returns the attendance for a particular
@@ -151,7 +156,8 @@ def get_semester_attendance_list(request, pk, date):
 
     return render(request, 'attendance/attendance-list.html', context)
 
-
+@login_required
+@permission_required('user_management.can_read_attendance')
 def save_attendance_list(request, pk, date):
     """
     This view is designed mostly to take a POST object and save whatever the
@@ -197,7 +203,10 @@ def save_attendance_list(request, pk, date):
                              pk = semester.pk, date=(str(date.date())))
 
 
-class SelectAttendance(SelectCourseSemester):
+class SelectAttendance(LoginRequiredMixin, PermissionRequiredMixin,
+                       SelectCourseSemester):
+
+    permission_required = ('user_management.can_read_attendance')
 
     def post(self, request):
 
@@ -216,6 +225,7 @@ class SelectAttendance(SelectCourseSemester):
     def get(self, request):
 
         options = super(SelectAttendance, self).get_options(request)
+        LOG.debug(options)
 
         if request.is_ajax():
             return JsonResponse(options)

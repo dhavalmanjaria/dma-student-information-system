@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import RoomAssignment, Exam, ExamTimeTable
 from django.core.urlresolvers import reverse_lazy
 from .forms import RoomAssignmentForm, ExamTimeTableForm
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, edit
 from curriculum.models import Subject, Course
 from datetime import datetime
@@ -11,24 +12,35 @@ LOG = logging.getLogger('app')
 
 
 class ExamListView(ListView):
+    """
+    Shows list of all examinations with the lastest one on first.
+    """
     template_name = 'examinations/view-exams.html'
     model = Exam
 
 
-class UpdateExam(edit.UpdateView):
+class UpdateExam(LoginRequiredMixin, PermissionRequiredMixin, edit.UpdateView):
+    """
+    Update the name and academic year of an exisiting examination. That is,
+    only the name and academic year.
+    """
     template_name = 'examinations/update-exam.html'
     model = Exam
     fields = '__all__'
 
     success_url = reverse_lazy('view-exams')
 
+    permission_required = ('user_management.can_write_exam_schedule', )
 
-class CreateExam(edit.CreateView):
+
+class CreateExam(LoginRequiredMixin, PermissionRequiredMixin, edit.CreateView):
     template_name = 'examinations/create-exam.html'
     model = Exam
     fields = '__all__'
 
     success_url = reverse_lazy('view-exams')
+
+    permissions_required = ('user_management.can_write_exam_schedule', )        
 
     def get_context_data(self, **kwargs):
         context = super(CreateExam, self).get_context_data(**kwargs)

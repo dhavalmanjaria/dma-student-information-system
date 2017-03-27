@@ -26,8 +26,8 @@
         {% for fac in faculty %}
             <tr class="facinfo-row" >
                 <td>{{ fac.user.basicinfo.serial_no }}</td>
-                <td>{{ fac.user.first_name }}</td>
-                <td>{{ fac.user.last_name }}</td>
+                <td>{{ fac }}</td>
+                <td>{{ fac.course }}</td>
                 <td>
                     <form action="{{ request.path }}" method="POST">
                         {%csrf_token %}

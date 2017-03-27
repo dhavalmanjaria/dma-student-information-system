@@ -9,6 +9,17 @@
     {% endblock %}
 {% endblock %}
 
+{% block als_body %}
+<li class="list-group-item">
+    {% if auth %}
+        <a href="{% url 'edit-metrics' pk=subject.pk %}">Edit Metrics</a>
+    {% endif %}
+</li>
+<li class="list-group-item">
+    <a href="{% url 'select-internal-assessment' %}">Select Subject</a>
+</li>
+{% endblock %}
+
 {% block content %}
 <h3>{{ subject }}</h3>
     <table class="table">
@@ -36,8 +47,6 @@
         {% endfor %}
     </table>
 
-    {% if auth %}
-        <a class="btn btn-danger" href="{% url 'edit-metrics' pk=subject.pk %}">Edit</a>
-    {% endif %}
+
     
 {% endblock %}

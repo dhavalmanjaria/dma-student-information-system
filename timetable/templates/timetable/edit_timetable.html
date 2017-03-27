@@ -1,20 +1,24 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
 
-{% block left_sidebar %}
-<ul class="list-group">
-<li class="list-group-item">
-    <a class="btn" href="{% url 'view-timetable' pk=semester.pk %}">View Timetable</a>
-</li>
-<li class="list-group-item">
-    <a class="btn" href="{% url 'edit-times' pk=semester.pk %}">Edit Times</a>
-</li>
-<li class="list-group-item">
-    <a class="btn btn-info btn-sm" href="{% url 'edit-days' pk=semester.pk day='add' %}">Add New Day</a>
-</li>
-<li class="list-group-item">
-    <a class="btn btn-danger btn-sm" href="{% url 'edit-days' pk=semester.pk day='remove' %}">Delete Last Day</a>
-</li>
-</ul>
+{% block header_title %}
+Edit Time Table for {{ semester }}
+{% endblock %}
+
+{% block additional_left_sidebar %}
+    <ul class="list-group">
+    <li class="list-group-item">
+        <a class="btn" href="{% url 'view-timetable' pk=semester.pk %}">View Timetable</a>
+    </li>
+    <li class="list-group-item">
+        <a class="btn" href="{% url 'edit-times' pk=semester.pk %}">Edit Times</a>
+    </li>
+    <li class="list-group-item">
+        <a class="btn btn-info btn-sm" href="{% url 'edit-days' pk=semester.pk day='add' %}">Add New Day</a>
+    </li>
+    <li class="list-group-item">
+        <a class="btn btn-danger btn-sm" href="{% url 'edit-days' pk=semester.pk day='remove' %}">Delete Last Day</a>
+    </li>
+    </ul>
 {% endblock %}
 
 {% block content %}

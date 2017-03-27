@@ -25,7 +25,9 @@ For {{ semester }}
         <td>{{ crd }}</td>
     {% endfor %}
     <td>
+        {% if perms.user_management.can_write_university_credits %}
         <a href="{% url 'edit-credits-for-student' std_pk=student.pk %}">Edit</a>
+        {% endif %}
     </td>
 </tr>
 {% endfor %}

@@ -33,7 +33,9 @@ Room Assignments
     {% endfor %}
     </div>
     <div class="panel-body well">
-        <a href="{% url 'edit-room-assignment' exam_pk=exam.pk date=group.grouper|date:"d/m/Y" %}">Edit rooms</a>
+        {% if perms.user_management.can_write_exam_hall_plan %}
+            <a href="{% url 'edit-room-assignment' exam_pk=exam.pk date=group.grouper|date:"d/m/Y" %}">Edit rooms</a>
+        {% endif %}
     </div>
     </div>    
 {% endfor %}

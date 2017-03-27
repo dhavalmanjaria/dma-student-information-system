@@ -101,8 +101,7 @@ class ActivityUpdate(UpdateView, LoginRequiredMixin,
 
     form_class = CreateActivityForm
 
-    class Meta:
-        permission_required = ('user_management.can_write_activity_log', )
+    permission_required = ('user_management.can_write_activity_log', )
 
 
 class ActivityDetail(DetailView):

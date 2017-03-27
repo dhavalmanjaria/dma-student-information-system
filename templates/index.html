@@ -26,6 +26,10 @@
                 <div class="panel-body">
                     <a href="{% url 'user-detail' pk=user.id%}">My Profile</a>
                 </div>
+                <div class="panel-body">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                </div>
+            
             
             {% else %}
 
@@ -85,7 +89,7 @@
             <div class="panel-heading"><strong>Time Table</strong></div>
             <div class="panel-body">
                 <table class="table table-striped">
-                    <a href="{% url 'semester-timetables' %}">View All Time Tables</a>
+                    <a href="{% url 'select-timetable' %}">View All Time Tables</a>
                 </table>
             </div>
         </div>
@@ -112,19 +116,11 @@
                     </tr>
                 {% endfor %}
                 </table>
-                <a class="btn btn-danger" href="{% url 'select-activity' %}">View All</a>
+                <a  href="{% url 'select-activity' %}">View All</a>
             </div>
             
         </div>
 
-        <div id="assignments" class="panel panel-info">
-            <div class="panel-heading"><strong>Assignments</strong></div>
-            <div class="panel-body">
-                <table class="table table-striped">
-                    <a href="{% url 'select-assignment' %}">Select class to view assignments</a>
-                </table>
-            </div>
-        </div>
         <div id="StudyMaterials" class="panel panel-info">
             <div class="panel-heading"><strong>Study Materials</strong></div>
                 <div class="panel-body">
@@ -133,19 +129,20 @@
                     </table>
                 </div>
             </div>
-        <div id="ExamSchedule" class="panel panel-info">
-            <div class="panel-heading"><strong>Exam Schedule</strong></div>
+        <div id="Examinations" class="panel panel-info">
+            <div class="panel-heading"><strong>Examination Schedules and Hall Plans</strong></div>
             <div class="panel-body">
-                <table class="table table-striped">
-                        
-                </table>
-            </div>
-        </div>
-        <div id="ExamHallPlan" class="panel panel-info">
-            <div class="panel panel-info">
-                <div class="panel-heading"><strong>Exam Hall Plan</strong></div>
-                <div class="panel-body">
-                    <table class="table table-striped">
+                <table class="table">
+                    <tr>
+                        <th>{{ exams.exam_name }}</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="{% url 'room-assignments' exam_pk=exams.pk %}">Room Assignments</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'view-exam-time-table' exam_pk=exams.pk %}">Time Table</a>
+                        </td>
 
                 </table>
             </div>

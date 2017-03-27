@@ -120,31 +120,6 @@ class UserDetailView(generic.detail.DetailView, LoginRequiredMixin):
         return context
 
 
-# To be removed
-# @login_required
-# @permission_required('user_management.can_write_subject_faculty')
-# def select_subject(request):
-
-#     context = {}
-
-#     courses = Course.objects.all()
-
-#     context['courses'] = {}
-
-#     for c in courses:
-#         context['courses'][c.short_name] = []
-
-#         semesters = Semester.objects.filter(course=c)
-#         subjects = []
-#         for sem in semesters:
-#             subjects.append([sub for sub in sem.subject_set.all()])
-#         for s in subjects:
-#             context['courses'][c.short_name].append(s)
-
-
-#     return render(request, 'user_management/edit_subject_faculty.html',
-#                   context)
-
 class SelectSubjectForFaculty(SelectCourseSemester,
                               LoginRequiredMixin,
                               PermissionRequiredMixin):

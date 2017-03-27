@@ -1,35 +1,44 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
 
-{% block pageheader %}
-<div id="page-header">
-    <div class="container"><h1 class="display-3">{{ notice.title }}</h1>
-        <hr style="border-top: 1px solid; border-color: white;" />
-        <p class="lead">
-        Priority: {{ notice.get_priority_display }}
-        </p>
-    </div>
-</div>
+{% block header_title %}
+{{ notice.title }}
+{% endblock %}
+{% block header_subtitle %}
+    Priority: {{ notice.get_priority_display }}
 {% endblock %}
 
-{% block content %}
-<div class="panel panel-info">
-    <div class="panel-body">
-        <h2><strong>To:</strong></h2>
-        <h3><p>{{ notice.addressed_to }}</p></h3>
+{% block additional_left_sidebar %}
+    <li class="list-group-item">
+        <strong>Options</strong>
+    </li>
+    <li class="list-group-item">
+    {% if perms.user_management.can_write_notices %}
+        <p><a href="{% url 'update-notice' pk=notice.pk %}">Edit Notice</a></p>
+    {% endif %}
+    </li>
+    <li class="list-group-item">
+        <a href="{% url 'notices' %}">All Notices</a>
+    </li>
 
+{% endblock %}
 
-        <h2><strong>Date:</strong></h2>
-        <h3><p>{{ notice.date }}</p></h3>
-
-        <br />
-        <h3><p>{{ notice.text }}</p></h3>
-
-        <h2><strong>Other Details:</strong></h2>
-        <h3>{{ notice.other_details }}</h3>
-
-        <h2><strong>Signed By:</strong></h2>
-        <h3>{{ notice.signed_by }}</h3>
-
-    </div>
+{% block content %} 
+<ul class="list-group">
+            <li class="list-group-item"><strong>Title: </strong>{{ notice.title }}</li>
+            <li class="list-group-item"><strong>Date: </strong>{{ notice.date }}</li>
+            <li class="list-group-item"><strong>Priority: </strong>{{ notice.get_priority_display }}</li>
+            <li class="list-group-item"><strong>Description: </strong>
+                {{ notice.text }}
+            </li>
+            <li class="list-group-item"><strong>Other Details: </strong>
+                {{ notice.other_details }}
+            </li>
+            <li class="list-group-item">
+                {% if perms.user_management.can_write_notices %}
+                    <td><a href="{% url 'update-notice' pk=notice.pk %}">Edit</a> </td>
+                {% endif %}
+            </li>
+            
+        </ul>
 </div>
 {% endblock %}

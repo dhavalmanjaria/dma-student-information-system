@@ -1,9 +1,24 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
 
+{% block header_title %}
+Attendance for {{ semester }}
+{% endblock %}
+{% block header_subtitle %}
+{{ date }}
+
+{% endblock %}
 {% block staticfiles %}
+    {{ block.super }}
     {% load static %}
 
     <script src="{% static 'js/attendance-list.js' %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock %}
+
+
+{% block als_body %}
+    <li class="list-group-item">
+        <a href="{% url 'select-attendance' %}">Select Attendance</a>
+    </li>
 {% endblock %}
 
 {% block content %}

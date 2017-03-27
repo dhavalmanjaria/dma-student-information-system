@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import TimeTable
 from curriculum.models import Course, Semester, Subject
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 import logging
 from datetime import datetime
 from collections import OrderedDict
@@ -13,11 +13,15 @@ LOG = logging.getLogger('app')
 
 
 class SelectTimeTable(SelectCourseSemester):
+    """
+    Select the semester to view the time table of. 
+    """
 
     def post(self, request):
         semester = request.POST.get('semester')
 
-        semester = [sem for sem in Semester.objects.all() if str(sem) == semester][0]
+        semester = super(SelectTimeTable, self).get_semester_from_post(
+            request)
 
         LOG.debug(semester)
 
@@ -41,7 +45,7 @@ class SelectTimeTable(SelectCourseSemester):
         for sub in subjects:
             sem = str(sub.semester)
             course_name = sub.semester.course.short_name
-            options[course_name][sem].append((sub.pk, sub))
+            options[course_name][sem].append((sub.pk, str(sub)))
 
         return options
 
@@ -66,6 +70,10 @@ def select_semester(request):
 
 
 def _get_weekday(d):
+    """
+    Simple function to get the name of a weekday. Numbering based on
+    date.isoweek().
+    """
     weekdays = {
         1: 'Monday',
         2: 'Tuesday',
@@ -79,6 +87,10 @@ def _get_weekday(d):
 
 
 def _get_sorted_times(semester):
+    """
+    Private function to get the starting times for each time table object
+    in a sorted order
+    """
     times = [x.start_time for x in TimeTable.objects.filter(
         semester=semester)]
 
@@ -87,12 +99,20 @@ def _get_sorted_times(semester):
 
 
 def _get_sorted_days(semester):
+    """
+    Private function to get the days starting from Monday, for each time table
+    object in a sorted order.
+    """
     return set(
         [x.day_of_week for x in TimeTable.objects.filter(
             semester=semester).order_by('day_of_week')])
 
 
 def _get_timetable(semester):
+    """
+    Get subjects for each day (sorted), on each time (sorted) for the current
+    semester as an OrderedDict(), i.e. a proper Time Table.
+    """
     days = _get_sorted_days(semester)
     times = [x.start_time for x in TimeTable.objects.filter(
         semester=semester)]
@@ -141,6 +161,7 @@ def view_timetable(request, pk):
 
 
 @login_required
+@permission_required('user_management.can_write_time_table')
 def edit_timetable(request, pk):
     """
     Edit a time table. Note: The success of this function relies heavily on
@@ -182,6 +203,7 @@ def edit_timetable(request, pk):
 
 
 @login_required
+@permission_required('user_management.can_write_time_table')
 def edit_times(request, pk):
     semester = Semester.objects.get(pk=pk)
     context = {}

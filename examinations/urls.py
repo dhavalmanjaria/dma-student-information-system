@@ -15,7 +15,7 @@ urlpatterns += [
         name='view-exam-time-table')
 ]
 
-
+# See comment in view
 urlpatterns += [
     url(r'^$',
         views.ExamListView.as_view(), name='view-exams')

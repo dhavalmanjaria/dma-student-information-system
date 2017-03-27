@@ -4,6 +4,13 @@
 Notices
 {% endblock %}
 
+{% block als_body %}
+
+    <li class="list-group-item">
+        <a href="{% url 'notices' %}">All Notices</a>
+    </li>
+{% endblock %}
+
 <form action="" method="POST">
 {% csrf_token %}
     {{ form.as_p }}

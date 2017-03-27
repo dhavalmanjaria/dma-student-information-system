@@ -10,6 +10,15 @@
 Edit Metrics for {{ subject.name }}
 {% endblock %}
 
+{% block als_body %}
+<li class="list-group-item">
+    <a href="{% url 'student-metric-table' subject_pk=subject.pk %}">View Internal Assessment</a>
+</li>
+<li class="list-group-item">
+    <a href="{% url 'select-internal-assessment' %}">Select Subject</a>
+</li>
+{% endblock %}
+
 {% block content %}
 {% for metric in metrics %}
 <form action="{{ request.path }}" id="form-{{forloop.counter0}}" class="form-group metric-form" method="POST">

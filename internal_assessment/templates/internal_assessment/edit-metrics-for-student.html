@@ -1,15 +1,30 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
 
 {% block staticfiles %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/internal-assessment.css' %}" />
 {% endblock %}
 
+{% block header_title %}
+    {{ student }}
+{% endblock %}
+{% block header_subtitle %}
+{{ subject }}
+{% endblock %}
+
+{% block als_body %}
+<li class="list-group-item">
+    <a href="{% url 'student-metric-table' subject_pk=subject.pk %}">View Internal Assessment</a>
+</li>
+<li class="list-group-item">
+    {% if auth %}
+        <a href="{% url 'edit-metrics' pk=subject.pk %}">Edit Metrics</a>
+    {% endif %}
+</li>
+{% endblock %}
+
+
 {% block content %}
-
-<h4>Student: <strong>{{ student.user.first_name }} {{ student.user.last_name }}</strong></h4>
-<h4>Subject: <strong>{{ subject }} </strong></h4>
-
 {% for smetric in student_metrics %}
 <form action="{{ request.path }}" id="form-{{forloop.counter0}}" class="form-group metric-form" method="POST">
 {% csrf_token %}
@@ -19,7 +34,7 @@
     </li>
     <li class="list-group-item">
         <input name="max_marks" type="hidden" class="metric-input" value="{{ smetric.metric.max_marks }}"/>
-        <input name="marks" type="number" max="{{ smetric.metric.max_marks }}" min=0 required class="metric-input" value="{{ smetric.marks }}"/> / {{ smetric.metric.max_marks }}
+        <input name="marks" type="number" max="{{ smetric.metric.max_marks }}" min=0 required  value="{{ smetric.marks }}"/> / <span>{{ smetric.metric.max_marks }}</span>
     </li>
     
     <input type="hidden" name="metric_pk" value="{{ smetric.metric.pk }}" />

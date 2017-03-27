@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
 
 {% block staticfiles %}
     {% load static %}
@@ -21,37 +21,6 @@
         </div>
 {% endblock %}
 
-
-{% block left_sidebar %}
-    <div class="sidebar-nav">
-        <div id="notices" class="panel panel-info">
-            <div class="panel-heading"><strong>Actions</strong></div>
-            {% if user.is_authenticated %}
-                <div class="panel-body">
-                    <a href="{% url 'user-detail' pk=user.id%}">My Profile</a>
-                </div>
-                <div class="panel-body">
-                   <a href="{% url 'dashboard' %}">Dashboard</a>
-                </div>
-                <div class="panel-body">
-                   <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">Logout</a>
-                </div>
-                
-            {% else %}
-                <div class="panel-body">
-                 
-                    <p>You must log in to view actions</p>
-                    <br />
-                    <a class="btn btn-link" href="{% url 'login' %}">Login</a>
-                    <a class="btn btn-link" href="{% url 'register' %}">Register</a>
-
-                </div>
-
-            {% endif %}
-            
-        </div>
-    </div>
-{% endblock %}
 
 {% block content %}
 <table class="table">

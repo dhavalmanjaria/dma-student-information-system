@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from user_management.models.auth_requests import AuthenticationRequest
-from user_management.models.group_info import StudentInfo
+from user_management.models.group_info import StudentInfo, FacultyInfo
 from curriculum.models import Course, Semester, Subject
 from django.views import View
 from internal_assessment.models import StudentMetric, Metric
 from university_credits.models import UniversityCredit, SubjectCredit
 from notices.models import Notice
+from examinations.models import Exam
 from activity_log.models import Activity
 import logging
 
@@ -29,6 +30,7 @@ def index(request):
 
     context['notices'] = notices
     context['activities'] = Activity.objects.all().order_by('date')[:5]
+    context['exams'] = Exam.objects.first()
 
     return render(request, 'index.html', context)
 
@@ -82,7 +84,9 @@ class SelectCourseSemester(View):
         user = request.user
         subjects = []
         try:
-            if user.facultyinfo is not None:  # User is faculty
+            LOG.debug(user)
+            # User is faculty
+            if FacultyInfo.objects.filter(user=user).first():
                 subjects = Subject.objects.filter(faculty=user.facultyinfo)
 
             # I'm trying to avoid checking if the user is assigned to a group
@@ -94,14 +98,16 @@ class SelectCourseSemester(View):
                 # Subjects they teach
                 subjects = set([s for s in Subject.objects.filter(
                     faculty=user.facultyinfo)])
+
                 # But also all subjects in their course
                 courses = [user.facultyinfo.course, ]
-                for s in Subject.objects.filter(semester__course_in=course):
+                for s in Subject.objects.filter(
+                        semester__course__in=courses):
                     subjects.add(s)
                 LOG.debug(subjects)
 
         except Exception as ex:
-            pass  # User has no facultyinfo
+            LOG.debug(str(ex))
 
         # User is Upper Management level
         if user.has_perm('user_management.can_auth_FacultyHOD'):
@@ -109,12 +115,13 @@ class SelectCourseSemester(View):
             subjects = Subject.objects.all()
 
         try:
-            if user.studentinfo is not None:  # User is student
+            if StudentInfo.objects.filter(
+                    user=user).first() is not None:  # User is student
                 LOG.debug("user: " + str(user.studentinfo))
                 semester = user.studentinfo.semester
                 subjects = Subject.objects.filter(semester=semester)
-        except:
-            pass  # User has no studentinfo
+        except Exception as ex:
+            LOG.debug(str(ex))
 
         semesters = set(Semester.objects.filter(subject__in=subjects))
         courses = set(Course.objects.filter(semester__in=semesters))
@@ -132,6 +139,7 @@ class SelectCourseSemester(View):
             sem = str(sub.semester)
             course_name = sub.semester.course.short_name
             options[course_name][sem].append((sub.pk, sub.name))
+
 
         return options
 
@@ -176,6 +184,10 @@ def auth_requests(request):
 
 
 def create_internal_assessment(user):
+    """
+    Saves internal assessment for a particular student. Used internally to
+    create internal assessment for a newly registered user.
+    """
     subjects = user.studentinfo.semester.subject_set.all()
 
     for sub in subjects:
@@ -188,6 +200,10 @@ def create_internal_assessment(user):
 
 
 def create_university_credits(user):
+    """
+    Saves university credtis for a particular student. Used internally to
+    create university credits for a newly registered user.
+    """
     subjects = user.studentinfo.semester.subject_set.all()
 
     for sub in subjects:

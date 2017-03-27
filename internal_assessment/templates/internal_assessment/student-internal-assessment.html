@@ -7,6 +7,12 @@ Student Metrics
 View your metrics for {{ subject }}
 {% endblock %}
 
+{% block als_body %}
+<li class="list-group-item">
+    <a href="{% url 'select-internal-assessment' %}">Select Subject</a>
+</li>
+{% endblock %}
+
 {% block content %}
     <table class="table table-striped">
             <tr>

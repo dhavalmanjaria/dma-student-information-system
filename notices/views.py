@@ -10,25 +10,26 @@ class NoticesListView(generic.ListView):
     paginate_by = 10
     model = Notice
 
-class CreateNotice(LoginRequiredMixin, PermissionRequiredMixin, generic.edit.CreateView):
+class CreateNotice(LoginRequiredMixin, PermissionRequiredMixin,
+                   generic.edit.CreateView):
     model = Notice
     fields = '__all__'
     success_url = reverse_lazy('notices')
 
+    permission_required = ('user_management.can_write_notices', )
+
     def get_queryset(self):
         return Notice.objects.all().order_by(date)
-
-    class Meta:
-        permissions_required = ('can_write_notices', )
 
 
 class NoticeDetailView(generic.DetailView):
     model = Notice
 
 
-class UpdateNotice(LoginRequiredMixin, PermissionRequiredMixin,  generic.edit.CreateView):
+class UpdateNotice(LoginRequiredMixin, PermissionRequiredMixin,
+                   generic.edit.UpdateView):
     model = Notice
+
     fields = '__all__'
 
-    class Meta:
-        permissions_required = ('can_write_notices', )
+    permission_required = ('user_management.can_write_notices', )

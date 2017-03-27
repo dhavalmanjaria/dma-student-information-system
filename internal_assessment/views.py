@@ -126,6 +126,7 @@ def edit_metrics_for_student(request, std_pk, sub_pk):
 
     context['subject'] = subject
     context['student'] = student
+    context['auth'] = _get_auth(request, subject)
 
     if request.method == "POST":
         metric_pk = request.POST.get('metric_pk')

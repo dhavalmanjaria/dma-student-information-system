@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from actions.views import SelectCourseSemester
 from django.http import JsonResponse
 from .models import Assignment
-from curriculum.models import Semester, Subject
+from curriculum.models import Semester, Subject, Course
 from django.views.generic import DetailView, ListView, UpdateView
 from django.views import View
 from django.contrib.auth.decorators import login_required, permission_required
@@ -14,7 +14,7 @@ import logging
 LOG = logging.getLogger('app')
 
 
-class SelectAssignment(SelectCourseSemester):
+class SelectAssignment(LoginRequiredMixin, SelectCourseSemester):
     """
     This view represents the select-course-semester page for assignments.
     """
@@ -28,11 +28,10 @@ class SelectAssignment(SelectCourseSemester):
 
         return redirect('assignment-list', subject_pk=subject.pk)
 
-
     def get(self, request):
 
         context = {}
-        options = super().get_options(request)
+        options = super(SelectAssignment, self).get_options(request)
 
         if request.is_ajax():
                 return JsonResponse(options)

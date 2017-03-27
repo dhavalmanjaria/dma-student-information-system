@@ -8,13 +8,8 @@ Edit the starting times for lectures for all days. (Excluding breaks)
 {% endblock %}
 
 
-{% block left_sidebar %}
-{{ block.super }}
-<div class="panel panel-default">
-    <div class="panel-body">
-        <a href="{% url 'view-timetable' pk=semester.pk %}">View TimeTable</a>
-    </div>
-</div>
+{% block als_body %}
+    <a href="{% url 'view-timetable' pk=semester.pk %}">View TimeTable</a>
 {% endblock %}
 
 {% block staticfiles %}
