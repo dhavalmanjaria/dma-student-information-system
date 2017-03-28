@@ -132,6 +132,7 @@
         <div id="Examinations" class="panel panel-info">
             <div class="panel-heading"><strong>Examination Schedules and Hall Plans</strong></div>
             <div class="panel-body">
+                {% if exams %}
                 <table class="table">
                     <tr>
                         <th>{{ exams.exam_name }}</th>
@@ -145,6 +146,7 @@
                         </td>
 
                 </table>
+                {% endif %}
             </div>
         </div>
     </div>
