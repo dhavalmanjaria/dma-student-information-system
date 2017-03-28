@@ -1,0 +1,10 @@
+{% extends "base-action-page.html" %}
+
+{% block als_body %}
+<li class="list-group-item">
+    <a href="{% url 'select-credits' %}">Select Semester</a>
+</li>
+<li class="list-group-item">
+    <a href="{% url 'all-university-credits' semester_pk=semester.pk %}">View University Credits</a>
+</li>
+{% endblock %}

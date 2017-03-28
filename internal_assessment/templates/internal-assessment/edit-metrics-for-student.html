@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-internal-assessment.html" %}
 
 {% block staticfiles %}
     {% load static %}
@@ -12,16 +12,6 @@
 {{ subject }}
 {% endblock %}
 
-{% block als_body %}
-<li class="list-group-item">
-    <a href="{% url 'student-metric-table' subject_pk=subject.pk %}">View Internal Assessment</a>
-</li>
-<li class="list-group-item">
-    {% if auth %}
-        <a href="{% url 'edit-metrics' pk=subject.pk %}">Edit Metrics</a>
-    {% endif %}
-</li>
-{% endblock %}
 
 
 {% block content %}

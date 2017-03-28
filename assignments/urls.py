@@ -12,22 +12,22 @@ urlpatterns += [
 
 
 urlpatterns += [
-    url(r'^assignment-list/(?P<subject_pk>[\d]+)',
+    url(r'^all-assignments/(?P<subject_pk>[\d]+)',
         views.AssignmentList.as_view(),
-        name='assignment-list')
+        name='all-assignments')
 ]
 
 urlpatterns += [
-    url(r'^assignment-detail/(?P<pk>[\d]+)',
+    url(r'^view-assignment/(?P<pk>[\d]+)',
         views.AssignmentDetail.as_view(),
-        name='assignment-detail')
+        name='view-assignment')
 ]
 
 
 urlpatterns += [
-    url(r'^assignment-update/(?P<pk>[\d]+)',
+    url(r'^update-assignment/(?P<pk>[\d]+)',
         views.AssignmentUpdate.as_view(),
-        name='assignment-update')
+        name='update-assignment')
 ]
 
 

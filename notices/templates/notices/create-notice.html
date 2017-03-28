@@ -10,9 +10,10 @@ Notices
         <a href="{% url 'notices' %}">All Notices</a>
     </li>
 {% endblock %}
-
+{% block content_body %}
 <form action="" method="POST">
 {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Save" />
 </form>
+{% endblock %}

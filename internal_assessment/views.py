@@ -105,7 +105,7 @@ def edit_metrics(request, pk):
 
     context['metrics'] = metrics
 
-    return render(request, 'internal_assessment/edit-metrics.html', context)
+    return render(request, 'internal-assessment/edit-metrics.html', context)
 
 
 @login_required
@@ -139,7 +139,7 @@ def edit_metrics_for_student(request, std_pk, sub_pk):
         smetric.save()
 
     return render(
-        request, 'internal_assessment/edit-metrics-for-student.html', context)
+        request, 'internal-assessment/edit-metrics-for-student.html', context)
 
 
 @login_required
@@ -180,7 +180,7 @@ def student_metric_table(request, subject_pk):
         return redirect('edit-metrics', pk=subject.pk)
 
     else:
-        return render(request, 'internal_assessment/student-metric-table.html',
+        return render(request, 'internal-assessment/all-internal-assessment.html',
                       context)
 
 
@@ -200,7 +200,7 @@ def get_student_internal_assessment(request, subject_pk):
     context['student_metrics'] = student_metrics
 
     return render(request,
-                  'internal_assessment/student-internal-assessment.html',
+                  'internal-assessment/view-student-internal-assessment.html',
                   context)
 
 class SelectInternalAssessment(SelectCourseSemester):
@@ -219,11 +219,11 @@ class SelectInternalAssessment(SelectCourseSemester):
         # student_metric = StudentMetric.objects.filter(subject=subject)
         
         if StudentInfo.objects.filter(user=request.user).first():
-            return redirect('student-internal-assessment',
+            return redirect('view-student-internal-assessment',
                             subject_pk=subject.pk)
 
         return redirect(
-            'student-metric-table', subject_pk=subject.pk)
+            'all-internal-assessment', subject_pk=subject.pk)
         
 
     def get(self, request):
@@ -236,5 +236,5 @@ class SelectInternalAssessment(SelectCourseSemester):
             return JsonResponse(options)
 
         return render(
-            request, 'internal_assessment/select-internal-assessment.html')
+            request, 'internal-assessment/select-internal-assessment.html')
 

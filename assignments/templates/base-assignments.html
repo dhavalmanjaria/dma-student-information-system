@@ -1,0 +1,10 @@
+{% extends "base-action-page.html" %}
+
+{% block als_body %}
+    <li class="list-group-item">
+        <a href="{% url 'all-assignments' subject_pk=subject.pk %}">View Assignments</a>
+    </li>
+    <li class="list-group-item">
+        <a href="{% url 'select-assignment' %}">Select Subject</a>
+    </li>
+{% endblock %}

@@ -4,29 +4,42 @@
 Activities for {{ semester }}
 {% endblock %}
 
+
+{% block als_body %}
+    <li class="list-group-item">
+        <a href="{% url 'select-activity' %}">Select Semester</a>
+    </li>
+{% endblock %}
+
+<!-- content -->
 {% block content %}
-
-
-<table class="table">
-<tr>
-    <th>Title</th>
-    <th>Date</th>
-    <th>Description</th>
-    <th>Conductor</th>
-</tr>
-{% for activity in activity_list %}
+<div class="panel panel-info">
+<div class="panel-heading"><strong>Activties</strong></div>
+<div class="panel-body">
+    <table class="table">
     <tr>
-        <td> {{ activity.title }} </td>
-        <td> {{ activity.date }} </td>
-        <td> {{ activity.description|slice:":20" }}... </td>
-        <td> {{ activity.conductor }} </td>
-        <td><a href="{% url 'activity-detail' pk=activity.pk %}">View</a> </td>
-                {% if perms.user_management.can_write_activity_log %}
-                    <td><a href="{% url 'activity-update' pk=activity.pk %}">Edit</a> </td>
-                {% endif %}
+        <th>Title</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Conductor</th>
     </tr>
-{% endfor %}
-</table>
+    {% for activity in activity_list %}
+        <tr>
+            <td> {{ activity.title }} </td>
+            <td> {{ activity.date }} </td>
+            <td> {{ activity.description|slice:":20" }}... </td>
+            <td> {{ activity.conductor }} </td>
+            <td><a href="{% url 'activity-detail' pk=activity.pk %}">View</a> </td>
+                    {% if perms.user_management.can_write_activity_log %}
+                        <td><a href="{% url 'activity-update' pk=activity.pk %}">Edit</a> </td>
+                    {% endif %}
+        </tr>
+        {% empty %}
+    <p>No activities have been created for this semester.</p>
+    {% endfor %}
+    </table>
+</div>
+</div>
 
 {% if perms.user_management.can_write_activity_log %}
     <a href="{% url 'create-activity' semester_pk=semester.pk %}">Create Activity</a> 

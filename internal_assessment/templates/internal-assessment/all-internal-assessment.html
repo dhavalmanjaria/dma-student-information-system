@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-internal-assessment.html" %}
 
 {% block page_header %}
     {% block header_title %}
@@ -20,9 +20,11 @@
 </li>
 {% endblock %}
 
-{% block content %}
-<h3>{{ subject }}</h3>
-    <table class="table">
+{% block content_heading %}
+OS
+{% endblock %}
+{% block content_body %}
+    <table class="table table-striped">
         <tr>
             <th>
                 Student    
@@ -44,6 +46,8 @@
                 {% endif %}
                 
         </tr>
+        {% empty %}
+        <p>No metrics exist for this subject.</p>
         {% endfor %}
     </table>
 

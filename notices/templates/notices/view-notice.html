@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-notices.html" %}
 
 {% block header_title %}
 {{ notice.title }}
@@ -7,22 +7,17 @@
     Priority: {{ notice.get_priority_display }}
 {% endblock %}
 
-{% block additional_left_sidebar %}
-    <li class="list-group-item">
-        <strong>Options</strong>
-    </li>
+{% block als_body %}
     <li class="list-group-item">
     {% if perms.user_management.can_write_notices %}
         <p><a href="{% url 'update-notice' pk=notice.pk %}">Edit Notice</a></p>
     {% endif %}
     </li>
-    <li class="list-group-item">
-        <a href="{% url 'notices' %}">All Notices</a>
-    </li>
-
+    {{ block.super }}
 {% endblock %}
 
-{% block content %} 
+{% block content %}
+<div class="panel panel-info">
 <ul class="list-group">
             <li class="list-group-item"><strong>Title: </strong>{{ notice.title }}</li>
             <li class="list-group-item"><strong>Date: </strong>{{ notice.date }}</li>
@@ -40,5 +35,6 @@
             </li>
             
         </ul>
+</div>
 </div>
 {% endblock %}

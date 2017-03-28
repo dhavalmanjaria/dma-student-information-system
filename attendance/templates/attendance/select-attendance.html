@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "select-course-semester.html" %}
 
 
 {% block header_title %}
@@ -10,14 +10,8 @@ Select the course, semester and the day to view attendance for.
 {% endblock %}
 
 
-{% block staticfiles %}
 
-{% load static %}
-{{ block.super }}
-<script src="{% static 'js/select-attendance.js' %}" type="text/javascript" charset="utf-8" async defer></script>
-{% endblock %}
-
-{% block content %}
+{% block content_body %}
 <table class="table">
 <form id="select-form" class="form-group" action="{% url 'select-attendance' %}" method="POST">
 {% csrf_token %}

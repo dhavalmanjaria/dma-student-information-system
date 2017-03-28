@@ -7,6 +7,14 @@
 {{ activity.semester }} activity</div>
 {% endblock %}
 
+{% block als_body %}
+<li class="list-group-item">
+		<a href="{% url 'activity-list' semester_pk=activity.semester.pk %}">All
+				Activities</a>
+{% endblock %}
+</li>
+{% endblock %
+
 {% block content %}
         <ul class="list-group">
             <li class="list-group-item"><strong>Title: </strong>{{ activity.title }}</li>

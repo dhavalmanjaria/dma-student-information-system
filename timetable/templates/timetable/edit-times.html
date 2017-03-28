@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-timetable.html" %}
 
 {% block header_title %}
 Edit subject lecture start times
@@ -9,7 +9,12 @@ Edit the starting times for lectures for all days. (Excluding breaks)
 
 
 {% block als_body %}
+<li class="list-group-item">
     <a href="{% url 'view-timetable' pk=semester.pk %}">View TimeTable</a>
+</li>
+<li class="list-group-item">
+    <a href="{% url 'select-timetable' %}">Select Semester</a>
+</li>
 {% endblock %}
 
 {% block staticfiles %}

@@ -1,0 +1,23 @@
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+Student University Credits 
+{% endblock %}
+
+{% block content_body %}
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Credits</th>
+        </tr>
+        <tr>
+        {% for credit in credits %}
+            <tr>
+                <td>{{ credit.credit.subject }}</td>
+                <td>{{ credit.marks }}</td>
+            </tr>
+        {% endfor %}
+        </tr>
+    </table>
+{% endblock %}
+

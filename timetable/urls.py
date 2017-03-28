@@ -21,6 +21,6 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'^edit-days/(?P<pk>[\d]+)/(?P<day>[-\w]+)', views.edit_days,
+    url(r'^edit-days/(?P<pk>[\d]+)/(?P<add_rem>[-\w]+)', views.edit_days,
         name='edit-days')
 ]

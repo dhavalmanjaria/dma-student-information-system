@@ -1,0 +1,16 @@
+{% extends "base-action-page.html" %}
+
+{% block als_body %}
+<li class="list-group-item">
+    <a href="{% url 'all-internal-assessment' subject_pk=subject.pk %}">View Internal Assessment</a>
+</li>
+<li class="list-group-item">
+    {% if auth %}
+        <a href="{% url 'edit-metrics' pk=subject.pk %}">Edit Metrics</a>
+    {% endif %}
+</li>
+<li class="list-group-item">
+    <a href="{% url 'select-internal-assessment' %}">Select Subject</a>
+</li>
+
+{% endblock %}

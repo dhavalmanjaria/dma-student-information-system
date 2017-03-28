@@ -7,14 +7,14 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'^student-metric-table/(?P<subject_pk>[\d]+)', views.student_metric_table,
-        name='student-metric-table')
+    url(r'^all-internal-assessment/(?P<subject_pk>[\d]+)', views.student_metric_table,
+        name='all-internal-assessment')
 ]
 
 urlpatterns += [
     url(r'^student-internal-assessment/(?P<subject_pk>[\d]+)',
         views.get_student_internal_assessment,
-        name='student-internal-assessment')
+        name='view-student-internal-assessment')
 ]
 
 urlpatterns += [

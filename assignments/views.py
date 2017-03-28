@@ -8,7 +8,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .forms import CreateAssignmentForm
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 LOG = logging.getLogger('app')
@@ -26,7 +26,7 @@ class SelectAssignment(LoginRequiredMixin, SelectCourseSemester):
 
         context['subject'] = subject
 
-        return redirect('assignment-list', subject_pk=subject.pk)
+        return redirect('all-assignments', subject_pk=subject.pk)
 
     def get(self, request):
 
@@ -42,6 +42,8 @@ class SelectAssignment(LoginRequiredMixin, SelectCourseSemester):
 
 class AssignmentList(ListView):
     model = Assignment
+
+    template_name = 'assignments/all-assignments.html'
 
     def get(self, request, subject_pk, *args, **kwargs):
         # subject_pk = self.kwargs['subject']
@@ -73,7 +75,8 @@ def create_assignment(request, subject_pk):
     subject = Subject.objects.get(pk=subject_pk)
     LOG.debug(subject)
 
-    form = CreateAssignmentForm(initial={'due_date': datetime.now().date()})
+    form = CreateAssignmentForm(
+        initial={'due_date': datetime.now() + timedelta(days=1)})
     context = {}
     context['subject'] = subject
     context['form'] = form
@@ -91,9 +94,9 @@ def create_assignment(request, subject_pk):
                               due_date=due_date, title=title)
             assn.save()
 
-            return redirect('assignment-list', subject_pk=subject_pk)
+            return redirect('all-assignments', subject_pk=subject_pk)
 
-    return render(request, 'assignments/assignment_form.html', context)
+    return render(request, 'assignments/create-assignment.html', context)
 
 
 class AssignmentUpdate(UpdateView, LoginRequiredMixin,
@@ -102,12 +105,16 @@ class AssignmentUpdate(UpdateView, LoginRequiredMixin,
     model = Assignment
     form_class = CreateAssignmentForm
 
+    template_name = 'assignments/update-assignment.html'
+
     class Meta:
         permission_required = ('user_management.can_write_assignments', )
 
 
 class AssignmentDetail(DetailView):
     model = Assignment
+
+    template_name = 'assignments/view-assignment.html'
 
     def get_context_data(self, **kwargs):
         context = super(AssignmentDetail, self).get_context_data(**kwargs)

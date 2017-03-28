@@ -27,33 +27,9 @@ class SelectTimeTable(SelectCourseSemester):
 
         return redirect('view-timetable', pk=semester.pk)
 
-    # Override options to return all options for all users
-    def get_options(self, request):
-        subjects = Subject.objects.all()
-        semesters = set(Semester.objects.filter(subject__in=subjects))
-        courses = set(Course.objects.filter(semester__in=semesters))
-
-        options = {}
-
-        for c in courses:
-            options[c.short_name] = {}
-        for sem in semesters:
-            course_name = sem.course.short_name
-            # options[course_name][(sem.pk, str(sem))] = []
-            options[course_name][str(sem)] = []
-
-        for sub in subjects:
-            sem = str(sub.semester)
-            course_name = sub.semester.course.short_name
-            options[course_name][sem].append((sub.pk, str(sub)))
-
-        return options
-
-        LOG.debug(options)
-
     def get(self, request):
 
-        options = self.get_options(request)
+        options = super(SelectTimeTable, self).get_options(request, all=True)
 
         if request.is_ajax():
                 return JsonResponse(options)
@@ -127,7 +103,7 @@ def _get_timetable(semester):
         for t in times:
             try:
                 row += [x.subject for x in TimeTable.objects.filter(
-                    day_of_week=d, start_time=t)]
+                    day_of_week=d, start_time=t, semester=semester)]
             except AttributeError as at:
                 LOG.debug("_get_timetable():" + str(at))
                 row += [None for x in TimeTable.objects.filter(
@@ -153,11 +129,11 @@ def view_timetable(request, pk):
     context['formatted_times'] = [datetime.strptime(t, "%H%M") for t in times]
 
     user = request.user
-    if semester.course.hod == user or user.has_perm('user_management.can_auth_FacultyHOD'):
+    if semester.course.hod == user or user.has_perm(
+            'user_management.can_auth_FacultyHOD'):
         context['edit'] = True
 
-
-    return render(request, 'timetable/view_timetable.html', context)
+    return render(request, 'timetable/view-timetable.html', context)
 
 
 @login_required
@@ -192,6 +168,10 @@ def edit_timetable(request, pk):
 
         return redirect('view-timetable', pk=semester.pk)
 
+    if request.method == "GET":
+        if not timetable:
+            return redirect('edit-times', pk=semester.pk)
+
     context = {}
     context['subjects'] = [s for s in semester.subject_set.all()]
     context['timetable'] = timetable
@@ -199,7 +179,7 @@ def edit_timetable(request, pk):
     context['formatted_times'] = [datetime.strptime(t, "%H%M") for t in times]
     context['semester'] = semester
 
-    return render(request, 'timetable/edit_timetable.html', context)
+    return render(request, 'timetable/edit-timetable.html', context)
 
 
 @login_required
@@ -266,11 +246,12 @@ def edit_times(request, pk):
     context['semester'] = semester
 
     context['formatted_times'] = [datetime.strptime(t, "%H%M") for t in times]
-    return render(request, 'timetable/edit_times.html', context)
+    return render(request, 'timetable/edit-times.html', context)
 
 
 @login_required
-def edit_days(request, pk, day):
+@permission_required('user_management.can_write_time_table')
+def edit_days(request, pk, add_rem):
     semester = Semester.objects.get(pk=pk)
     context = {}
     context['semester'] = semester
@@ -290,7 +271,7 @@ def edit_days(request, pk, day):
         if len(times) < 1:
             return redirect('edit-times', pk=semester.pk)
 
-        add_rem = request.GET.get('day')
+        add_rem = request.GET.get('add_rem')
 
         if day == 'add':
             for t in times:

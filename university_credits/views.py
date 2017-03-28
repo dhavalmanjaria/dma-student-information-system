@@ -42,7 +42,7 @@ class SelectCredits(View):
             # Return student-university-credits
             pass
 
-        return redirect('credits-list', semester_pk=semester.pk)
+        return redirect('all-university-credits', semester_pk=semester.pk)
 
 
 @login_required
@@ -67,6 +67,7 @@ def edit_credits_for_semester(request, semester_pk):
     LOG.debug(credits)
 
     context['credits'] = credits
+    context['semester'] = semester
 
 
     return render(
@@ -108,6 +109,8 @@ def edit_credits_for_student(request, std_pk):
         request, 'university-credits/edit-credits-for-student.html', context)
 
 
+@login_required
+@permission_required('user_management.can_read_university_credits')
 def get_credit_list(request, semester_pk):
     context = {}
 
@@ -137,5 +140,34 @@ def get_credit_list(request, semester_pk):
 
     return render(
         request,
-        'university-credits/student-university-credits-table.html',
+        'university-credits/all-university-credits.html',
+        context)
+
+
+@login_required
+@permission_required('user_management.can_read_university_credits')
+def get_student_credit_list(request):
+    context = {}
+
+    if StudentInfo.objects.filter(user=request.user).first():
+        student = request.user.studentinfo
+    else:
+        return redirect('dashboard')
+
+    credits = UniversityCredit.objects.filter(
+        student=student)
+
+    credits_dict = {}
+
+    context['credits'] = credits
+
+    subjects = Subject.objects.filter(semester=student.semester)
+    context['subjects'] = subjects
+
+    for sub in subjects:
+        LOG.debug(sub)
+
+    return render(
+        request,
+        'university-credits/view-student-credits.html',
         context)

@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-online-discussion.html" %}
 
 {% block header_title %}
 Online Discussion
@@ -8,14 +8,12 @@ For {{ course }}
 {% endblock %}
 
 
-{% block left_sidebar %}
+{% block als_body %}
 {{ block.super }}
 
-<div class="panel panel-info">
-<div class="panel-heading">Options</div>
-    <div class="panel-body">
+
         {% if course.pk %}
-            <a href="{% url 'create-post' course_pk=course.pk %}">Create New</a>
+            <li class="list-group-item"><a href="{% url 'create-post' course_pk=course.pk %}">Create New</a></li>
         {% endif %}
         {% if courses %}
         <ul class="list-group">
@@ -24,8 +22,6 @@ For {{ course }}
         {% endfor %}
         </ul>
         {% endif %}
-    </div>
-</div>
 
 {% endblock %}
 

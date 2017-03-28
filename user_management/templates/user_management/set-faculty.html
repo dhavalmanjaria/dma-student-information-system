@@ -10,11 +10,18 @@
 {% block header_subtitle %}
 Current: <strong>{{ subject.faculty }}  </strong>
 {% endblock %}
-{% block content %}
+
+{% block als_body %}
+<li class="list-group-item">
+<a href="{% url 'select-subject' %}">Select Subject</a>
+</li>
+{% endblock %}
+
+{% block content_body %}
     
     <h3>Change Faculty for <strong>{{ subject.name }}</strong></h3>
     <p>Current: <strong>{{ subject.faculty }}  </strong></p>
-    <table id="factable" class="table">
+    <table id="factable" class="table table-striped">
         <tr>
             <th>Sr. No.</th>
             <th>Name</th>

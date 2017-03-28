@@ -1,21 +1,34 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
+
+{% block header_title %}
+{{ assignment.subject }} assignment
+{% endblock %}
+{% block header_subtitle %}
+{{ assignment.title }}
+{% endblock %}
+
+{% block als_body %}
+    <li class="list-group-item">
+        <a href="{% url 'all-assignments' subject_pk=assignment.subject.pk %}">View Assignments</a>
+    </li>
+    <li class="list-group-item">
+        <a href="{% url 'select-assignment' %}">Select Subject</a>
+    </li>
+{% endblock %}
 
 {% block content %}
 <div class="panel panel-info">
-    <div class="panel-heading"><strong>{{ assignment.subject }}</strong> assignment</div>
-    <div class="panel-body">
         <ul class="list-group">
             <li class="list-group-item"><strong>Title: </strong>{{ assignment.title }}</li>
             <li class="list-group-item"><strong>Due Date: </strong>{{ assignment.due_date }}</li>
             <li class="list-group-item"><strong>Description: </strong>{{ assignment.description }}</li>
             <li class="list-group-item">
                 {% if perms.user_management.can_write_assignments %}
-                    <td><a href="{% url 'assignment-update' pk=assignment.pk %}">Edit</a> </td>
+                    <td><a href="{% url 'update-assignment' pk=assignment.pk %}">Edit</a> </td>
                 {% endif %}
             </li>
             
         </ul>
-    </div>
 </div>
 
 {% endblock %}

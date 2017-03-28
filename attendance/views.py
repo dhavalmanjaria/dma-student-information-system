@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from .models import Attendance
+from user_management.models.group_info import StudentInfo
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from curriculum.models import Semester
@@ -104,7 +105,7 @@ def get_student_attendance_list(request):
     context['curr_month_name'] = MONTHS[current_month]
 
     return render(request,
-                  'attendance/student-attendance-list.html', context)
+                  'attendance/view-student-attendance.html', context)
 
 
 @login_required
@@ -154,10 +155,10 @@ def get_semester_attendance_list(request, pk, date):
     context['subjects'] = [lect.subject.name for lect in lecture_list]
     context['faculty_subjects'] = faculty_subjects
 
-    return render(request, 'attendance/attendance-list.html', context)
+    return render(request, 'attendance/all-attendance.html', context)
 
 @login_required
-@permission_required('user_management.can_read_attendance')
+@permission_required('user_management.can_write_attendance')
 def save_attendance_list(request, pk, date):
     """
     This view is designed mostly to take a POST object and save whatever the
@@ -218,7 +219,7 @@ class SelectAttendance(LoginRequiredMixin, PermissionRequiredMixin,
         context['semester'] = semester
 
         date = datetime.strptime(request.POST.get('date'), "%d/%m/%Y")
-
+   
         return redirect('attendance-list', pk=semester.pk, date=(
             str(date.date())))
 

@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-notices.html" %}
 
 {% block staticfiles %}
     {% load static %}
@@ -16,12 +16,12 @@
 </div>
 {% endblock %}
 
-{% block content %}
-    <div class="panel panel-info">
-        <div class="panel-heading">Notices</div>
-        <div class="panel-body table-responsive">
-            <table class="table ">
-            <tr>
+{% block content_heading %}
+Notices
+{% endblock %}
+{% block content_body %}
+    <table class="table table-striped">
+        <tr>
                 <th>Date</th>
                 <th>Title</th>
                 <th>Text</th>
@@ -44,32 +44,18 @@
                 </td>
                 {% endif %}
             </tr>
+            {% empty %}
+            <p>No notices have been created.</p>
         {% endfor %}
             </table>
-        </div>
 
+{% endblock %}
 
-    </div>
-    <div class="well">
+{% block other_content %}
+<div class="well">
         {% if perms.user_management.can_write_notices %}
-
             <a href="{% url 'create-notice' %}"> Create Notice </a>
         {% endif %}
     </div>
-    <div class="">
-            {% if is_paginated %}
-            <div class="pagination">
-                <span class="page-links">
-                {% if page_obj.has_previous %}
-                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Prev</a>                
-                {% endif %}
-                <span class="page-current">
-                    {{ page_obj.number}}
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Next</a>         
-                {% endif %}
-            </div>
-            {% endif %}
-        </div>
+    
 {% endblock %}

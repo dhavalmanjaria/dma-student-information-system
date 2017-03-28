@@ -7,7 +7,7 @@ University Credits
 For {{ semester }}
 {% endblock %}
 
-{% block content %}
+{% block content_body %}
 
 <table class="table table-striped">
 <tr>
@@ -34,8 +34,14 @@ For {{ semester }}
 </table>
 
 
-{% if perms.user_management.can_auth_Faculty %}
+
+{% endblock %}
+{% block other_content %}
+<div class="panel">
+<div class="panel-body">
+{% if perms.user_management.can_write_university_credits %}
 <a href="{% url 'edit-credits-for-semester' semester_pk=semester.pk %}">Edit Subject Credits for Semester</a>
 {% endif %}
-
+</div>
+</div>
 {% endblock %}

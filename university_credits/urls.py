@@ -8,9 +8,15 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'^credits-list/(?P<semester_pk>[\d]+)$',
+    url(r'^all-university-credits/(?P<semester_pk>[\d]+)$',
         views.get_credit_list,
-        name='credits-list')
+        name='all-university-credits')
+]
+
+urlpatterns += [
+    url(r'^view-student-credits/',
+        views.get_student_credit_list,
+        name='view-student-credits')
 ]
 
 

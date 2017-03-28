@@ -13,7 +13,7 @@ urlpatterns += [
 
 urlpatterns += [
     url(r'^create-activity/(?P<semester_pk>[\d]+)',
-        views.create_assignment,
+        views.create_activity,
         name='create-activity')
 ]
 

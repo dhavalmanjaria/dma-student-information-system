@@ -1,11 +1,5 @@
 {% extends "base-action-page.html" %}
 
-{% block staticfiles %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/select_attendance.css' %}" />
-    <script src="{% static 'js/select-course-semester.js' %}"></script>
-{% endblock %}
-
 {% block pageheader %}
         <div id="page-header">
             <div class="container"><h1 class="display-3">
@@ -22,7 +16,7 @@
 {% endblock %}
 
 
-{% block content %}
+{% block content_body %}
 <table class="table">
 <form id="select-form" class="form-group" action="{% block form_url %}{{ request.path }}{% endblock %}" method="POST">
 {% csrf_token %}

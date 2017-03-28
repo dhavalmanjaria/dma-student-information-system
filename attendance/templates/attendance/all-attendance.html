@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-attendance.html" %}
 
 {% block header_title %}
 Attendance for {{ semester }}
@@ -15,16 +15,9 @@ Attendance for {{ semester }}
 {% endblock %}
 
 
-{% block als_body %}
-    <li class="list-group-item">
-        <a href="{% url 'select-attendance' %}">Select Attendance</a>
-    </li>
-{% endblock %}
-
-{% block content %}
+{% block content_body %}
 {# {% url 'save-attendance-list' pk=semester.pk date=date %} #}
-    <div id="alert-div" class="alert alert-success" style="display: none">
-    </div>
+    
     <form action="{% url 'save-attendance-list' pk=semester.pk date=date %}" method="POST" id="save-form">
     {% csrf_token %}
     <table class="table table-striped">
@@ -64,9 +57,14 @@ Attendance for {{ semester }}
     <script>
     $(function () {
         $("#save-button").click(function (event) {
-            $("#alert-success").html("Attendance saved!");
-            $("#alert-success").css('display', '');
+            $("#alert-div").html("Attendance saved!");
+            $("#alert-div").css('display', '');
         })
     })
     </script>
+{% endblock %}
+
+{% block other_content %}
+<div id="alert-div" class="alert alert-success" style="display: none">
+    </div>
 {% endblock %}

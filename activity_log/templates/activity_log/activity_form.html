@@ -6,6 +6,13 @@ Create Activity for {{ semester }}
 {% endblock %}
 {% block content %}
 
+{% block als_body %}
+<li class="list-group-item">
+		<a href="{% url 'activity-list' semester_pk=activity.semester.pk %}">All
+				Activities
+        </a>
+{% endblock %}
+
 <table class="table">
     <form action="" method="POST">
     {% csrf_token %}

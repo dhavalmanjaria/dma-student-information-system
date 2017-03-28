@@ -1,0 +1,44 @@
+{% extends "base-assignments.html" %}
+
+{% block header_title %}
+Assignments for {{ subject }}
+{% endblock %}
+{% block header_subtitle %}
+{{ subject.semester }}
+{% endblock %}
+
+{% block content_heading %}
+Assignments
+{% endblock %}
+{% block content_body %}
+<table class="table table-striped"> 
+<tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Due Date</th>
+</tr>
+{% for assn in assignment_list %}
+    <tr>
+        <td>{{ assn.title }}</td>
+        <td>{{ assn.description|slice:":20"}}...</td>
+        <td>{{ assn.due_date }}</td>
+        <td><a href="{% url 'view-assignment' pk=assn.pk %}">View</a> </td>
+        {% if perms.user_management.can_write_assignments %}
+            <td><a href="{% url 'update-assignment' pk=assn.pk %}">Edit</a> </td>
+        {% endif %}
+        
+    </tr>
+    {% empty %}
+    <p>No assignments for this subject.</p>
+{% endfor %}
+</table>
+
+{% endblock %}
+
+{% block other_content %}
+{% if perms.user_management.can_write_assignments %}
+    
+<a class="btn btn-info" href="{% url 'create-assignment' subject_pk=subject.pk %}">Create new</a>
+
+{% endif %}
+{% endblock %}

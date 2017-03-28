@@ -1,0 +1,17 @@
+{% extends "base-notices.html" %}
+
+{% block header_title %}
+Update notice
+{% endblock %}
+
+
+{% block content_body %}
+         <form action="{{ request.path }}" method="POST">
+            <table class="table">
+            {% csrf_token %}
+                {{ form.as_table }}
+            </table>
+
+                <input class="btn btn-primary" type="submit" value="Update" />
+            </form>
+{% endblock %}

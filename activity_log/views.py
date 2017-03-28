@@ -32,7 +32,7 @@ class SelectActivity(SelectCourseSemester):
     def get(self, request):
 
         context = {}
-        options = super().get_options(request)
+        options = super(SelectActivity, self).get_options(request, all=True)
 
         if request.is_ajax():
                 return JsonResponse(options)
@@ -61,7 +61,7 @@ class ActivityList(ListView):
 
 @login_required
 @permission_required('user_management.can_write_activity_log')
-def create_assignment(request, semester_pk):
+def create_activity(request, semester_pk):
     """
     Simple view to acreate activity. Similar to the create_assignment view
     """
@@ -100,6 +100,8 @@ class ActivityUpdate(UpdateView, LoginRequiredMixin,
     model = Activity
 
     form_class = CreateActivityForm
+
+    template_name = 'activity_log/activity_update_form.html'
 
     permission_required = ('user_management.can_write_activity_log', )
 

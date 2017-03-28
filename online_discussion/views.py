@@ -25,7 +25,7 @@ def view_posts(request):
 
     # User is a student
     if StudentInfo.objects.filter(user=user).first():
-        course = user.semester.course
+        course = user.studentinfo.semester.course
 
     posts = Post.objects.filter(course=course)
 
@@ -91,7 +91,7 @@ def create_post(request, course_pk):
 
 
 @login_required
-@permission_required('user_management.can_read_online_discussion')
+@permission_required('user_management.can_write_online_discussion')
 def post_comments(request, post_pk):
     context = {}
     context['umperm'] = Permission.objects.get(codename='can_auth_FacultyHOD')

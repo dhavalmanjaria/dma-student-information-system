@@ -1,0 +1,22 @@
+{% extends "base-assignments.html" %}
+
+{% block als_body %}
+    <li class="list-group-item">
+        <a href="{% url 'all-assignments' subject_pk=assignment.subject.pk %}">View Assignments</a>
+    </li>
+{% endblock %}
+
+{% block content_body %}
+<table class="table">
+<form action="" method="POST">
+{% csrf_token %}
+    {{ form.as_table }}
+
+</table>
+{% endblock %}
+{% block other_content %}
+
+    <input class="btn btn-primary" type="submit" value="Update" />
+
+</form>
+{% endblock %}

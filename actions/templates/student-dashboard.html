@@ -20,33 +20,47 @@
             <tr>
                 <td><strong>Notices</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'notices' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'notices' %}">GO</a>
                 </td>
             </tr>
             <tr>
                 <td><strong>My Attendance</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'student-attendance-list' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'view-student-attendance' %}">GO</a>
                 </td>
             </tr>
              <tr>
                 <td><strong>My Internal Assessment</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-internal-assessment' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'select-internal-assessment' %}">GO</a>
                 </td>
             </tr>
             <tr>
-                <td><strong>My Time Table</strong></td>
+                <td><strong>My University Credits</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'semester-timetables' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'view-student-credits' %}">GO</a>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Time Table</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'select-timetable' %}">GO</a>
                 </td>
             </tr>
             <tr>
                 <td><strong>Assignments</strong></td>
                 <td>
-                    <a class="btn btn-info" href="{% url 'select-assignment' %}">View</a>
+                    <a class="btn btn-info" href="{% url 'select-assignment' %}">GO</a>
                 </td>
             </tr>
+            <tr>
+                <td><strong>Online Discussion</strong></td>
+                <td>
+                <a class="btn btn-info" href="{% url 'view-posts' %}">GO</a>
+                </td>
+
+            </tr>
+
         </table>
     </div>
 </div>

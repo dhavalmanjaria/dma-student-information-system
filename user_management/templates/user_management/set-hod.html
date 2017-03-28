@@ -9,15 +9,21 @@
     Select a Faculty to set them as the HOD for that course.
 {% endblock %}
 
+{% block als_body %}
+<li class="list-group-item">
+    <a href="{% url 'select-hod-course' %}">Select Course</a>
+</li>
+{% endblock %}
+
 {% block staticfiles %}
 {{ block.super }}
 {% endblock %}
 
-{% block content %}
+{% block content_body %}
     
     <h3>Change Faculty for <strong>{{ course }} </strong></h3>
     <p>Current: <strong>{{ course.hod }}  </strong></p> 
-    <table id="factable" class="table">
+    <table id="factable" class="table table-striped">
         <tr>
             <th>Sr. No.</th>
             <th>Name</th>

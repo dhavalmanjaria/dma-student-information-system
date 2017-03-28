@@ -8,9 +8,9 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'^student-attendance-list',
+    url(r'^view-student-attendance',
         views.get_student_attendance_list,
-        name='student-attendance-list')
+        name='view-student-attendance')
 ]
 
 

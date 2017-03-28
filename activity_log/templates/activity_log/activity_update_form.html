@@ -1,10 +1,18 @@
-{% extends "base_generic.html" %}
+{% extends "base-action-page.html" %}
+
+{% block als_body %}
+<li class="list-group-item">
+		<a href="{% url 'activity-list' semester_pk=activity.semester.pk %}">All
+				Activities</a>
+{% endblock %}
 
 {% block content %}
-<form action="{% url 'activity-detail' pk=activity.pk %}" method="POST">
-{% csrf_token %}
-    {{ form.as_p }}
 
-    <input type="submit" value="Update" />
-</form>
+    <form action="{% url 'activity-detail' pk=activity.pk %}" method="POST">
+    {% csrf_token %}
+        {{ form.as_p }}
+
+    <input class="btn btn-primary" type="submit" value="Update" />
+    </form>
+</div>
 {% endblock %}

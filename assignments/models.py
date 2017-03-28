@@ -17,4 +17,5 @@ class Assignment(models.Model):
         return self.title + ", " + self.subject.name + ", due: " + str(self.due_date)
 
     def get_absolute_url(self):
-        return reverse('assignment-detail', args=[self.id])
+        return reverse('view-assignment', args=[self.id])
+

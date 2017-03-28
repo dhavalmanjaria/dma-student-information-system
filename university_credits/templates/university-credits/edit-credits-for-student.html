@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-university-credits.html" %}
 
 {% block header_title %}
 Edit Student Credits 
@@ -7,7 +7,16 @@ Edit Student Credits
 Edit credits for student: {{ student.user }}
 {% endblock %}
 
-{% block content %}
+{% block als_body %}
+<li class="list-group-item">
+    <a href="{% url 'select-credits' %}">Select Semester</a>
+</li>
+<li class="list-group-item">
+    <a href="{% url 'all-university-credits' semester_pk=student.semester.pk %}">View University Credits</a>
+</li>
+{% endblock %}
+
+{% block content_body %}
 {% for crd in credits %}
 <form action="{{ request.path }}" id="form-{{ forloop.counter0 }}" class="form-group credit-form" method="POST">
 {% csrf_token %}

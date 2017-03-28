@@ -4,10 +4,10 @@
 Select course to change HOD for
 {% endblock %}
 
+
 {% block content %}
 <div class="panel panel-info">
-    <div class="panel-heading">College Courses</div>
-    <div class="panel-body">
+    <div class="panel-heading"><strong>College Courses</strong></div>
         <ul class="list-group">
             {% for course in courses %}
                 <li class="list-group-item">
@@ -15,7 +15,6 @@ Select course to change HOD for
                 </li>
             {% endfor %}
         </ul>
-    </div>
 </div>
 
 {% endblock %}

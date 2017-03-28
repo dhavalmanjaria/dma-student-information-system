@@ -39,12 +39,9 @@ def index(request):
 def dashboard(request):
     # TODO: Filter actions based on permissions
 
-    try:
-        if request.user.studentinfo:  # User is student
+    if StudentInfo.objects.filter(user=request.user).first():  # User is student
             return render(request, 'student-dashboard.html')
-    except Exception:
-        pass  # User does not have studentinfo
-
+    
     return render(request, 'dashboard.html')
 
 
@@ -80,48 +77,53 @@ class SelectCourseSemester(View):
         return subject
 
     subjects = []
-    def get_options(self, request):
+    def get_options(self, request, all=False):
         user = request.user
         subjects = []
-        try:
-            LOG.debug(user)
-            # User is faculty
-            if FacultyInfo.objects.filter(user=user).first():
-                subjects = Subject.objects.filter(faculty=user.facultyinfo)
 
-            # I'm trying to avoid checking if the user is assigned to a group
-            # explicitly here because if in the future I want to add a different
-            # group at the level of FacultyHOD, it would make things easier.
-
-            # User is probably FacHOD
-            if user.has_perm('user_management.can_auth_Faculty'):
-                # Subjects they teach
-                subjects = set([s for s in Subject.objects.filter(
-                    faculty=user.facultyinfo)])
-
-                # But also all subjects in their course
-                courses = [user.facultyinfo.course, ]
-                for s in Subject.objects.filter(
-                        semester__course__in=courses):
-                    subjects.add(s)
-                LOG.debug(subjects)
-
-        except Exception as ex:
-            LOG.debug(str(ex))
-
-        # User is Upper Management level
-        if user.has_perm('user_management.can_auth_FacultyHOD'):
-            # All subjects for all courses.
+        if all:
             subjects = Subject.objects.all()
 
-        try:
-            if StudentInfo.objects.filter(
-                    user=user).first() is not None:  # User is student
-                LOG.debug("user: " + str(user.studentinfo))
-                semester = user.studentinfo.semester
-                subjects = Subject.objects.filter(semester=semester)
-        except Exception as ex:
-            LOG.debug(str(ex))
+        else:
+            try:
+                LOG.debug(user)
+                # User is faculty
+                if FacultyInfo.objects.filter(user=user).first():
+                    subjects = Subject.objects.filter(faculty=user.facultyinfo)
+
+                # I'm trying to avoid checking if the user is assigned to a group
+                # explicitly here because if in the future I want to add a different
+                # group at the level of FacultyHOD, it would make things easier.
+
+                # User is probably FacHOD
+                if user.has_perm('user_management.can_auth_Faculty'):
+                    # Subjects they teach
+                    subjects = set([s for s in Subject.objects.filter(
+                        faculty=user.facultyinfo)])
+
+                    # But also all subjects in their course
+                    courses = [user.facultyinfo.course, ]
+                    for s in Subject.objects.filter(
+                            semester__course__in=courses):
+                        subjects.add(s)
+                    LOG.debug(subjects)
+
+            except Exception as ex:
+                LOG.debug(str(ex))
+
+            # User is Upper Management level
+            if user.has_perm('user_management.can_auth_FacultyHOD'):
+                # All subjects for all courses.
+                subjects = Subject.objects.all()
+
+            try:
+                if StudentInfo.objects.filter(
+                        user=user).first() is not None:  # User is student
+                    LOG.debug("user: " + str(user.studentinfo))
+                    semester = user.studentinfo.semester
+                    subjects = Subject.objects.filter(semester=semester)
+            except Exception as ex:
+                LOG.debug(str(ex))
 
         semesters = set(Semester.objects.filter(subject__in=subjects))
         courses = set(Course.objects.filter(semester__in=semesters))

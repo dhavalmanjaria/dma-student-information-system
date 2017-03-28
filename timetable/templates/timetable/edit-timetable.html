@@ -1,33 +1,32 @@
-{% extends "base-action-page.html" %}
+{% extends "base-timetable.html" %}
 
 {% block header_title %}
 Edit Time Table for {{ semester }}
 {% endblock %}
 
-{% block additional_left_sidebar %}
-    <ul class="list-group">
+{% block als_body %}
     <li class="list-group-item">
-        <a class="btn" href="{% url 'view-timetable' pk=semester.pk %}">View Timetable</a>
+        <a href="{% url 'view-timetable' pk=semester.pk %}">View Timetable</a>
     </li>
     <li class="list-group-item">
-        <a class="btn" href="{% url 'edit-times' pk=semester.pk %}">Edit Times</a>
+        <a href="{% url 'edit-times' pk=semester.pk %}">Edit Times</a>
     </li>
     <li class="list-group-item">
-        <a class="btn btn-info btn-sm" href="{% url 'edit-days' pk=semester.pk day='add' %}">Add New Day</a>
+        <a href="{% url 'edit-days' pk=semester.pk add_rem='add' %}">Add New Day</a>
     </li>
     <li class="list-group-item">
-        <a class="btn btn-danger btn-sm" href="{% url 'edit-days' pk=semester.pk day='remove' %}">Delete Last Day</a>
+        <a href="{% url 'edit-days' pk=semester.pk add_rem='remove' %}">Delete Last Day</a>
     </li>
-    </ul>
 {% endblock %}
 
-{% block content %}
-<div class="panel panel-info">
-<div class="panel-heading">Edit time table for <strong>{{ semester }}</strong> </div>
-<div id="panel-body">
+{% block content_heading %}
+Edit time table for {{ semester }}
+{% endblock %}
+
+{% block content_body %}
     <form action="{% url 'edit-timetable' pk=semester.pk %}" method="POST" id="tt-form" class="form-group">
     {% csrf_token %}
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>
@@ -64,14 +63,20 @@ Edit Time Table for {{ semester }}
                     {% endfor %}
                 </tr>    
             {% endfor %}
-            
+            <tr>
+            <td>
+               
+                </td>
+            </tr>
         </tbody>
     </table>
-    <div class="panel-body">
-        <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
+    
+{% endblock %}
 
+{% block other_content %}
+     <input type="submit" value="Save" class="btn btn-primary" />
     </form>
-</div>
-</div>
+    <!-- ends the form in the other block -->
+    <!-- not happy with this but it looks nicer -->
+
 {% endblock %}
