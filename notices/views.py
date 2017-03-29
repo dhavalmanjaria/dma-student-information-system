@@ -16,7 +16,7 @@ class CreateNotice(LoginRequiredMixin, PermissionRequiredMixin,
     model = Notice
     fields = '__all__'
     success_url = reverse_lazy('notices')
-    template_name = 'notices/create-notice-html'
+    template_name = 'notices/create-notice.html'
 
     permission_required = ('user_management.can_write_notices', )
 
