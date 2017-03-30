@@ -11,8 +11,10 @@ Please enter your details to register into the system.
 {{ block.super }}
 {% load static %}
 <script src="{% static 'js/load_form.js' %}"></script>
-<script src="{% static 'js/add_form_classes.js' %}"></script>
-
+<script src="{% static 'js/add_form_classes.js' %}">
+    
+</script>
+<link rel="stylesheet" href="{% static 'css/new.css' %}" />
 {% endblock %}
 
 {% block content %}

@@ -12,6 +12,6 @@ class Activity(models.Model):
     date = models.DateField()
 
     def get_absolute_url(self):
-        return reverse('activity-detail', args=[self.id])
+        return reverse('view-activity', args=[self.id])
 
     #TODO: add start time and end time, maybe

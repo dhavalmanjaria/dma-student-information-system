@@ -1,19 +1,17 @@
-{% extends "base-action-page.html" %}
+{% extends "base-notices.html" %}
 
 {% block header_title %}
-Notices
+Create Notice
 {% endblock %}
 
-{% block als_body %}
-
-    <li class="list-group-item">
-        <a href="{% url 'notices' %}">All Notices</a>
-    </li>
-{% endblock %}
 {% block content_body %}
+<table class="table">
+
 <form action="" method="POST">
 {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save" />
+    {{ form.as_table }}
+    <tr>
+        <td><input type="submit" value="Save" class="btn btn-primary" /></td>
 </form>
+</table>
 {% endblock %}

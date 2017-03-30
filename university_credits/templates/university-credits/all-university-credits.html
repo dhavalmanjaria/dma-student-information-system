@@ -33,12 +33,12 @@ For {{ semester }}
 {% endfor %}
 </table>
 
-
-
 {% endblock %}
 {% block other_content %}
-<div class="panel">
+
+<div class="panel panel-default">
 <div class="panel-body">
+
 {% if perms.user_management.can_write_university_credits %}
 <a href="{% url 'edit-credits-for-semester' semester_pk=semester.pk %}">Edit Subject Credits for Semester</a>
 {% endif %}

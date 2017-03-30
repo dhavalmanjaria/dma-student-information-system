@@ -214,7 +214,7 @@ def set_hod(request, course_pk):
         course = Course.objects.get(pk=request.POST.get('course_pk'))
 
         # TODO: Change course.hod to FacultyInfo rather than User
-        # Here we make sure that only HODs have the permissions of HODs
+        # Here we make sure that only HODs have the permissions of HOD
 
         old_hod = course.hod
         new_hod = faculty.user
@@ -222,7 +222,8 @@ def set_hod(request, course_pk):
         HOD_PERMS = initgroups.PERMISSIONS_BY_ROLE['FacultyHOD']
 
         for perm in Permission.objects.filter(codename__in=HOD_PERMS):
-            old_hod.user_permissions.remove(perm)
+            if old_hod is not None:
+                old_hod.user_permissions.remove(perm)
             new_hod.user_permissions.add(perm)
 
         #TODO write test for this

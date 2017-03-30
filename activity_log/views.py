@@ -20,14 +20,13 @@ class SelectActivity(SelectCourseSemester):
 
         context = {}
 
-        #TODO: Change this to actually use a pk
         context['semester'] =  semester
 
         activities = Activity.objects.filter(semester=semester)
 
         context['activities'] = activities
 
-        return redirect('activity-list', semester_pk=semester.pk)
+        return redirect('all-activities', semester_pk=semester.pk)
 
     def get(self, request):
 
@@ -37,13 +36,14 @@ class SelectActivity(SelectCourseSemester):
         if request.is_ajax():
                 return JsonResponse(options)
 
-        return render(request, 'activity_log/select-activity.html',
+        return render(request, 'activity-log/select-activity.html',
                       context)
 
 
 class ActivityList(ListView):
     model = Activity
 
+    template_name = 'activity-log/all-activities.html'
     def get(self, request, semester_pk, *args, **kwargs):
 
         self.semester = Semester.objects.get(pk=semester_pk)
@@ -89,19 +89,19 @@ def create_activity(request, semester_pk):
                            conductor=conductor)
             act.save()
 
-            return redirect('activity-list', semester_pk=semester_pk)
+            return redirect('all-activities', semester_pk=semester_pk)
 
-    return render(request, 'activity_log/activity_form.html', context)
+    return render(request, 'activity-log/create-activity.html', context)
 
 
-class ActivityUpdate(UpdateView, LoginRequiredMixin,
-                       PermissionRequiredMixin):
+class ActivityUpdate(LoginRequiredMixin, PermissionRequiredMixin,
+                     UpdateView):
 
     model = Activity
 
-    form_class = CreateActivityForm
+    template_name = 'activity-log/update-activity.html'
 
-    template_name = 'activity_log/activity_update_form.html'
+    form_class = CreateActivityForm
 
     permission_required = ('user_management.can_write_activity_log', )
 
@@ -109,7 +109,10 @@ class ActivityUpdate(UpdateView, LoginRequiredMixin,
 class ActivityDetail(DetailView):
     model = Activity
 
+    template_name = 'activity-log/view-activity.html'
+
     def get_context_data(self, **kwargs):
         context = super(ActivityDetail, self).get_context_data(**kwargs)
 
         return context
+

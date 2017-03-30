@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-examinations.html" %}
 
 {% block header_title %}
 Create new Examination
@@ -28,7 +28,7 @@ Create new Examination
             <strong>Academic year: </strong>
         </td>
         <td>
-            <input type="number" min=1970 name="academic_year" value="{{ current_year }}" /> / <span class="next-year"></span>
+            <input type="number" min=1970 name="academic_year"class="academic_year" value="{{ current_year }}" /> / <span class="next-year"></span>
             {{ form.academic_year.errors}}
         </td>
     </tr>

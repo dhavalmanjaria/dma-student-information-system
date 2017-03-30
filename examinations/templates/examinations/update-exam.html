@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-examinations.html" %}
 
 {% block header_title %}
 Update Examination
@@ -10,7 +10,7 @@ Update Examination
 <script src="{% static 'js/create-exam.js' %}"></script>
 {% endblock %}
 
-{% block content %}
+{% block content_body %}
 <form action="{{ request.path }}" method="POST">
 {% csrf_token %}
 <table class="table">
@@ -39,4 +39,6 @@ Update Examination
 </table>
 
 
+{% endblock %}
+{% block other_content %}
 {% endblock %}

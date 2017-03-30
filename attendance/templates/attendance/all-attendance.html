@@ -57,7 +57,7 @@ Attendance for {{ semester }}
     <script>
     $(function () {
         $("#save-button").click(function (event) {
-            $("#alert-div").html("Attendance saved!");
+            //$("#alert-div").html("Attendance saved!");
             $("#alert-div").css('display', '');
         })
     })
@@ -66,5 +66,6 @@ Attendance for {{ semester }}
 
 {% block other_content %}
 <div id="alert-div" class="alert alert-success" style="display: none">
+
     </div>
 {% endblock %}

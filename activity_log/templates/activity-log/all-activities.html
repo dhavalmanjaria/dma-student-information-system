@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-activity-log.html" %}
 
 {% block header_title %}
 Activities for {{ semester }}
@@ -12,10 +12,11 @@ Activities for {{ semester }}
 {% endblock %}
 
 <!-- content -->
-{% block content %}
-<div class="panel panel-info">
-<div class="panel-heading"><strong>Activties</strong></div>
-<div class="panel-body">
+{% block content_heading %}
+Activities
+{% endblock %}
+{% block content_body %}
+
     <table class="table">
     <tr>
         <th>Title</th>
@@ -29,20 +30,24 @@ Activities for {{ semester }}
             <td> {{ activity.date }} </td>
             <td> {{ activity.description|slice:":20" }}... </td>
             <td> {{ activity.conductor }} </td>
-            <td><a href="{% url 'activity-detail' pk=activity.pk %}">View</a> </td>
+            <td><a href="{% url 'view-activity' pk=activity.pk %}">View</a> </td>
                     {% if perms.user_management.can_write_activity_log %}
-                        <td><a href="{% url 'activity-update' pk=activity.pk %}">Edit</a> </td>
+                        <td><a href="{% url 'update-activity' pk=activity.pk %}">Edit</a> </td>
                     {% endif %}
         </tr>
         {% empty %}
     <p>No activities have been created for this semester.</p>
     {% endfor %}
     </table>
-</div>
-</div>
 
+{% endblock %}
+{% block other_content %}
+
+<div class="panel panel-default">
+<div class="panel-body">
 {% if perms.user_management.can_write_activity_log %}
     <a href="{% url 'create-activity' semester_pk=semester.pk %}">Create Activity</a> 
 {% endif %}
-
+</div>
+</div>
 {% endblock %}

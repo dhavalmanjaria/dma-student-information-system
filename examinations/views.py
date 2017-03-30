@@ -15,7 +15,7 @@ class ExamListView(ListView):
     """
     Shows list of all examinations with the lastest one on first.
     """
-    template_name = 'examinations/view-exams.html'
+    template_name = 'examinations/all-exams.html'
     model = Exam
 
 
@@ -40,7 +40,7 @@ class CreateExam(LoginRequiredMixin, PermissionRequiredMixin, edit.CreateView):
 
     success_url = reverse_lazy('view-exams')
 
-    permissions_required = ('user_management.can_write_exam_schedule', )        
+    permission_required = ('user_management.can_write_exam_schedule', )        
 
     def get_context_data(self, **kwargs):
         context = super(CreateExam, self).get_context_data(**kwargs)

@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-activity-log.html" %}
 
 {% block header_title %}
 {{ activity.title }}
@@ -7,15 +7,12 @@
 {{ activity.semester }} activity</div>
 {% endblock %}
 
-{% block als_body %}
-<li class="list-group-item">
-		<a href="{% url 'activity-list' semester_pk=activity.semester.pk %}">All
-				Activities</a>
-{% endblock %}
+
 </li>
 {% endblock %
 
 {% block content %}
+    <div class="panel panel-info">
         <ul class="list-group">
             <li class="list-group-item"><strong>Title: </strong>{{ activity.title }}</li>
             <li class="list-group-item"><strong>Date: </strong>{{ activity.date }}</li>
@@ -24,11 +21,12 @@
                 {{ activity.description }}</li>
             <li class="list-group-item">
                 {% if perms.user_management.can_write_activity_log %}
-                    <td><a href="{% url 'activity-update' pk=activity.pk %}">Edit</a> </td>
+                    <td><a href="{% url 'update-activity' pk=activity.pk %}">Edit</a> </td>
                 {% endif %}
             </li>
-            
+           
         </ul>
-</div>
+
+    </div>
 
 {% endblock %}

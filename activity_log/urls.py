@@ -7,8 +7,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'^activity-list/(?P<semester_pk>[\d]+)', views.ActivityList.as_view(),
-        name='activity-list')
+    url(r'^all-activities/(?P<semester_pk>[\d]+)', views.ActivityList.as_view(),
+        name='all-activities')
 ]
 
 urlpatterns += [
@@ -18,13 +18,13 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'^activity-update/(?P<pk>[\d]+)',
+    url(r'^update-activity/(?P<pk>[\d]+)',
         views.ActivityUpdate.as_view(),
-        name='activity-update')
+        name='update-activity')
 ]
 
 urlpatterns += [
-    url(r'^activity-detail/(?P<pk>[\d]+)',
+    url(r'^view-activity/(?P<pk>[\d]+)',
         views.ActivityDetail.as_view(),
-        name='activity-detail')
+        name='view-activity')
 ]

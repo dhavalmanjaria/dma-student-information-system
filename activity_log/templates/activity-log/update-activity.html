@@ -1,0 +1,19 @@
+{% extends "base-activity-log.html" %}
+
+
+{% block content_body %}
+    <table class="table">
+    <form method="POST" action="">
+    {% csrf_token %}
+        {{ form.as_table }}
+
+    <tr>
+        <td>
+        <input class="btn btn-primary" type="submit" value="Update" />
+        </td>
+    </tr>
+    </form>
+
+    </table>
+</div>
+{% endblock %}

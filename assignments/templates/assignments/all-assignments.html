@@ -36,9 +36,12 @@ Assignments
 {% endblock %}
 
 {% block other_content %}
+<div class="panel panel-default">
+<div class="panel-body">
 {% if perms.user_management.can_write_assignments %}
     
-<a class="btn btn-info" href="{% url 'create-assignment' subject_pk=subject.pk %}">Create new</a>
-
+<a href="{% url 'create-assignment' subject_pk=subject.pk %}">Create new</a>
+</div>
+</div>
 {% endif %}
 {% endblock %}

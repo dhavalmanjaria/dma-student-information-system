@@ -17,7 +17,7 @@
 
 
 {% block content_body %}
-<table class="table">
+<table class="table table-striped">
 <form id="select-form" class="form-group" action="{% block form_url %}{{ request.path }}{% endblock %}" method="POST">
 {% csrf_token %}
 <tr>
@@ -84,4 +84,7 @@
 
 <script>
 </script>
+{% endblock %}
+
+{% block other_content %}
 {% endblock %}

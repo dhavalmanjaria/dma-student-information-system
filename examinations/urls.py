@@ -18,7 +18,7 @@ urlpatterns += [
 # See comment in view
 urlpatterns += [
     url(r'^$',
-        views.ExamListView.as_view(), name='view-exams')
+        views.ExamListView.as_view(), name='all-exams')
 ]
 
 urlpatterns += [

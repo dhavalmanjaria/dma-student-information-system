@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-examinations.html" %}
 
 {% block header_title %}
 Examinations
@@ -11,9 +11,14 @@ Examinations
 <script src="{% static 'js/create-exam.js' %}"></script>
 {%endblock%}
 
-{% block content %}
-<ul class="list-group">
+{% block content_heading %}
+Exams
+{% endblock %}
+
+{% block content_body %}
 {% for exam in exam_list %}
+
+<ul class="list-group">
     <li class="list-group-item">
     <h3>{{ exam.exam_name }}</h3>
     </li >
@@ -28,16 +33,24 @@ Examinations
     <li class="list-group-item">
     <a href="{% url 'view-exam-time-table' exam_pk=exam.pk %}">Time Table</a>
     </li>
+    {% if perms.user_management.can_write_exam_schedule %}
     <li class="list-group-item">
         <a href="{% url 'update-exam' pk=exam.pk %}">Edit Exam</a>
     </li>
-    
+    {% endif %}
+</ul>
 {% endfor %}
 
 </ul>
-{% if perms.user_management.can_write_exam_schedule %}
-    <div class="well">
-        <a href="{% url 'create-exam' %}">Create New Exam</a>    
-    </div>
-{% endif %}
 {% endblock %}
+
+{% block other_content%}
+
+<div class="panel panel-default">
+<div class="panel-body">
+{% if perms.user_management.can_write_exam_schedule %}
+<a href="{% url 'create-exam' %}">Create Exam</a>
+{% endif %}
+</div>
+</div>
+{% endblock%}

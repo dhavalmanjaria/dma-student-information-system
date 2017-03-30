@@ -1,10 +1,10 @@
-{% extends "base-action-page.html" %}
+{% extends "base-examinations.html" %}
 
 {% block header_title %}
 Select date to edit Room Assignment
 {% endblock %}
 
-{% block content %}
+{% block content_body %}
 <table class="table">
 <form action="{{ request.date }}" method="POST">
 {% csrf_token %}

@@ -21,6 +21,7 @@
 <ul class="list-group">
             <li class="list-group-item"><strong>Title: </strong>{{ notice.title }}</li>
             <li class="list-group-item"><strong>Date: </strong>{{ notice.date }}</li>
+            <li class="list-group-item"><strong>To: </strong>{{ notice.addressed_to }}</li>
             <li class="list-group-item"><strong>Priority: </strong>{{ notice.get_priority_display }}</li>
             <li class="list-group-item"><strong>Description: </strong>
                 {{ notice.text }}
@@ -28,6 +29,12 @@
             <li class="list-group-item"><strong>Other Details: </strong>
                 {{ notice.other_details }}
             </li>
+            
+            <li class="list-group-item"><strong>Signed By: </strong>
+                {{ notice.signed_by }}
+            </li>
+            
+
             <li class="list-group-item">
                 {% if perms.user_management.can_write_notices %}
                     <td><a href="{% url 'update-notice' pk=notice.pk %}">Edit</a> </td>

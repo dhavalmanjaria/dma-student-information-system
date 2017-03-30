@@ -43,6 +43,9 @@ Time table for {{ semester }}
     
 {% endblock %}
 {% block other_content %}
+
+<div class="panel panel-default">
+<div class="panel-body">
         {% if edit %}
             {% if not timetable %}
                 <a class="btn btn-info" href="{% url 'edit-timetable' pk=semester.pk %}">Create</a>
@@ -50,5 +53,6 @@ Time table for {{ semester }}
                 <a class="btn btn-danger" href="{% url 'edit-timetable' pk=semester.pk %}">Edit</a>
             {% endif %}
         {% endif %}
-
+    </div>
+</div>
 {% endblock %}
