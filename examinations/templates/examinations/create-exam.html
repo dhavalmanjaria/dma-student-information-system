@@ -10,7 +10,7 @@ Create new Examination
 <script src="{% static 'js/create-exam.js' %}"></script>
 {% endblock %}
 
-{% block content %}
+{% block content_body %}
 <form action="{{ request.path }}" method="POST">
 {% csrf_token %}
 <table class="table">

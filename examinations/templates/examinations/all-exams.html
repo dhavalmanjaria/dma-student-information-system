@@ -31,7 +31,7 @@ Exams
     <a href="{% url 'room-assignments' exam_pk=exam.pk %}">Room Assignments</a>
     </li>
     <li class="list-group-item">
-    <a href="{% url 'view-exam-time-table' exam_pk=exam.pk %}">Time Table</a>
+    <a href="{% url 'select-exam-time-table' exam_pk=exam.pk %}">Time Table</a>
     </li>
     {% if perms.user_management.can_write_exam_schedule %}
     <li class="list-group-item">

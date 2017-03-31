@@ -95,7 +95,7 @@ def edit_room_assignment(request, exam_pk, date):
 
     date = datetime.strptime(date, "%d/%m/%Y").date()
 
-    plans = RoomAssignment.objects.filter(date=date)
+    plans = RoomAssignment.objects.filter(date=date).order_by('start_seat')
 
     exam = Exam.objects.get(pk=exam_pk)
 
@@ -107,7 +107,7 @@ def edit_room_assignment(request, exam_pk, date):
         form = RoomAssignmentForm(request.POST)
 
         if form.is_valid():
-
+            context['success'] = True
             submit = request.POST.get('submit')
 
             LOG.debug(submit)
@@ -139,13 +139,13 @@ def select_room_assignment(request, exam_pk):
 
     context['exam'] = exam
 
-    rooms = RoomAssignment.objects.get(exam=exam)
+    rooms = RoomAssignment.objects.filter(exam=exam)
     context['rooms'] = rooms
 
     if request.method == "POST":
         date = request.POST.get('date')
 
-        return redirect('edit-room-assignment', date=date)
+        return redirect('edit-room-assignment', exam_pk=exam.pk, date=date)
 
     return render(
         request, 'examinations/select-room-assignment.html', context)
@@ -175,12 +175,12 @@ def edit_exam_time_table(request, exam_pk, sem_pk):
 
     subjects = {}
 
-    for c in Course.objects.all():
-        subjects[c] = []
-        for sub in Subject.objects.filter(semester__course=c):
-            subjects[c].append(sub)
+    # for c in Course.objects.all():
+    #     subjects[c] = []
+    #     for sub in Subject.objects.filter(semester__course=c):
+    #         subjects[c].append(sub)
 
-    context['subjects'] = subjects
+    context['subjects'] = Subject.objects.filter(semester=semester)
     context['timetables'] = timetables
 
     if request.method == "POST":
@@ -189,6 +189,7 @@ def edit_exam_time_table(request, exam_pk, sem_pk):
 
         if form.is_valid():
             submit = request.POST.get('submit')
+            context['success'] = True
 
             if submit == "Save":
                 pk = request.POST.get('tt_pk')
@@ -221,8 +222,8 @@ class SelectExamTimeTable(SelectCourseSemester):
 
         semester = super(
             SelectExamTimeTable, self).get_semester_from_post(request)
-    
-        return redirect('edit-exam-time-table', exam_pk=exam.pk,
+
+        return redirect('view-exam-time-table', exam_pk=exam.pk,
                         sem_pk=semester.pk)
 
     def get(self, request, exam_pk):
@@ -233,7 +234,6 @@ class SelectExamTimeTable(SelectCourseSemester):
             return JsonResponse(options)
 
         context['exam'] = Exam.objects.get(pk=exam_pk)
-
 
 
         return render(request, 'examinations/select-exam-time-table.html',
@@ -249,9 +249,12 @@ class TimeTableList(ListView):
         context = super(TimeTableList, self).get_context_data(**kwargs)
 
         exam_pk = self.kwargs['exam_pk']
+        sem_pk = self.kwargs['sem_pk']
 
         exam = Exam.objects.get(pk=exam_pk)
+        semester = Semester.objects.get(pk=sem_pk)
         context['exam'] = exam
+        context['semester'] = semester
 
         return context
 

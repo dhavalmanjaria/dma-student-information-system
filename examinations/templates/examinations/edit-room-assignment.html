@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-examinations.html" %}
 
 {% block header_title %}
 Edit room assignment for {{ plan_date }}
@@ -12,6 +12,12 @@ Edit room assignment for {{ plan_date }}
 {% endblock %}
 
 {% block content %}
+{% if success %}
+<div class="alert alert-success">
+Success!
+</div>
+{% endif %}
+
 {% for plan in plans %}
 {% if form.errors %}
 <div class="alert alert-danger">There are errors in the form: {{ form.errors }}</div>

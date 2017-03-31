@@ -7,38 +7,33 @@
 Time Table
 {% endblock %}
 
-{% block content_body %}
-{% regroup examtimetable_list by subject.semester.course as tt_list %}
-{% for group in tt_list %}
-<div class="panel panel-default">
-    <div class="panel-heading"><strong>{{ group.grouper }}</strong></div>
-    <div class="panel-body">
-        {% for tt in group.list %}
-        <table class="table">
-            <tr>
-                <th>Date</th>
-                <th>Subject</th>
-            </tr>
-            <tr>
-                <td>{{ tt.date }}</td>
-                <td>{{ tt.subject }}</td>
-            </tr>
-        </table>
-        {% endfor %}
-</div>
-{% empty %}
-<p>No time table for this exam yet.</p>
-{% endfor %}
-
+{% block content_heading %}
+{{ semester }}
 {% endblock %}
+{% block content_body %}
+{# {% regroup examtimetable_list by subject.semester.course as tt_list %} #}
+<table class="table table-striped">
+    <tr>
+        <th>Date</th>
+        <th>Subject</th>
+    </tr>
 
-
+    {% for tt in examtimetable_list %}
+        <tr>
+            <td>{{ tt.date }}</td>
+            <td>{{ tt.subject }}</td>
+         </tr>
+    
+    {% empty %}
+    <p>No time table for this exam yet.</p>
+    {% endfor %}
+</table>
+{% endblock %}
 {% block other_content %}
-
 <div class="panel panel-default">
 <div class="panel-body">
-{% if perms.user_management.can_write_exam_schedule %}
-        <a href="{% url 'select-exam-time-table' exam_pk=exam.pk %}">Edit Time Table</a>
+    {% if perms.user_management.can_write_exam_schedule %}
+        <a href="{% url 'edit-exam-time-table' exam_pk=exam.pk sem_pk=semester.pk%}">Edit Time Table</a>
     {% endif %}
 </div>
 </div>

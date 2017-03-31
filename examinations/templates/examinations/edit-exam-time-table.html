@@ -1,4 +1,4 @@
-{% extends "base-action-page.html" %}
+{% extends "base-examinations.html" %}
 
 {% block header_title %}
 Edit Exam Time Table
@@ -12,8 +12,21 @@ Exam: {{ exam }} | Semester: {{ semester }}
 
 {% endblock %}
 
+{% block als_body %}
+{{ block.super }}
+<li class="list-group-item">    
+    <a href="{% url 'view-exam-time-table' exam_pk=exam.pk sem_pk=semester.pk %}">View Time Table</a>
+</li>
+{% endblock %}
 
 {% block content %}
+
+{% if success %}
+<div class="alert alert-success">
+Success!
+</div>
+{% endif %}
+
 {% if form.errors %}
     <div class="alert alert-danger">
         There are errors in your inputs:
@@ -38,21 +51,16 @@ Exam: {{ exam }} | Semester: {{ semester }}
             <select class="select" name="subject">
             <option value="">----</option>
             {{ tt.subject }}
-            {% for course, subject in subjects.items %}
-                <optgroup label="{{ course.short_name }}">
-                    {% for sub in subject %}
-                            
-                        {% if tt.subject  == sub %}
-                            <option value="{{ sub.pk }}" selected >
-                                &nbsp;&nbsp;{{ sub }}
-                            </option>
-                        {% else %}
-                            <option value="{{ sub.pk }}">
-                                &nbsp;&nbsp;{{ sub }}
-                            </option>
-                        {% endif %}
-                    {% endfor %}
-                </optgroup>
+            {% for subject in subjects %}
+                {% if tt.subject  == subject %}
+                    <option value="{{ subject.pk }}" selected >
+                        &nbsp;&nbsp;{{ subject }}
+                    </option>
+                {% else %}
+                    <option value="{{ subject.pk }}">
+                        &nbsp;&nbsp;{{ subject }}
+                    </option>
+                {% endif %}
             {% endfor %}
             </select>
         </li>
@@ -85,21 +93,16 @@ Exam: {{ exam }} | Semester: {{ semester }}
         <li class="list-group-item">
             <select class="select" name="subject">
             <option value="">----</option>
-            {% for course, subject in subjects.items %}
-                <optgroup label="{{ course.short_name }}">
-                    {% for sub in subject %}
-                        {{ tt.subject }}
-                        {% if tt.subject.name  == sub %}
-                            <option value="{{ sub.pk }}" selected >
-                                &nbsp;&nbsp;{{ sub }}
-                            </option>
-                        {% else %}
-                            <option value="{{ sub.pk }}">
-                                &nbsp;&nbsp;{{ sub }}
-                            </option>
-                        {% endif %}
-                    {% endfor %}
-                </optgroup>
+            {% for subject in subjects %}
+                {% if tt.subject  == subject %}
+                    <option value="{{ subject.pk }}" selected >
+                        &nbsp;&nbsp;{{ subject }}
+                    </option>
+                {% else %}
+                    <option value="{{ subject.pk }}">
+                        &nbsp;&nbsp;{{ subject }}
+                    </option>
+                {% endif %}
             {% endfor %}
             </select>
         </li>

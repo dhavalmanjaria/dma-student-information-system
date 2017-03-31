@@ -10,7 +10,7 @@ urlpatterns = [
 
 
 urlpatterns += [
-    url(r'^view-exam-time-table/(?P<exam_pk>[\d]+)',
+    url(r'^view-exam-time-table/(?P<exam_pk>[\d]+)/(?P<sem_pk>[\d]+)',
         views.TimeTableList.as_view(),
         name='view-exam-time-table')
 ]
