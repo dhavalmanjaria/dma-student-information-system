@@ -3,6 +3,9 @@
 {% block header_title %}
 Edit Exam Time Table
 {% endblock %}
+{% block header_subtitle %}
+Exam: {{ exam }} | Semester: {{ semester }}
+{% endblock %}
 
 {% block staticfiles %}
 {{ block.super }}
@@ -55,6 +58,7 @@ Edit Exam Time Table
         </li>
         <li class="list-group-item">
             <input type="hidden" name="exam" value="{{ exam.pk }}" />
+            <input type="hidden" name="semester" value="{{ semester.pk }}" />
             <input type="hidden" name="tt_pk" value="{{ tt.pk }}" />
             <input type="submit" name="submit" class="btn btn-sm btn-primary" value="Save" />
             <input type="submit" name="submit" class="btn btn-sm btn-danger" value="Delete" />

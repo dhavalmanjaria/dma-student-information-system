@@ -42,8 +42,12 @@ urlpatterns += [
         views.edit_room_assignment, name='edit-room-assignment')
 ]
 
+urlpatterns += [
+    url(r'edit-exam-time-table/(?P<exam_pk>[\d]+)/(?P<sem_pk>[\d]+)$',
+        views.edit_exam_time_table, name='edit-exam-time-table')
+]
 
 urlpatterns += [
-    url(r'edit-exam-time-table/(?P<exam_pk>[\d]+)$',
-        views.edit_exam_time_table, name='edit-exam-time-table')
+    url(r'select-exam-time-table/(?P<exam_pk>[\d]+)$',
+        views.SelectExamTimeTable.as_view(), name='select-exam-time-table')
 ]

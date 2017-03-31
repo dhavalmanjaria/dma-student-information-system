@@ -4,7 +4,9 @@ from django.core.urlresolvers import reverse_lazy
 from .forms import RoomAssignmentForm, ExamTimeTableForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, edit
-from curriculum.models import Subject, Course
+from django.http import JsonResponse
+from actions.views import SelectCourseSemester
+from curriculum.models import Subject, Course, Semester
 from datetime import datetime
 import logging
 
@@ -156,15 +158,20 @@ def _save_exam_time_table(tt, form):
     tt.save()
 
 
-def edit_exam_time_table(request, exam_pk):
+def edit_exam_time_table(request, exam_pk, sem_pk):
 
     context = {}
 
     exam = Exam.objects.get(pk=exam_pk)
 
+    semester = Semester.objects.get(pk=sem_pk)
+
     context['exam'] = exam
 
-    timetables = ExamTimeTable.objects.filter(exam=exam)
+    context['semester'] = semester
+
+    timetables = ExamTimeTable.objects.filter(
+        exam=exam, subject__semester=sem_pk)
 
     subjects = {}
 
@@ -204,6 +211,35 @@ def edit_exam_time_table(request, exam_pk):
         request, 'examinations/edit-exam-time-table.html', context)
 
 
+class SelectExamTimeTable(SelectCourseSemester):
+    """
+    This view helps the user select a time table filtered by semester
+    """
+    def post(self, request, exam_pk):
+        exam_pk = request.POST['exam_pk']
+        exam = Exam.objects.get(pk=exam_pk)
+
+        semester = super(
+            SelectExamTimeTable, self).get_semester_from_post(request)
+    
+        return redirect('edit-exam-time-table', exam_pk=exam.pk,
+                        sem_pk=semester.pk)
+
+    def get(self, request, exam_pk):
+        options = super(SelectExamTimeTable, self).get_options(request, all=True)
+        context = {}
+
+        if request.is_ajax():
+            return JsonResponse(options)
+
+        context['exam'] = Exam.objects.get(pk=exam_pk)
+
+
+
+        return render(request, 'examinations/select-exam-time-table.html',
+                      context)
+
+
 class TimeTableList(ListView):
     model = ExamTimeTable
 
@@ -223,9 +259,12 @@ class TimeTableList(ListView):
         queryset = super(TimeTableList, self).get_queryset()
 
         exam_pk = self.kwargs['exam_pk']
+        sem_pk = self.kwargs['sem_pk']
+
+        semester = Semester.objects.get(pk=sem_pk)
 
         exam = Exam.objects.get(pk=exam_pk)
 
-        queryset = queryset.filter(exam=exam).order_by('date')
+        queryset = queryset.filter(
+            exam=exam, subject__semester=semester).order_by('date')
         return queryset
-

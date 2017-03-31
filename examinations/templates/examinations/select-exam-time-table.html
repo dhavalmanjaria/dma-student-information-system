@@ -1,0 +1,12 @@
+{% extends "select-course-semester.html" %}
+
+{% block header_title %}
+Select Semester to view Exam Time Table for
+{% endblock %}
+{% block header_subtitle %}
+{{ exam }}
+{% endblock %}
+
+{% block other_options %}
+<input type="hidden" name="exam_pk" value="{{ exam.pk }}" />
+{% endblock %}

@@ -38,7 +38,7 @@ Time Table
 <div class="panel panel-default">
 <div class="panel-body">
 {% if perms.user_management.can_write_exam_schedule %}
-        <a href="{% url 'edit-exam-time-table' exam_pk=exam.pk %}">Edit Time Table</a>
+        <a href="{% url 'select-exam-time-table' exam_pk=exam.pk %}">Edit Time Table</a>
     {% endif %}
 </div>
 </div>

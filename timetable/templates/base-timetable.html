@@ -5,4 +5,9 @@
 <li class="list-group-item">
     <a href="{% url 'select-timetable' %}">Select Semester</a>
 </li>
+    {% if semester %}
+    <li class="list-group-item">
+        <a href="{% url 'view-timetable' pk=semester.pk %}">View Timetable</a>
+    </li>
+    {% endif %}
 {% endblock %}

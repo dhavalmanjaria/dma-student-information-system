@@ -1,0 +1,48 @@
+{% extends "base-timetable.html" %}
+
+{% block header_title %}
+Edit Workdays for {{ semester }}
+{% endblock %}
+
+
+{% block als_body %}
+    {{ block.super }}
+{% endblock %}
+
+
+{% block content_body %}
+<p>Current Days</p>
+<ul class="list-group">
+{% for i, day  in current_days.items  %}
+    <li class="list-group-item">
+        {{ day }}
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+
+{% block other_content %}
+    <div class="panel panel-default">
+    <div class="panel-body">
+    <p>Select Day</p>
+    <form action="{{ request.path }}" method="POST">
+        {% csrf_token %}
+        <select name="new_day">
+            {% for i, day  in all_weekdays.items  %}
+            <option value="{{i}}">{{ day }}</option>
+            {% endfor %}
+        </select>
+        <input name="add_rem" value="Add" type="submit" class="btn btn-sm btn-info">
+        <input name="add_rem" value="Delete" type="submit" class="btn btn-sm btn-danger">
+    </form>
+    </div>
+    {% if success %}
+        
+    <div class="panel-body alert-success">
+    <p>Success!</p>
+    </div>
+    {% endif %}
+    
+    </div>
+{% endblock %}

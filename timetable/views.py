@@ -56,7 +56,8 @@ def _get_weekday(d):
         3: 'Wednesday',
         4: 'Thursday',
         5: 'Friday',
-        6: 'Saturday'
+        6: 'Saturday',
+        7: 'Sunday'
     }
 
     return weekdays[d]
@@ -251,36 +252,42 @@ def edit_times(request, pk):
 
 @login_required
 @permission_required('user_management.can_write_time_table')
-def edit_days(request, pk, add_rem):
+def edit_days(request, pk):
     semester = Semester.objects.get(pk=pk)
     context = {}
     context['semester'] = semester
 
-    if request.method == "GET":
-        days = _get_sorted_days(semester)
-        if len(days) < 1:
-            new_day = 1
-        else:
-            new_day = len(days) + 1
+    all_weekdays = {}
+    for d in range(1, 8):
+        all_weekdays[d] = _get_weekday(d)
+    context['all_weekdays'] = all_weekdays
 
-        if new_day > 7:
-            context['errors'] = "Error: Cannot add more than 7 days"
+    current_days = {}
+    for d in _get_sorted_days(semester):
+        current_days[d] = _get_weekday(d)
 
-        times = _get_sorted_times(semester)
-        LOG.debug("editday: " + str(days))
-        if len(times) < 1:
-            return redirect('edit-times', pk=semester.pk)
+    context['current_days'] = current_days
 
-        add_rem = request.GET.get('add_rem')
+    if request.method == "POST":
+        add_rem = request.POST['add_rem']
+        new_day = request.POST['new_day']
 
-        if day == 'add':
+        if add_rem == 'Add':
+            times = _get_sorted_times(semester)
             for t in times:
-                tt = TimeTable(semester=semester, day_of_week=new_day,
-                               start_time=t)
-                tt.save()
+                tt, created = TimeTable.objects.get_or_create(
+                    semester=semester, day_of_week=new_day, start_time=t)
+                if created:
+                    tt.save()
+                    context['success'] = True
 
-        if day == 'remove' and days is not None:
-            new_day = len(days)  # last day added
-            TimeTable.objects.filter(day_of_week=new_day).delete()
+        if add_rem == 'Delete':
+            tt = TimeTable.objects.filter(
+                day_of_week=new_day, semester=semester)
 
-    return redirect('edit-timetable', pk=semester.pk)
+            tt.delete()
+            context['success'] = True
+
+        return redirect('edit-days', pk=semester.pk)
+
+    return render(request, 'timetable/edit-days.html', context)
