@@ -3,6 +3,7 @@ from .models import RoomAssignment, Exam, ExamTimeTable
 from django.core.urlresolvers import reverse_lazy
 from .forms import RoomAssignmentForm, ExamTimeTableForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
 from django.views.generic import ListView, edit
 from django.http import JsonResponse
 from actions.views import SelectCourseSemester
@@ -30,7 +31,7 @@ class UpdateExam(LoginRequiredMixin, PermissionRequiredMixin, edit.UpdateView):
     model = Exam
     fields = '__all__'
 
-    success_url = reverse_lazy('view-exams')
+    success_url = reverse_lazy('all-exams')
 
     permission_required = ('user_management.can_write_exam_schedule', )
 
@@ -40,7 +41,9 @@ class CreateExam(LoginRequiredMixin, PermissionRequiredMixin, edit.CreateView):
     model = Exam
     fields = '__all__'
 
-    success_url = reverse_lazy('view-exams')
+    permission_required = ('user_management.can_write_exam_schedule', )
+
+    success_url = reverse_lazy('all-exams')
 
     permission_required = ('user_management.can_write_exam_schedule', )        
 
@@ -89,6 +92,8 @@ def _save_room_assignment(ra, form):
     ra.save()
 
 
+@login_required
+@permission_required('user_management.can_write_exam_hall_plan')
 def edit_room_assignment(request, exam_pk, date):
 
     context = {}
@@ -151,66 +156,7 @@ def select_room_assignment(request, exam_pk):
         request, 'examinations/select-room-assignment.html', context)
 
 
-def _save_exam_time_table(tt, form):
-    tt.subject = form.cleaned_data['subject']
-    tt.date = form.cleaned_data['date']
-
-    tt.save()
-
-
-def edit_exam_time_table(request, exam_pk, sem_pk):
-
-    context = {}
-
-    exam = Exam.objects.get(pk=exam_pk)
-
-    semester = Semester.objects.get(pk=sem_pk)
-
-    context['exam'] = exam
-
-    context['semester'] = semester
-
-    timetables = ExamTimeTable.objects.filter(
-        exam=exam, subject__semester=sem_pk)
-
-    subjects = {}
-
-    # for c in Course.objects.all():
-    #     subjects[c] = []
-    #     for sub in Subject.objects.filter(semester__course=c):
-    #         subjects[c].append(sub)
-
-    context['subjects'] = Subject.objects.filter(semester=semester)
-    context['timetables'] = timetables
-
-    if request.method == "POST":
-        form = ExamTimeTableForm(request.POST)
-        context['form'] = form
-
-        if form.is_valid():
-            submit = request.POST.get('submit')
-            context['success'] = True
-
-            if submit == "Save":
-                pk = request.POST.get('tt_pk')
-                tt = ExamTimeTable.objects.get(pk=pk)
-                _save_exam_time_table(tt, form)
-
-            if submit == "Add New":
-                pk = request.POST.get('exam')
-                exam = Exam.objects.get(pk=pk)
-                LOG.debug(exam)
-                tt = ExamTimeTable(exam=exam)
-                _save_exam_time_table(tt, form)
-
-            if submit == "Delete":
-                pk = request.POST.get('tt_pk')
-                tt = ExamTimeTable.objects.get(pk=pk)
-                tt.delete()
-
-    return render(
-        request, 'examinations/edit-exam-time-table.html', context)
-
+# Time table stuff
 
 class SelectExamTimeTable(SelectCourseSemester):
     """
@@ -271,3 +217,59 @@ class TimeTableList(ListView):
         queryset = queryset.filter(
             exam=exam, subject__semester=semester).order_by('date')
         return queryset
+
+
+def _save_exam_time_table(tt, form):
+    tt.subject = form.cleaned_data['subject']
+    tt.date = form.cleaned_data['date']
+
+    tt.save()
+
+
+@login_required
+@permission_required('user_management.can_write_exam_hall_plan')
+def edit_exam_time_table(request, exam_pk, sem_pk):
+
+    context = {}
+
+    exam = Exam.objects.get(pk=exam_pk)
+    semester = Semester.objects.get(pk=sem_pk)
+
+    context['exam'] = exam
+    context['semester'] = semester
+
+    timetables = ExamTimeTable.objects.filter(
+        exam=exam, subject__semester=sem_pk)
+
+    context['subjects'] = Subject.objects.filter(semester=semester)
+    context['timetables'] = timetables
+
+    if request.method == "POST":
+        form = ExamTimeTableForm(request.POST)
+        context['form'] = form
+
+        if form.is_valid():
+            submit = request.POST.get('submit')
+            context['success'] = True
+            LOG.debug('submit = ' + submit)
+
+            if submit == "Save":
+                pk = request.POST.get('tt_pk')
+                tt = ExamTimeTable.objects.get(pk=pk)
+                _save_exam_time_table(tt, form)
+
+            if submit == "Add New":
+                pk = request.POST.get('exam')
+                exam = Exam.objects.get(pk=pk)
+                LOG.debug(exam)
+                tt = ExamTimeTable(exam=exam)
+                _save_exam_time_table(tt, form)
+
+            if submit == "Delete":
+                pk = request.POST.get('tt_pk')
+                tt = ExamTimeTable.objects.get(pk=pk)
+                LOG.debug('attempting to delete: ' + str(tt))
+                tt.delete()
+
+    return render(
+        request, 'examinations/edit-exam-time-table.html', context)

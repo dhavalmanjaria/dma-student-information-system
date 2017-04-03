@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from user_management.models.auth_requests import AuthenticationRequest
@@ -10,6 +10,7 @@ from university_credits.models import UniversityCredit, SubjectCredit
 from notices.models import Notice
 from examinations.models import Exam
 from activity_log.models import Activity
+from .forms import SelectSemesterForm
 import logging
 
 LOG = logging.getLogger('app')
@@ -53,7 +54,15 @@ class SelectCourseSemester(View):
     course and semester that adapts to the current action the user is trying
     to perform.
     """
+
+    form = SelectSemesterForm()
     
+    # The Select<App> template to render.
+    select_template = ''
+
+    # The view to redirect to after the user properly makes their choices
+    redirect_to = ''
+
     def get_semester_from_post(self, request):
         """
         Gets a semester object from the POST set
@@ -62,7 +71,7 @@ class SelectCourseSemester(View):
         semester = request.POST.get('semester')
 
         semester = [sem for sem in Semester.objects.all() if str(
-            sem) == semester][0]
+                    sem) == semester][0]
 
         return semester
 
@@ -140,26 +149,35 @@ class SelectCourseSemester(View):
         for sub in subjects:
             sem = str(sub.semester)
             course_name = sub.semester.course.short_name
-            options[course_name][sem].append((sub.pk, sub.name))
-
+            options[course_name][str(sem)].append((sub.pk, sub.name))
 
         return options
+
+    def post(self, request):
+        form = SelectSemesterForm(request.POST)
+
+        if form.is_valid():
+
+            semester = form.cleaned_data['semester']
+            return redirect(self.redirect_to, semester.pk)
+        else:
+            context = {}
+            context['errors'] = True
+            context['form'] = form
+        return render(request, self.select_template, context)
+
 
     def get(self, request):
         """
         This is just a demonstration of a standard implementation of this
         method
         """
-        context = {}
-
         options = self.get_options(request)
 
         if request.is_ajax():
                 return JsonResponse(options)
 
-        LOG.debug(action)
-
-        pass
+        return render(request, self.select_template)
 
 
 #TODO: Move to own app, or at least the user_management app
@@ -243,7 +261,5 @@ def grant_request(request):
        
             # University Credits
             create_university_credits(user)
-
-
 
     return HttpResponse("view complete")

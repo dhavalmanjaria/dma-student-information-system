@@ -17,55 +17,74 @@
 
 
 {% block content_body %}
-<table class="table table-striped">
-<form id="select-form" class="form-group" action="{% block form_url %}{{ request.path }}{% endblock %}" method="POST">
+{% if errors %}
+    <div style="color: red">Please select a value for all options</div>
+{% endif %}
+
+<form id="select-form" action="{% block form_url %}{{ request.path }}{% endblock %}" method="POST">
 {% csrf_token %}
-<tr>
+<table class="table table-striped">
+<tr class="form-group">
 <td>
-    <p><strong>Course</strong></p>
+    <p><strong>
+        <label for="select-course">Course</label>
+    </strong></p>
 </td>
 <td>
-    <fieldset>
-        <select name="course" id="select-course" class="select" form="select-form" >
-        <option>
-                ---
-            </option>
+        <select name="course" id="select-course" class="select form-control" form="select-form" >
+        <option> --- </option>
         {% for c in course %}
             <option>
                 {{ c }}
             </option>
         {% endfor %}
-        </select>
-    </fieldset>
+        </select> {{ form.course.errors }}
 </td>
 </tr>
-<tr>
-<td><p><strong>Semester</strong></p></td>
+<tr class="form-group">
 <td>
-    <fieldset>
-        <select name="semester" id="select-semester" class="select" form="select-form" >
+    <p>
+        <strong>
+            <label for="select-semester">Semester</label>
+        </strong>
+    </p>
+</td>
+<td>
+        <select name="semester" id="select-semester" class="select" form="select-form" required>
+        <option> ---
+        </option>
         {% for s in semesters %}
             <option>
                 {{ s }}
             </option>
         {% endfor %}
-        </select>
-    </fieldset>
+        </select>{{ form.semester.errors }}
+</td>
+
 </td>
 </tr>
 
     {% block other_options %}
     <tr>
-        <td><p><strong>Subject</strong></p></td>
+        <td>
+            <p>
+                <strong>
+                    <label for="select-subject">Subject</label>
+                </strong>
+            </p>
+        </td>
         <td>
         <fieldset>
-            <select name="subject" id="select-subject" class="select" form="select-form" >
+            <select name="subject" id="select-subject" class="select" form="select-form">
+            <option> ---
+            </option>
             {% for s in semesters %}
             <option>
                 {{ s }}
             </option>
         {% endfor %}
-        </select>
+        </select>{{ form.course.errors }}
+</td>
         </fieldset>
         </td>
     </tr>
@@ -77,13 +96,9 @@
         </p>
     </td>
 </tr>
-
-    
-</form>
 </table>
+</form>
 
-<script>
-</script>
 {% endblock %}
 
 {% block other_content %}

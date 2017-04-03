@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from actions.views import SelectCourseSemester
+from actions.forms import SelectSemesterForm
 from curriculum.models import Semester
 from .models import Activity
 from .forms import CreateActivityForm
@@ -14,36 +15,29 @@ class SelectActivity(SelectCourseSemester):
     """
     View shows the select-course-semester page for Activities
     """
+    form = SelectSemesterForm()
+    select_template = 'activity-log/select-activity.html'
+    redirect_to = 'all-activities'
+    context = {}
 
-    def post(self, request):
-        semester = super(SelectActivity, self).get_semester_from_post(request)
+    # def post(self, request):
+    #     form = SelectSemesterForm(request.POST)
 
-        context = {}
+    #     if form.is_valid():
 
-        context['semester'] =  semester
+    #         semester = form.cleaned_data['semester']
+    #         return redirect(redirect_to, semester.pk)
+    #     else:
+    #         self.context['errors'] = True
+    #         return redirect(request.path)
 
-        activities = Activity.objects.filter(semester=semester)
-
-        context['activities'] = activities
-
-        return redirect('all-activities', semester_pk=semester.pk)
-
-    def get(self, request):
-
-        context = {}
-        options = super(SelectActivity, self).get_options(request, all=True)
-
-        if request.is_ajax():
-                return JsonResponse(options)
-
-        return render(request, 'activity-log/select-activity.html',
-                      context)
 
 
 class ActivityList(ListView):
     model = Activity
 
     template_name = 'activity-log/all-activities.html'
+
     def get(self, request, semester_pk, *args, **kwargs):
 
         self.semester = Semester.objects.get(pk=semester_pk)

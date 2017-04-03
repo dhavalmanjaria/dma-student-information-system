@@ -11,60 +11,14 @@ Select the course, semester and the day to view attendance for.
 
 
 
-{% block content_body %}
-<table class="table">
-<form id="select-form" class="form-group" action="{% url 'select-attendance' %}" method="POST">
-{% csrf_token %}
+    {% block other_options %}
 
-<tr>
-<td>
-    <p><strong>Course</strong></p>
-</td>
-<td>
-    <fieldset>
-        <select name="course" id="select-course" class="select" form="select-form" >
-        <option>
-                ---
-            </option>
-        {% for c in course %}
-            <option>
-                {{ c }}
-            </option>
-        {% endfor %}
-        </select>
-    </fieldset>
-</td>
-</tr>
-<tr>
-<td><p><strong>Semester</strong></p></td>
-<td>
-    <fieldset>
-        <select name="semester" id="select-semester" class="select" form="select-form" >
-        {% for s in semesters %}
-            <option>
-                {{ s }}
-            </option>
-        {% endfor %}
-        </select>
-    </fieldset>
-</td>
-</tr>
-<tr>
-<td>
-    <p><strong>Date</strong></p>
-</td>
-<td>
-    <input name="date" class="datepicker" type="text" />
-</td>
-</tr>
-
-<tr>
-<td>
-<p><input type="submit" class="btn btn-primary" id="btn-view" value="View" />
-</td>
-</form>
-</table>
-
-<script>
-</script>
-{% endblock %}
+    <tr>
+        <td>
+            <strong>Date: </strong>
+        </td>
+        <td>
+            <input name="date" class="datepicker" type="text" />
+        </td>
+    </tr>
+    {% endblock %}

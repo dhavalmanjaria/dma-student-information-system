@@ -131,7 +131,8 @@ class SelectSubjectForFaculty(SelectCourseSemester,
         permission_required = 'user_management.can_write_subject_faculty'
 
     def post(self, request):
-        subject_pk = request.POST.get('subject')
+        subject_pk = super(
+            SelectSubjectForFaculty, self).get_subject_from_post(request)
 
         return redirect('set-faculty', subject_pk=subject_pk)
 

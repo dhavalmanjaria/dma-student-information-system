@@ -109,7 +109,7 @@
                         <td> {{ activity.date }} </td>
                         <td> {{ activity.description|slice:":20" }}... </td>
                         <td> {{ activity.conductor }} </td>
-                        <td><a href="{% url 'activity-detail' pk=activity.pk %}">View</a> </td>
+                        <td><a href="{% url 'view-activity' pk=activity.pk %}">View</a> </td>
                                 {% if perms.user_management.can_write_activity_log %}
                                     <td><a href="{% url 'activity-update' pk=activity.pk %}">Edit</a> </td>
                                 {% endif %}
@@ -142,7 +142,7 @@
                             <a href="{% url 'room-assignments' exam_pk=exams.pk %}">Room Assignments</a>
                         </td>
                         <td>
-                            <a href="{% url 'view-exam-time-table' exam_pk=exams.pk %}">Time Table</a>
+                            <a href="{% url 'select-exam-time-table' exam_pk=exams.pk %}">Time Table</a>
                         </td>
 
                 </table>

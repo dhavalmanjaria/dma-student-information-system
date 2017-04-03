@@ -11,6 +11,7 @@ class NoticesListView(generic.ListView):
     model = Notice
     template_name = 'notices/all-notices.html'
 
+
 class CreateNotice(LoginRequiredMixin, PermissionRequiredMixin,
                    generic.edit.CreateView):
     model = Notice

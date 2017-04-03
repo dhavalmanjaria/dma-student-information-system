@@ -3,6 +3,7 @@
 {% block staticfiles %}
     {% load static %}
     <script src="{% static 'js/select-course-semester.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/select-course-semester.css' %}" />
     <!-- common JS code available to all base-action-page children, eg: the Jquery UI Datepicker -->
     <script src="{% static 'js/base-action-common.js' %}"></script>
 {% endblock %}
@@ -112,5 +113,6 @@
             {% endif %}
 
         {% endif %}
+        </ul>
     {% endblock %}
 {% endblock %}
