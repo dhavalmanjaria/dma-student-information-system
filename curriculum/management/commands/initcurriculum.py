@@ -63,6 +63,32 @@ class Command(BaseCommand):
 
         # Subject
 
+        # BBA VI
+
+        Subject.objects.get_or_create(
+            name='Strat. Mgmt.', semester=bba_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='Ent. Devp.', semester=bba_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='T & D', semester=bba_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='Bus. Tax & Audit', semester=bba_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='Cons. Behaviour', semester=bba_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='IR & LL', semester=bba_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='Bank. & Finance', semester=bba_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='Advt. & MM', semester=bba_6, is_university_subject=True)
+
         # BBA IV
         Subject.objects.get_or_create(
             name='B.Eco', semester=bba_4, is_university_subject=True)
@@ -109,6 +135,9 @@ class Command(BaseCommand):
 
         Subject.objects.get_or_create(
             name='OS', semester=bca_2, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='Comm. Skills', semester=bca_2, is_university_subject=True)
 
         Subject.objects.get_or_create(
             name='SSAD', semester=bca_2, is_university_subject=True)

@@ -79,7 +79,8 @@ class RoomAssignmentList(ListView):
 def _save_room_assignment(ra, form):
     """
     Private, non-public method to save a RoomAssignment if it's a new or
-    existing one.
+    existing one. Replacement for form.save really, one that handles new
+    instances as well as existing ones.
     """
     ra.room_name = form.cleaned_data['room_name']
     ra.start_seat = form.cleaned_data['start_seat']
@@ -239,7 +240,7 @@ def edit_exam_time_table(request, exam_pk, sem_pk):
     context['semester'] = semester
 
     timetables = ExamTimeTable.objects.filter(
-        exam=exam, subject__semester=sem_pk)
+        exam=exam, subject__semester=sem_pk).order_by('date')
 
     context['subjects'] = Subject.objects.filter(semester=semester)
     context['timetables'] = timetables

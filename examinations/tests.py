@@ -3,7 +3,8 @@ from user_management.management.commands import initgroups, createumuser
 from curriculum.management.commands import initcurriculum
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User, Permission
-from curriculum.models import Semester, Subject
+from curriculum.models import Semester
+from .forms import RoomAssignmentForm
 
 from .models import Exam, ExamTimeTable, RoomAssignment
 
@@ -75,7 +76,7 @@ class ExaminationsTest(TestCase):
     def test_edit_room_assignments_access(self):
         url = reverse_lazy(
             'edit-room-assignment', args=(1, '01/01/1970'))
-        
+
         resp = self.client.get(url)
 
         resp = self.get_wrong_access_response(url)
@@ -227,3 +228,78 @@ class ExaminationsTest(TestCase):
 
         resp = self.client.post(url, post_data)
         self.assertEqual(resp.status_code, 302)
+
+    def test_create_room_assignment(self):
+        exam, created = Exam.objects.get_or_create(
+            exam_name='text_create_room_assignment', academic_year=2016)
+        date = '02/02/2017'
+        post_data = {
+            'date': date
+        }
+
+        url = reverse_lazy('select-room-assignment', args=(exam.pk, ))
+
+        resp = self.client.post(url, post_data)
+
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.url, reverse_lazy(
+            'edit-room-assignment', args=(exam.pk, date)))
+
+
+    def test_edit_room_assignment_wrong_data(self):
+        self.client.login(username='um0', password='dhaval27')
+
+        exam = Exam.objects.create(
+            exam_name='test_edit_room_assignment_wrong_date', academic_year=2016)
+
+        # Pick really any subject
+        # subject = Subject.objects.filter(semester=self.bca2)[2]
+
+        date = '02/02/2017'
+        post_data = {
+            'start_seat': 210,
+            'end_seat': 200,
+            'room_name': 'FOOBAR',
+            'date': date,
+            'subject_name': 'SubjectName',
+            'submit': 'Add New'
+        }
+
+        url = reverse_lazy('edit-room-assignment', args=(exam.pk, date))
+        self.client.post(url, post_data)
+
+        ra = exam.roomassignment_set.all().first()
+        print(ra)
+        self.assertTrue(ra is None)
+
+    def test_edit_room_assignment(self):
+        self.client.login(username='um0', password='dhaval27')
+
+        exam = Exam.objects.create(
+            exam_name='test_edit_room_assignment', academic_year=2016)
+
+        # Pick really any subject
+        # subject = Subject.objects.filter(semester=self.bca2)[2]
+
+        date = '2017-02-02'
+        post_data = {
+            'start_seat': 210,
+            'end_seat': 222,
+            'room_name': 'FOOBAR',
+            'date': date,
+            'subject_name': 'SubjectName',
+            'submit': 'Add New'
+        }
+
+        form = RoomAssignmentForm(post_data)
+        if not form.is_valid():
+            print(form.errors)
+
+        url = reverse_lazy('edit-room-assignment',
+                           args=(exam.pk, '02/02/2017'))
+        self.client.post(url, post_data)
+
+        ra = exam.roomassignment_set.all().first()
+        print(ra)
+
+        self.assertTrue(ra is not None)
