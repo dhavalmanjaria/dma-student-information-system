@@ -171,3 +171,19 @@ class Command(BaseCommand):
         Subject.objects.get_or_create(
             name='BA', semester=bca_4, is_university_subject=True)
 
+        # BCA VI
+        Subject.objects.get_or_create(
+            name='ASP.NET', semester=bca_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='UML', semester=bca_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='E-Commerce', semester=bca_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='OB', semester=bca_6, is_university_subject=True)
+
+        Subject.objects.get_or_create(
+            name='Project', semester=bca_6, is_university_subject=True)
+
