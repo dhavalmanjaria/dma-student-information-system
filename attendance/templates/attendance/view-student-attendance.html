@@ -14,8 +14,10 @@ For {{ curr_month_name }}: {{ attended_lectures }} / {{ total_lectures }} attend
 {% endblock %}
 
 {% block content %}
-Month: 
-<select id="select-month">
+<form action="{% url 'view-student-attendance' %}" method="GET">
+
+<label for="select-month">Month: </label>
+<select name="month" id="select-month">
     {% for i, name in months.items %} 
         {% if i == current_month %}
             <option value="{{ i }}" selected="selected">{{ name }}</option>
@@ -24,7 +26,10 @@ Month:
         {% endif %}
     {% endfor %}
 </select>
-<a href="#" class="btn btn-default" id="btn-go">GO</a>
+<input type="submit" class="btn btn-default" value=" GO" />
+<!--<a href="{% url 'view-student-attendance' %}" class="btn btn-default" id="btn-go">GO</a> -->
+
+</form>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -40,8 +45,9 @@ Month:
                 <td>{{ dt }}</td>
                 {% for a in att %}
                     <td {% if a.is_present %} style="color: green" {% endif %}>
-                        {{ a.lecture.subject.name }}
+                    
                         <input type="checkbox" {% if a.is_present %} checked {% endif %} disabled />
+                        {{ a.lecture.subject.name }}
                     </td>
                 {% endfor %}
             </tr>

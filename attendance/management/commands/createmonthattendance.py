@@ -30,10 +30,11 @@ class Command(BaseCommand):
         parser.add_argument('course', type=str, nargs='+')
         parser.add_argument('sem_no', type=int, nargs='+')
 
-
     def handle(self, *args, **options):
-        course_name = options['course'][0]
-        sem_no = int(options['sem_no'][0])
+        course_name = options['course']
+        sem_no = int(options['sem_no'])
+
+        LOG.debug(course_name)
 
         semester = Semester.objects.get(
             course__short_name=course_name, semester_number=sem_no)
@@ -41,7 +42,7 @@ class Command(BaseCommand):
         year = datetime.now().year
         num_days = calendar.monthrange(year, month)[1]
 
-        LOG.debug(num_days)
+        # LOG.debug(num_days)
 
         dates = [datetime(year, month, x) for x in range(1, num_days + 1)]
 
@@ -58,8 +59,8 @@ class Command(BaseCommand):
                         day_of_week=dt.isoweekday(), semester=semester)
                     for lect in lectures:  # for each lecture on that day
                         # create an attendance record
-                        att = Attendance(
+                        att = Attendance.objects.get_or_create(
                             date=dt, student=std, lecture=lect,
                             is_present=False)
                         #TODO: Write test to make sure attendance is proper
-                        att.save()
+                        # att.save()

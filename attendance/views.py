@@ -20,7 +20,7 @@ MONTHS = {
     1: 'January',
     2: 'February',
     3: 'March',
-    4: 'Apri',
+    4: 'April',
     5: 'May',
     6: 'June',
     7: 'July',
@@ -157,6 +157,7 @@ def get_semester_attendance_list(request, pk, date):
 
     return render(request, 'attendance/all-attendance.html', context)
 
+
 @login_required
 @permission_required('user_management.can_write_attendance')
 def save_attendance_list(request, pk, date):
@@ -201,7 +202,7 @@ def save_attendance_list(request, pk, date):
                 att.save()
 
     return redirect('attendance-list',
-                             pk = semester.pk, date=(str(date.date())))
+                    pk=semester.pk, date=(str(date.date())))
 
 
 class SelectAttendance(LoginRequiredMixin, PermissionRequiredMixin,
