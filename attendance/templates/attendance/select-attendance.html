@@ -18,7 +18,7 @@ Select the course, semester and the day to view attendance for.
             <strong>Date: </strong>
         </td>
         <td>
-            <input name="date" class="datepicker" type="text" />
+            <input name="date" class="datepicker" type="text" value='{{ current_date|date:"d/m/Y"}}'/>
         </td>
     </tr>
     {% endblock %}

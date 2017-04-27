@@ -63,6 +63,9 @@ class SelectCourseSemester(View):
     # The view to redirect to after the user properly makes their choices
     redirect_to = ''
 
+    # Additional context
+    context = {}
+
     def get_semester_from_post(self, request):
         """
         Gets a semester object from the POST set
@@ -161,11 +164,10 @@ class SelectCourseSemester(View):
             semester = form.cleaned_data['semester']
             return redirect(self.redirect_to, semester.pk)
         else:
-            context = {}
-            context['errors'] = True
-            context['form'] = form
-        return render(request, self.select_template, context)
-
+            self.context = {}
+            self.context['errors'] = True
+            self.context['form'] = form
+        return render(request, self.select_template, self.context)
 
     def get(self, request):
         """
@@ -177,10 +179,10 @@ class SelectCourseSemester(View):
         if request.is_ajax():
                 return JsonResponse(options)
 
-        return render(request, self.select_template)
+        return render(request, self.select_template, self.context)
 
 
-#TODO: Move to own app, or at least the user_management app
+# TODO: Move to own app, or at least the user_management app
 @login_required
 def auth_requests(request):
     """

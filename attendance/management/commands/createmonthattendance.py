@@ -3,11 +3,12 @@ from attendance.models import Attendance
 from timetable.models import TimeTable
 from curriculum.models import Semester, Subject
 from user_management.models.group_info import StudentInfo
-from datetime import datetime
+from datetime import datetime, timedelta
 import calendar
 import logging
 
 LOG = logging.getLogger('app')
+
 
 class Command(BaseCommand):
     """
@@ -31,13 +32,18 @@ class Command(BaseCommand):
         parser.add_argument('sem_no', type=int, nargs='+')
 
     def handle(self, *args, **options):
-        course_name = options['course']
-        sem_no = int(options['sem_no'])
+        LOG.debug(options)
+
+        course_name = options['course'][0]
+        sem_no = int(options['sem_no'][0])
+
+        LOG.debug(options)
 
         LOG.debug(course_name)
 
         semester = Semester.objects.get(
             course__short_name=course_name, semester_number=sem_no)
+        
         month = datetime.now().month
         year = datetime.now().year
         num_days = calendar.monthrange(year, month)[1]
@@ -52,15 +58,18 @@ class Command(BaseCommand):
         students = [sinfo for sinfo in StudentInfo.objects.filter(
             semester=semester)]
 
+        tomorrow = datetime.today().date() + timedelta(days=1)
+
         for std in students:  # For each student
             for dt in dates:  # on each day
-                if dt.isoweekday() in days:
+                # date is a working day and is in the future
+                if dt.isoweekday() in days and tomorrow > dt.date():
                     lectures = TimeTable.objects.filter(
                         day_of_week=dt.isoweekday(), semester=semester)
                     for lect in lectures:  # for each lecture on that day
                         # create an attendance record
-                        att = Attendance.objects.get_or_create(
-                            date=dt, student=std, lecture=lect,
-                            is_present=False)
-                        #TODO: Write test to make sure attendance is proper
-                        # att.save()
+                        att, created = Attendance.objects.get_or_create(
+                            date=dt, student=std, lecture=lect)
+                        if created:
+                            att.is_present = False
+                            att.save()

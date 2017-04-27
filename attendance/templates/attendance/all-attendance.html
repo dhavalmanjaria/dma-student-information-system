@@ -65,7 +65,15 @@ Attendance for {{ semester }}
 {% endblock %}
 
 {% block other_content %}
-<div id="alert-div" class="alert alert-success" style="display: none">
+{% if perms.user_management.can_auth_Faculty %}
 
+<div class="panel panel-default">
+    <div class="panel-body">
+        <a href"" class="btn btn-large btn-danger">Generate for current month</a>
     </div>
+</div>
+
+{% endif %}
+<div id="alert-div" class="alert alert-success" style="display: none">
+</div>
 {% endblock %}

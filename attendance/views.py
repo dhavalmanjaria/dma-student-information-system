@@ -10,6 +10,7 @@ from timetable.models import TimeTable
 from collections import OrderedDict
 from datetime import datetime
 from actions.views import SelectCourseSemester
+from .forms import SelectAttendanceForm
 import logging
 
 LOG = logging.getLogger('app')
@@ -210,27 +211,26 @@ class SelectAttendance(LoginRequiredMixin, PermissionRequiredMixin,
 
     permission_required = ('user_management.can_read_attendance')
 
+    form = SelectAttendanceForm(initial={'date': datetime.now()})
+    select_template = 'attendance/select-attendance.html'
+    redirect_to = 'attendance-list'
+
+    # For default for date
+    context = {'current_date': datetime.now()}
+
     def post(self, request):
+        form = SelectAttendanceForm(request.POST)
 
-        semester = super(SelectAttendance, self).get_semester_from_post(
-            request)
+        if form.is_valid():
+            semester = form.cleaned_data['semester']
+            date = form.cleaned_data['date']
 
-        context = {}
+            date = datetime.strptime(request.POST.get('date'), "%d/%m/%Y")
 
-        context['semester'] = semester
-
-        date = datetime.strptime(request.POST.get('date'), "%d/%m/%Y")
-   
-        return redirect('attendance-list', pk=semester.pk, date=(
-            str(date.date())))
-
-    def get(self, request):
-
-        options = super(SelectAttendance, self).get_options(request)
-        LOG.debug(options)
-
-        if request.is_ajax():
-            return JsonResponse(options)
-
-        return render(request, 'attendance/select-attendance.html')
-   
+            return redirect('attendance-list', pk=semester.pk, date=(
+                str(date.date())))
+        else:
+            self.context = {}
+            self.context['errors'] = True
+            self.context['form'] = form
+        return render(request, self.select_template, self.context)

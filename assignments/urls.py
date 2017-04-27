@@ -29,5 +29,3 @@ urlpatterns += [
         views.AssignmentUpdate.as_view(),
         name='update-assignment')
 ]
-
-

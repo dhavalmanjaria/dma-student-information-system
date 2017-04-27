@@ -1,12 +1,14 @@
 from django.test import TestCase
 from timetable.models import TimeTable
 from django.contrib.auth.models import User, Group
-from user_management.models.group_info import StudentInfo
+from user_management.models.group_info import StudentInfo, FacultyInfo
 from user_management.management.commands import initgroups
 from curriculum.management.commands import initcurriculum
 from attendance.management.commands import createmonthattendance
 from curriculum.models import Semester, Subject
 from .models import Attendance
+from datetime import datetime
+import calendar
 # from timetable.tests import TimeTableTest
 
 
@@ -79,11 +81,50 @@ class AttendanceTest(TestCase):
         StudentInfo.objects.create(
             user=std_bca3, semester=bca2)
 
-        tt_create = CreateTimeTable()
+        CreateTimeTable()
 
         cmd = createmonthattendance.Command()
-        cmd.handle(course='BCA', sem_no=2)
-
+        cmd.handle(course=['BCA', ], sem_no=[6])
 
     def test_create_attendance(self):
-        pass
+        """
+        Ensures one and only one attendance record exists for each student,
+        for each lecture, for each day.
+        """
+
+        month = datetime.now().month
+        year = datetime.now().year
+        num_days = calendar.monthrange(year, month)[1]
+
+        dates = [datetime(year, month, x) for x in range(1, num_days + 1)]
+
+        # CreateTimeTable()
+
+        bca6 = Semester.objects.get(
+            course__short_name="BCA", semester_number=6)
+        days = set([x.day_of_week for x in TimeTable.objects.filter(
+            semester=bca6).order_by('day_of_week')])
+
+        for std in StudentInfo.objects.all():
+            for dt in dates:
+                if dt.isoweekday() in days:
+                    lectures = TimeTable.objects.filter(
+                        day_of_week=dt.isoweekday(), semester=bca6)
+                    # .get() here also ensures that only one attendance object
+                    # exists for that date, student, lecture
+                    for lect in lectures:
+                        self.assertTrue(Attendance.objects.get(
+                            date=dt,
+                            student=std,
+                            lecture=lect) is not None)
+
+    def test_faculty_hod_attendance(self):
+        fac_bca_hod, created = User.objects.get_or_create(
+            username='fac_bca_hod')
+        fac_bca_hod.password = 'dhaval27'
+        fac_bca_hod.save()
+
+        FacultyInfo.objects.get_or_create(
+            user=fac_bca_hod, course=self.bca2.course)
+
+        self.client.login(username='fac_bca_hod', password='dhaval27')
