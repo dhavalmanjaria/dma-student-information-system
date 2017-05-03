@@ -31,7 +31,6 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.admin',
@@ -196,3 +195,10 @@ TEST_RUNNER = 'student_information_system.runner.MyTestRunner'
 
 LOGIN_URL = '/user_management/accounts/login/'
 # LOGIN_REDIRECT_URL = '/user_management/accounts/profile'
+
+# Email settings for password reset stuff.
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mail.dma.sis@gmail.com'
+EMAIL_HOST_PASSWORD = 'dhavalanjaria@gmail.com'
+EMAIL_PORT = 587

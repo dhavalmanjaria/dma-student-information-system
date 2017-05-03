@@ -5,12 +5,10 @@ from django.contrib import auth
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
-#    url('^$', RedirectView.as_view(url='/user_management/accounts/profile/'), name='index')
-]
-
-urlpatterns += [
     url('^register/', views.registration_view, name='register')
 ]
+
+# Accounts
 
 urlpatterns += [
     url('^accounts/login/',
@@ -25,11 +23,29 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url('^accounts/', include('django.contrib.auth.urls'))
+    url('^accounts/profile/', views.profile, name='profile')
+]
+
+
+urlpatterns += [
+    url(r'^accounts/password_reset/$', auth.views.password_reset,
+        name='password_reset')
 ]
 
 urlpatterns += [
-    url('^accounts/profile/', views.profile, name='profile')
+    url(r'^accounts/password_reset/done/$',
+        auth.views.password_reset_done,
+        name='password_reset_done')
+]
+
+urlpatterns += [
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', 
+        auth.views.password_reset_confirm, name='password_reset_confirm')
+]
+
+urlpatterns += [
+    url(r'^reset/done/$', auth.views.password_reset_complete,
+        name='password_reset_complete')
 ]
 
 urlpatterns += [
@@ -37,13 +53,7 @@ urlpatterns += [
         name='user-detail')
 ]
 
-
-# urlpatterns += [
-#     url(r'^select-subject/', views.SelectSubjectForFaculty.as_view(),
-#         name="select-subject")
-# ]
-
-
+# Set Subject Faculty
 urlpatterns += [
     url(r'^set-faculty/(?P<subject_pk>[\d]+)', views.set_faculty,
         name="set-faculty")

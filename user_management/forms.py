@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
 import datetime
@@ -12,7 +12,14 @@ LOG = logging.getLogger('app')
 class UserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name','username', 'email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'username', 'email', 'password1',
+                  'password2')
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+
+
 
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)

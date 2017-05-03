@@ -27,6 +27,7 @@ to perfectly center the form -->
                         {{ form.password }}
                         </li>
                         <li class="list-group-item">
+                            <input type="hidden" name='next' value="/user_management/accounts/profile" />
                             <input type="submit" class="btn btn-info btn-md" value="Login" />
                         </li>
                         {% if form.errors %}
@@ -36,12 +37,10 @@ to perfectly center the form -->
                         </li>    
                         
                         {% endif %}
-                        <li class="list-group-item">
-                            <input type="hidden" name='next' value="/user_management/accounts/profile" />
-                        </li>
+                        
                 </ul>
                 </form>
-                <a href="#"><p>Forgot Password?</p></a>
+                <a href="{% url 'password_reset' %}"><p>Forgot Password?</p></a>
             </div>
         </div>
     </center>

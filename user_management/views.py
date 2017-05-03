@@ -7,8 +7,9 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group, User, Permission
+from django.contrib.auth.forms import SetPasswordForm
 from actions.views import SelectCourseSemester
-from curriculum.models import Course, Subject, Semester
+from curriculum.models import Course, Subject
 from .management.commands import initgroups
 import logging
 LOG = logging.getLogger('app')
@@ -26,7 +27,7 @@ def _getSecondForm(request, user=None):
         try:
             if "Student" == Group.objects.get(id=group).name:
                 return StudentInfoForm(
-                        request.POST, instance=user)
+                    request.POST, instance=user)
             if "Faculty" == Group.objects.get(id=group).name:
                 return FacultyInfoForm(
                     request.POST, instance=user)
@@ -42,8 +43,6 @@ def _getSecondForm(request, user=None):
             return StudentInfoForm()
         if group == '5':
             return FacultyInfoForm()
-        if group == '7':
-            return AdminInfoForm()
 
 
 def registration_view(request):
@@ -74,10 +73,11 @@ def registration_view(request):
                             group=user.basicinfo.group)
                         req.save()
                     else:
-                        LOG.debug("SECOND FORM ERRORS:" + str(second_form.errors))
+                        LOG.debug("SECOND FORM ERRORS:" + str(
+                            second_form.errors))
 
                 return redirect("index")
-                
+
             else:
                 LOG.debug("BASIC INFO ERRORS:" + str(basic_info_form.errors))
 
@@ -184,7 +184,6 @@ def set_faculty(request, subject_pk):
                   context)
 
 
-
 @login_required
 @permission_required('user_management.can_auth_FacultyHOD')
 def select_hod_course(request):
@@ -195,7 +194,6 @@ def select_hod_course(request):
 
     return render(request, 'user_management/select-hod-course.html',
                   context)
-
 
 
 @login_required
@@ -236,3 +234,15 @@ def set_hod(request, course_pk):
 
     return render(request, 'user_management/set-hod.html',
                   context)
+
+
+# class PasswordResetView(FormView):
+#     """
+#     Reset a password for a specific user.
+#     """
+#     template_name = 'user_management/password_reset_form.html'
+#     success_url = 'accounts/password_reset_complete'
+#     form_class = SetPasswordForm
+
+#     def post=(self, request, *args, **kwargs):
+#         pass
