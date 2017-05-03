@@ -1,0 +1,24 @@
+{% extends "base-document-requests.html" %}
+
+{% block header_title %}
+Document Requests
+{% endblock %}
+
+{% block content_body %}
+<table class="table table-striped">
+    <tr>
+        <th>Student Name</th>
+        <th>Document Request Type</th>
+        <th>Action if granted</th>
+    </tr>
+    {% for req in documentrequest_list %}
+    <tr>
+        <td>{{ req.student }} </td>
+        <td>{{ req.get_document_display }}</td>
+        {% if perms.user_management.can_read_id_card_req %}
+            <td><a href="{% url 'grant-document-request' pk=req.pk %}" class="btn btn-danger">Delete</a></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

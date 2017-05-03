@@ -43,7 +43,7 @@ PERMISSIONS_BY_ROLE = {
                                   ('can_read_rail_pass_req'),
                                   ('can_write_rail_pass_req'),
                                   ('can_read_bonafide_req'),
-                                  ('can_read_bonafide_req')),
+                                  ('can_write_bonafide_req')),
 
     'Student': (('can_write_pass_my_book'),
                 ('can_write_id_card_req'),

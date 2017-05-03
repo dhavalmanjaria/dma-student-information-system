@@ -41,7 +41,7 @@ def dashboard(request):
     # TODO: Filter actions based on permissions
 
     if StudentInfo.objects.filter(user=request.user).first():  # User is student
-            return render(request, 'student-dashboard.html')
+        return render(request, 'student-dashboard.html')
     
     return render(request, 'dashboard.html')
 

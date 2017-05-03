@@ -18,8 +18,8 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'^accounts/logout/$', auth.views.logout,
-        {'next_page': 'index'})
+    url(r'^accounts/logout/', auth.views.logout,
+        {'next_page': 'index'}, name='logout')
 ]
 
 urlpatterns += [
