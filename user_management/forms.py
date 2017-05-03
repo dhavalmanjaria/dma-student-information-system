@@ -10,6 +10,9 @@ LOG = logging.getLogger('app')
 
 
 class UserForm(UserCreationForm):
+    """
+    Represents a form for the User model.
+    """
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1',
@@ -36,6 +39,9 @@ class UserForm(UserCreationForm):
 
 
 class BasicInfoForm(forms.ModelForm):
+    """
+    Represents form for the BasicInfo model for each user.
+    """
     student_pk = None
     faculty_pk = None
     subadmin_pk = None
@@ -78,6 +84,9 @@ class BasicInfoForm(forms.ModelForm):
 
 
 class StudentInfoForm(forms.ModelForm):
+    """
+    ModelForm for StudentInfo for student users.
+    """
     class Meta:
         model = StudentInfo
         fields = ('semester', )
@@ -96,7 +105,9 @@ class StudentInfoForm(forms.ModelForm):
 
 
 class FacultyInfoForm(forms.ModelForm):
-
+    """
+    ModelForm for FacultyInfo for Faculty users.
+    """
     class Meta:
         model = FacultyInfo
         fields = ('course', )

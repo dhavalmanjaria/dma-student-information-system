@@ -45,7 +45,7 @@ class BasicInfo(models.Model):
         return self.user.first_name + " " + self.user.last_name   
 
 
-# This is basic basic info HAS to be saved.
+# This is because basicinfo HAS to be saved.
 # We might not use signals when saving user info.
 @receiver(post_save, sender=User)
 def create_basic_info(sender, instance, created, **kwargs):

@@ -111,7 +111,7 @@
                         <td> {{ activity.conductor }} </td>
                         <td><a href="{% url 'view-activity' pk=activity.pk %}">View</a> </td>
                                 {% if perms.user_management.can_write_activity_log %}
-                                    <td><a href="{% url 'activity-update' pk=activity.pk %}">Edit</a> </td>
+                                    <td><a href="{% url 'update-activity' pk=activity.pk %}">Edit</a> </td>
                                 {% endif %}
                     </tr>
                 {% endfor %}

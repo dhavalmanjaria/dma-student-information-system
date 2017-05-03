@@ -11,7 +11,7 @@ urlpatterns = [
 # Accounts
 
 urlpatterns += [
-    url('^accounts/login/',
+    url(r'^accounts/login/',
         auth.views.login,
         {'template_name': 'registration/login.html'},
         name='login')
@@ -19,11 +19,11 @@ urlpatterns += [
 
 urlpatterns += [
     url(r'^accounts/logout/$', auth.views.logout,
-        {'next_page': 'index'})
+        {'next_page': 'index'}, name='logout')
 ]
 
 urlpatterns += [
-    url('^accounts/profile/', views.profile, name='profile')
+    url(r'^accounts/profile/', views.profile, name='profile')
 ]
 
 

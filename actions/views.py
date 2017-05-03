@@ -17,6 +17,9 @@ LOG = logging.getLogger('app')
 
 
 def index(request):
+    """
+    Returns records for Public actions and renders the main page
+    """
     context = {}
     # Here we show the first five records for:
     # Notices

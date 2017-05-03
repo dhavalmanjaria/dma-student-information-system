@@ -17,10 +17,17 @@ LOG = logging.getLogger('app')
 
 @login_required
 def profile(request):
+    """
+    Redirect to user's profile page.
+    """
     return redirect('user-detail', pk=request.user.pk)
 
 
 def _getSecondForm(request, user=None):
+    """
+    Return form for additional information pertaining to a particular group
+    info that is inherited from BasicInfo
+    """
     if request.method == 'POST':
         group = request.POST.get('group')
         LOG.debug("POST option: " + group)
@@ -131,10 +138,10 @@ class SelectSubjectForFaculty(SelectCourseSemester,
         permission_required = 'user_management.can_write_subject_faculty'
 
     def post(self, request):
-        subject_pk = super(
+        subject = super(
             SelectSubjectForFaculty, self).get_subject_from_post(request)
 
-        return redirect('set-faculty', subject_pk=subject_pk)
+        return redirect('set-faculty', subject_pk=subject.pk)
 
     def get(self, request):
         options = super(SelectSubjectForFaculty, self).get_options(request)

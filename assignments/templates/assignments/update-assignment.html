@@ -1,5 +1,9 @@
 {% extends "base-assignments.html" %}
 
+{% block header_title %}
+Update Assignment 
+{% endblock %}
+
 {% block als_body %}
     <li class="list-group-item">
         <a href="{% url 'all-assignments' subject_pk=assignment.subject.pk %}">View Assignments</a>

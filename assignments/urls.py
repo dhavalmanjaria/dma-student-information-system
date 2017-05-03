@@ -8,8 +8,7 @@ urlpatterns = [
 urlpatterns += [
     url(r'^create-assignment/(?P<subject_pk>[\d]+)', views.create_assignment,
         name='create-assignment')
-]#(?P<semester>[\w]+)/(?P<subject>[\w]+)
-
+]
 
 urlpatterns += [
     url(r'^all-assignments/(?P<subject_pk>[\d]+)',

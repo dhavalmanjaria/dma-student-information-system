@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'activity_log.apps.ActivityLogConfig',
     'university_credits.apps.UniversityCreditsConfig',
     'online_discussion.apps.OnlineDiscussionConfig',
-    'examinations.apps.ExaminationsConfig'
+    'examinations.apps.ExaminationsConfig',
 ]
 
 MIDDLEWARE = [

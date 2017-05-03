@@ -27,9 +27,9 @@ urlpatterns += [
     url(r'^$', views.index, name='index')
 ]
 
-urlpatterns += [
-    url(r'^accounts/', include('django.contrib.auth.urls')),
-]
+# urlpatterns += [
+#     url(r'^accounts/', include('django.contrib.auth.urls')),
+# ]
 
 urlpatterns += [
     url(r'^user_management/', include('user_management.urls'))
