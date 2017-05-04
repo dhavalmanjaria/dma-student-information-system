@@ -73,3 +73,7 @@ urlpatterns += [
 urlpatterns += [
     url(r'^examinations/', include('examinations.urls'))
 ]
+
+urlpatterns += [
+    url(r'^document-requests/', include('document_requests.urls'))
+]

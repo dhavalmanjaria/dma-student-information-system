@@ -1,0 +1,29 @@
+{% extends "base-document-requests.html" %}
+
+{% block header_title %}
+My pending document requests
+{% endblock %}
+{% block content_heading %}
+Pending Requests
+{% endblock %}
+{% block content_body %}
+<ul class="list-group">
+{% for req in document_requests %}
+<li class="list-group-item">Request for {{ req.get_document_display }} </li>
+{% empty %}
+No pending requests at this time.
+{% endfor %}
+</ul>
+
+{% endblock %}
+
+{% block other_content %}
+<div class="panel panel-default">
+<div class="panel-body">
+{% if perms.user_management.can_write_id_card_req %}
+    <a href="{% url 'create-document-request' pk=student.pk %}">Create new</a>
+
+{% endif %}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base-document-requests.html" %}
+
+{% block content_body %}
+
+<table class="table">
+
+<form action="" method="POST">
+{% csrf_token %}
+<tr>
+    <input type="hidden" name="student" value="{{ student_pk }}" />
+    <td><label for="id_document">Document: </label></td>
+    <td>{{ form.document }}</td>
+<tr>
+<tr>
+    <td>
+        <input type="submit" class="btn btn-primary" value="Send Request" />
+    </td>
+</tr>
+{% if form.errors %}
+<tr>
+    <td>{{ form.errors }}</td>
+</tr>
+{% endif %}
+</form>
+{% endblock %}
