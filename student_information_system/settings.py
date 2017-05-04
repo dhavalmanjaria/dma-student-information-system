@@ -51,10 +51,7 @@ INSTALLED_APPS = [
     'university_credits.apps.UniversityCreditsConfig',
     'online_discussion.apps.OnlineDiscussionConfig',
     'examinations.apps.ExaminationsConfig',
-<<<<<<< HEAD
-=======
     'document_requests.apps.DocumentRequestsConfig'
->>>>>>> add-doc-requests
 ]
 
 MIDDLEWARE = [
