@@ -18,11 +18,7 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-<<<<<<< HEAD
-    url(r'^accounts/logout/$', auth.views.logout,
-=======
     url(r'^accounts/logout/', auth.views.logout,
->>>>>>> add-doc-requests
         {'next_page': 'index'}, name='logout')
 ]
 

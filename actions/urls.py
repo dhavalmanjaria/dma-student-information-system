@@ -20,7 +20,6 @@ urlpatterns += [
         name='select-option')
 ]
 
-
 urlpatterns += [
     url(r'^grant_request/$', views.grant_request,
         name='grant_request')
