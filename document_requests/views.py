@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, edit
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import (
@@ -33,7 +34,7 @@ def grant_document_request(request, pk):
     except Exception:
         pass
 
-    return redirect('/document-requests/all-document-requests')
+    return redirect(reverse_lazy('all-document-requests'))
 
 
 class CreateDocumentRequest(LoginRequiredMixin, PermissionRequiredMixin,
@@ -45,8 +46,26 @@ class CreateDocumentRequest(LoginRequiredMixin, PermissionRequiredMixin,
 
     permission_required = (('user_management.can_write_id_card_req'), )
 
-    def post(request, *args, **kwargs):
-        return redirect('/document-requests/view-my-document-requests')
+    fields = '__all__'
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateDocumentRequest, self).get_context_data(**kwargs)
+        context['student_pk'] = self.kwargs['pk']
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = super(CreateDocumentRequest, self).get_form(self.form_class)
+
+        if form.is_valid():
+            dr = DocumentRequest()
+            dr.student = form.cleaned_data['student']
+            dr.document = form.cleaned_data['document']
+
+            dr.save()
+
+            return redirect(reverse_lazy('view-my-document-requests'))
+
+        return render(request, self.template_name, {'form': form})
 
 
 @login_required
@@ -56,8 +75,10 @@ def view_my_document_request(request):
 
     student = StudentInfo.objects.filter(user__pk=request.user.pk).first()
 
+    context['student'] = student
     context['document_requests'] = DocumentRequest.objects.filter(
         student=student)
 
-    return render(request, 'document-requests/create-document-request.html',
+
+    return render(request, 'document-requests/view-my-document-requests.html',
                   context)
