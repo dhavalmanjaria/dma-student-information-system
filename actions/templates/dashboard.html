@@ -116,6 +116,16 @@
                 </td>
             </tr>
             {% endif %}
+
+            {% if perms.user_management.can_read_fee_collections %}
+            <tr>
+                <td><strong>Fee Management</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'select-fees' %}">GO</a>
+
+                </td>
+            </tr>
+            {% endif %}
         </table>
     </div>
 </div>

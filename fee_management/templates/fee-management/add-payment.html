@@ -1,0 +1,47 @@
+{% extends "base-fee-management.html" %}
+
+{% block header_title %}
+Add payment
+{% endblock %}
+
+{% block content_heading %}
+Payments made
+{% endblock %}
+{% block content_body %}
+
+{% if success == True %}
+    <div class="alert alert-success">Success!</div>
+{% endif %}
+
+<div class="panel-body"><strong>Fees Pending: {{ fee_collection.pending_amount }} INR</strong></div>
+<table class="table table-striped">
+<form action="" method="POST">
+{% csrf_token %}
+<tr>
+
+    <td>
+        <input type="text" value='{{ current_date}}' disabled>
+    </td>
+    <td><input type="number" min="0" name="amount" required /></td>
+    <td>
+        <input type="hidden" name="student_fee" value="{{ fee_collection.pk }}">
+        <input type="submit" value="Add" class="btn btn-primary">
+
+    </td>
+</tr>
+</form>
+
+<tr>
+    <th>Student Name</th>
+    <th>Payments made</th>
+</tr>
+
+{% for payment in payments %}
+<tr>
+    <td>{{ payment.date }}</td>
+    <td>{{ payment.amount }}</td>
+</tr>
+
+{% endfor %}
+</table>
+{% endblock %}

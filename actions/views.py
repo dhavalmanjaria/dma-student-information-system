@@ -9,6 +9,7 @@ from internal_assessment.models import StudentMetric, Metric
 from university_credits.models import UniversityCredit, SubjectCredit
 from notices.models import Notice
 from examinations.models import Exam
+from fee_management.models import FeeCollection
 from activity_log.models import Activity
 from .forms import SelectSemesterForm
 import logging
@@ -239,6 +240,14 @@ def create_university_credits(user):
         smetric.save()
 
 
+def create_fee_record(user):
+    """
+    Creates a new fee record for the student with 0 amount pending
+    """
+    FeeCollection.objects.get_or_create(student=user, pending_amount=0)
+
+
+
 @login_required
 def grant_request(request):
     """
@@ -266,5 +275,8 @@ def grant_request(request):
        
             # University Credits
             create_university_credits(user)
+
+            # Fee Management
+            create_fee_record(user)
 
     return HttpResponse("view complete")

@@ -76,3 +76,7 @@ urlpatterns += [
 urlpatterns += [
     url(r'^document-requests/', include('document_requests.urls'))
 ]
+
+urlpatterns += [
+    url(r'^fee-management/', include('fee_management.urls'))
+]

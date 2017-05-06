@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'university_credits.apps.UniversityCreditsConfig',
     'online_discussion.apps.OnlineDiscussionConfig',
     'examinations.apps.ExaminationsConfig',
-    'document_requests.apps.DocumentRequestsConfig'
+    'document_requests.apps.DocumentRequestsConfig',
+    'fee_management.apps.FeeManagementConfig'
 ]
 
 MIDDLEWARE = [

@@ -121,3 +121,16 @@ class FacultyInfoForm(forms.ModelForm):
             self.instance.save()
 
         return f_info
+
+
+class AdminInfoForm(forms.Form):
+    """
+    For now the form contains nothing. Might contain fields in the future.
+    """
+
+    # Return true by default since there are no fields to validate
+    def is_valid(self):
+        return True
+
+    def save(self, commit=True):
+        pass

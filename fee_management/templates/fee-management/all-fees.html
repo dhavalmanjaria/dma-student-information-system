@@ -1,0 +1,31 @@
+{% extends "base-fee-management.html" %}
+
+{% block header_title %}
+Student Fees
+{% endblock %}
+
+{% block content_heading %}
+Student Fees
+{% endblock %}
+{% block content_body %}
+<table class="table">
+<tr>
+    <th>Student Name</th>
+    <th>Pending Amount</th>
+    <th>Payments</th>
+</tr>
+{% for sfee in feecollection_list %}
+<tr>
+    <td>
+        {{ sfee.student }}
+    </td>
+    <td>
+         {{ sfee.pending_amount }} 
+    </td>
+    <td>
+        <a href="{% url 'add-payment' std_pk=sfee.student.pk %}" class="btn btn-primary">View</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm
+from .forms import (
+    UserForm, BasicInfoForm, StudentInfoForm, FacultyInfoForm, AdminInfoForm)
 from django.http import HttpResponse, JsonResponse
 from .models.group_info import FacultyInfo
 from .models.auth_requests import AuthenticationRequest
 from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin, PermissionRequiredMixin)
 from django.contrib.auth.models import Group, User, Permission
 from django.contrib.auth.forms import SetPasswordForm
 from actions.views import SelectCourseSemester
@@ -32,12 +34,15 @@ def _getSecondForm(request, user=None):
         group = request.POST.get('group')
         LOG.debug("POST option: " + group)
         try:
-            if "Student" == Group.objects.get(id=group).name:
+            group_name = Group.objects.get(id=group).name
+            if "Student" == group_name:
                 return StudentInfoForm(
                     request.POST, instance=user)
-            if "Faculty" == Group.objects.get(id=group).name:
+            if "Faculty" == group_name:
                 return FacultyInfoForm(
                     request.POST, instance=user)
+            if "SubAdmin" == group_name or "Library" == group_name or "Accounts" == group_name:
+                return AdminInfoForm(request.POST)
         except Exception:
             print("Group matching query does not exist, probably")
     else:
