@@ -12,6 +12,7 @@ Student Fees
 <tr>
     <th>Student Name</th>
     <th>Pending Amount</th>
+    <th>Edit Fee</th>
     <th>Payments</th>
 </tr>
 {% for sfee in feecollection_list %}
@@ -21,6 +22,9 @@ Student Fees
     </td>
     <td>
          {{ sfee.pending_amount }} 
+    </td>
+    <td>
+        <a href="{% url 'edit-fees' std_pk=sfee.student.pk %}">Edit</a>
     </td>
     <td>
         <a href="{% url 'add-payment' std_pk=sfee.student.pk %}" class="btn btn-primary">View</a>

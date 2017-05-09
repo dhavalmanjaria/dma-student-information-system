@@ -204,3 +204,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mail.dma.sis@gmail.com'
 EMAIL_HOST_PASSWORD = 'dhavalanjaria@gmail.com'
 EMAIL_PORT = 587
+
+# Close the session when user closes the browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

@@ -1,5 +1,5 @@
 from django import forms
-from .models import FeeCollection, Payment
+from .models import FeeCollection, Payment, FeeItem
 
 
 class PaymentForm(forms.ModelForm):
@@ -17,3 +17,17 @@ class PaymentForm(forms.ModelForm):
                 "Amount entered is greater than pending amount")
 
         return data
+
+
+class AmountPendingForm(forms.ModelForm):
+
+    class Meta:
+        model = FeeCollection
+        fields = (('pending_amount'),)
+
+
+class FeeItemForm(forms.ModelForm):
+
+    class Meta:
+        model = FeeItem
+        fields = (('item_name'), ('item_amount'))

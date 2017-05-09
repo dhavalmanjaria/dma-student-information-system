@@ -1,0 +1,55 @@
+{% extends "base-fee-management.html" %}
+
+{% block content_body %}
+{% if success %}
+<div class="alert alert-success">Success!</div>
+{% endif %}
+{% for fee_item in fee_items %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <ul class="list-group">
+            <li class="list-group-item">
+            Item Name:
+            </li>
+            <li class="list-group-item">
+                <input name="item_name" value="{{ fee_item.item_name }}" required/>
+                {{ form.item_name.errors }}
+            </li>
+            <li class="list-group-item">
+            Item Amount:
+            </li>
+            <li class="list-group-item">
+                <input name="item_amount" value="{{ fee_item.item_amount }}" required/>
+                {{ form.item_amount.errors }}
+            </li>
+                <input type="hidden" name="fee_item_pk" value="{{ fee_item.pk }}" />
+    <li class="list-group-item"><input type="submit" class="btn btn-primary btn-sm" name="submit" value="Save" />
+    <input type="submit" class="btn btn-danger btn-sm" name="submit" value="Delete" /></li>
+            </li>
+        </ul>
+    </form>
+{% endfor %}
+
+<form action="" method="POST">
+{% csrf_token %}
+        <ul class="list-group">
+            <li class="list-group-item">
+            Item Name:
+            </li>
+            <li class="list-group-item">
+                <input name="item_name" required/>
+                {{ form.item_name.errors }}
+            </li>
+            <li class="list-group-item">
+            Item Amount:
+            </li>
+            <li class="list-group-item">
+                <input name="item_amount" required/>
+                {{ form.item_amount.errors }}
+            </li>
+                <input type="hidden" name="fee_item_pk" value="{{ fee_item.pk }}" />
+    <li class="list-group-item"><input type="submit" class="btn btn-info" name="submit" value="Add New" />
+            </li>
+        </ul>
+    </form>
+{% endblock %}

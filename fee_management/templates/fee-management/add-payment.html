@@ -29,8 +29,14 @@ Payments made
 
     </td>
 </tr>
+<tr>
 </form>
-
+{% if form.errors %}
+<td>
+    {{ form.amount.errors }}
+</td>
+</tr>
+{% endif %}
 <tr>
     <th>Student Name</th>
     <th>Payments made</th>

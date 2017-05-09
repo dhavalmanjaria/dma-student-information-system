@@ -1,6 +1,39 @@
 {% extends "base-fee-management.html" %}
 
+{% block staticfiles %}
+{{ block.super }}
+{% load static %}
+<script src="{% static 'js/edit-fees.js' %}"></script>
+{% endblock %}
+
 {% block header_title %}
 Edit pending amount for student
 {% endblock %}
 
+{% block content_body %}
+{% if success %}
+<div class="alert alert-success">Success!</div>
+{% endif %}
+<form action="" method="POST">
+{% csrf_token %}
+<ul class="list-group">
+<li class="list-group-item"><label for="pending_amount">Amount Pending for {{ fee_collection.student }}</label></li>
+<li class="list-group-item"><input id="pending_amount" name="pending_amount" type="number" value="{{ fee_collection.pending_amount }}" required></li>
+<li class="list-group-item">
+<input type="hidden" name="student" value="{{ fee_collection.student.pk }}" />
+<input type="submit" class="btn btn-primary" value="Save"></li>
+</ul>
+</form>
+
+<ul class="list-group">
+<li>{{ form.errors }}</li>
+{% for items in all_fee_items %}
+<li class="list-group-item">
+    <button class="btn btn-primary btn-sm add-button">Add</button>
+    {{ items.item_name }}: <span class="item_amount">{{ items.item_amount }}</span>
+</li>
+{% endfor %}
+
+<li class="list-group-item"><a href="{% url 'edit-fee-items' %}" class="btn btn-danger btn-sm">Edit Fee Items</a></li>
+</ul>
+{% endblock %}
