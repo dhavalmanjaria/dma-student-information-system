@@ -82,20 +82,26 @@ def set_book_user(request, sem_pk, book_pk):
     return render(request, 'library-management/set-book-user.html', context)
 
 
-class CreateBook(CreateView):
+class CreateBook(LoginRequiredMixin,
+                 PermissionRequiredMixin, CreateView):
     model = Book
+    permission_required = 'user_management.can_read_pass_my_book'
     success_url = reverse_lazy('all-books')
     template_name = 'library-management/create-book.html'
     fields = (('title'), )
 
 
-class UpdateBook(UpdateView):
+class UpdateBook(LoginRequiredMixin,
+                 PermissionRequiredMixin, UpdateView):
     model = Book
+    permission_required = 'user_management.can_read_pass_my_book'
     success_url = reverse_lazy('all-books')
     template_name = 'library-management/update-book.html'
     fields = (('title'), ('due_date'))
 
 
-class DeleteBook(DeleteView):
+class DeleteBook(LoginRequiredMixin,
+                 PermissionRequiredMixin, DeleteView):
     model = Book
+    permission_required = 'user_management.can_read_pass_my_book'
     success_url = reverse_lazy('all-books')

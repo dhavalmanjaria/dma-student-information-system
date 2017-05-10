@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import User
 from curriculum.models import Course
@@ -19,4 +20,3 @@ class Comment(models.Model):
     post = models.ForeignKey(Post)
     text = models.TextField()
     date_created = models.DateTimeField(auto_now=True)
-    

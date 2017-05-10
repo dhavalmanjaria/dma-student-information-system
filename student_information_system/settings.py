@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'examinations.apps.ExaminationsConfig',
     'document_requests.apps.DocumentRequestsConfig',
     'fee_management.apps.FeeManagementConfig',
-    'library_management.apps.LibraryManagementConfig'
+    'library_management.apps.LibraryManagementConfig',
+    'study_material.apps.StudyMaterialConfig'
 ]
 
 MIDDLEWARE = [

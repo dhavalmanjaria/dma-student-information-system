@@ -1,0 +1,36 @@
+{% extends "base-study-material.html" %}
+
+{% block content_body %}
+<table class="table">
+<form action="" method="POST">
+    {% csrf_token %}
+    <tr>
+        <td><strong>{{ form.title.label }}: </strong></td>
+        <td>{{ form.title }}</td>
+        {% if form.errors %}
+        <td>{{ form.title.errors }}
+        {% endif %}
+    </tr>
+    <tr>
+        <td><strong>{{ form.description.label }}: </strong></td>
+        <td>{{ form.description }}</td>
+        {% if form.errors %}
+        <td>{{ form.description.errors }}
+        {% endif %}
+    </tr>
+    <tr>
+        <td><strong>Link (URL): </strong></td>
+        <td>{{ form.url }}</td>
+        {% if form.errors %}
+        <td>{{ form.url.errors }}
+        {% endif %}
+    </tr>
+    <tr>
+    <td>
+        <input type="hidden" name="study_material_pk" value="{{ study_material.pk }}">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </td>
+    </tr>
+</form>
+</table>
+{% endblock %}
