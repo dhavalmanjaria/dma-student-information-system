@@ -1,0 +1,18 @@
+{% extends "base-library-management.html" %}
+
+{% block content_body %}
+<table class="table table-striped">
+    <tr>
+        <th>Book Name</th>
+        <th>Student</th>
+        <th>Due Date</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.student }} (<a href="{% url 'select-book-student' book_pk=book.pk %}">Change</a>)</td>
+        <td>{{ book.due_date }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

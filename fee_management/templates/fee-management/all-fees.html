@@ -23,12 +23,14 @@ Student Fees
     <td>
          {{ sfee.pending_amount }} 
     </td>
+    {% if perms.user_management.can_write_fee_collection %}
     <td>
         <a href="{% url 'edit-fees' std_pk=sfee.student.pk %}">Edit</a>
     </td>
     <td>
         <a href="{% url 'add-payment' std_pk=sfee.student.pk %}" class="btn btn-primary">View</a>
     </td>
+    {% endif %}
 </tr>
 {% endfor %}
 </table>

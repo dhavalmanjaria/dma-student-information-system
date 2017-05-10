@@ -1,0 +1,5 @@
+{% extends "select-course-semester.html" %}
+
+{% block other_options %}
+<input type="hidden" name="book_pk" value="{{ book.pk }}" />
+{% endblock %}

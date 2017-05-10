@@ -4,6 +4,10 @@ from actions.views import SelectCourseSemester
 from actions.forms import SelectSemesterForm
 from curriculum.models import Semester
 from django.views.generic import ListView
+from django.contrib.auth.decorators import (
+    login_required, permission_required)
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin, PermissionRequiredMixin)
 from .models import FeeCollection, Payment, FeeItem
 from .forms import PaymentForm, AmountPendingForm, FeeItemForm
 from datetime import datetime
@@ -12,7 +16,8 @@ import logging
 LOG = logging.getLogger('app')
 
 
-class SelectFee(SelectCourseSemester):
+class SelectFee(LoginRequiredMixin,
+                PermissionRequiredMixin, SelectCourseSemester):
     """
     Select course and semester to select studens for.
     """
@@ -22,11 +27,13 @@ class SelectFee(SelectCourseSemester):
     context = {}
 
 
-class FeeCollectionsList(ListView):
+class FeeCollectionsList(LoginRequiredMixin,
+                         PermissionRequiredMixin, ListView):
     model = FeeCollection
 
     template_name = 'fee-management/all-fees.html'
 
+    permission_required = 'user_management.can_read_fee_collection'
     def get(self, request, semester_pk, *args, **kwargs):
         self.semester = Semester.objects.get(pk=semester_pk)
 
@@ -36,6 +43,8 @@ class FeeCollectionsList(ListView):
         return FeeCollection.objects.filter(student__semester=self.semester)
 
 
+@login_required
+@permission_required('user_management.can_write_fee_collections')
 def add_payment(request, std_pk):
     context = {}
 
@@ -71,6 +80,8 @@ def add_payment(request, std_pk):
     return render(request, 'fee-management/add-payment.html', context)
 
 
+@login_required
+@permission_required('user_management.can_write_fee_collections')
 def edit_fees(request, std_pk):
     context = {}
 
@@ -100,6 +111,8 @@ def edit_fees(request, std_pk):
     return render(request, 'fee-management/edit-fees.html', context)
 
 
+@login_required
+@permission_required('user_management.can_write_fee_collections')
 def edit_fee_items(request):
     context = {}
     context['fee_items'] = FeeItem.objects.all().order_by('item_name')

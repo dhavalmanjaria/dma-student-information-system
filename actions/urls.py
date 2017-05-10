@@ -80,3 +80,8 @@ urlpatterns += [
 urlpatterns += [
     url(r'^fee-management/', include('fee_management.urls'))
 ]
+
+urlpatterns += [
+    url(r'^library-management/', include('library_management.urls'))
+]
+

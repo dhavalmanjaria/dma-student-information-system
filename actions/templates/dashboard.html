@@ -126,6 +126,15 @@
                 </td>
             </tr>
             {% endif %}
+
+            {% if perms.user_management.can_read_pass_my_book %}
+            <tr>
+                <td><strong>Library Management</strong></td>
+                <td>
+                    <a class="btn btn-info" href="{% url 'all-books' %}">GO</a>
+                </td>
+            </tr>
+            {% endif %}
         </table>
     </div>
 </div>

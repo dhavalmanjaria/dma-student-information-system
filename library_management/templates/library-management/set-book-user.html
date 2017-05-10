@@ -1,0 +1,23 @@
+{% extends "base-library-management.html" %}
+
+{% block content_body %}
+<table class="table table-striped">
+<tr>
+    <th>Student Name</th>
+</tr>
+{% for std in students %}
+<tr>
+    <td><p>{{ std }}</p></td>
+    <td>
+        <form action="" method="POST">
+        {% csrf_token %}
+            <input type="hidden" name="std_pk" value="{{ std.pk }}"/>
+        
+        <input type="submit" class="btn {% if book.student == std %}btn-default {% else %} btn-primary {% endif %}" value="Set" />
+        </a>
+        </form>
+    </td>
+</tr>
+{% endfor%}
+</table>
+{% endblock %}

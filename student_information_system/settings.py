@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'online_discussion.apps.OnlineDiscussionConfig',
     'examinations.apps.ExaminationsConfig',
     'document_requests.apps.DocumentRequestsConfig',
-    'fee_management.apps.FeeManagementConfig'
+    'fee_management.apps.FeeManagementConfig',
+    'library_management.apps.LibraryManagementConfig'
 ]
 
 MIDDLEWARE = [
