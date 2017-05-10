@@ -12,6 +12,7 @@
         <td>{{ book.title }}</td>
         <td>{{ book.student }} (<a href="{% url 'select-book-student' book_pk=book.pk %}">Change</a>)</td>
         <td>{{ book.due_date }}</td>
+        <td><a href="{% url 'update-book' pk=book.pk %}">Edit</a></td>
     </tr>
     {% endfor %}
 </table>

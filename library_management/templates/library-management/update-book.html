@@ -1,0 +1,47 @@
+{% extends "base-library-management.html" %}
+
+{% block content_body %}
+<table class="table">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <tr>
+            <td>    
+                {{ form.title.label }}
+            </td>
+            <td>
+                {{ form.title }}
+            </td>
+            {% if form.errors %}
+            <td>
+                {{ form.title.errors }}
+            </td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>    
+                {{ form.due_date.label }}
+            </td>
+            <td>
+                <input type="text" id="id_due_date" name="due_date" class="datepicker" value='{{ book.due_date|date:"d/m/Y" }}'/>
+            </td>
+            {% if form.errors %}
+            <td>
+                {{ form.due_date.errors }}
+            </td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>
+    <input type="submit" class="btn btn-info" value="Update" /></td>
+
+    </form>
+        <td>
+            <form action="{% url 'delete-book' pk=book.pk %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete"/>
+            </form>
+        </td>
+        </tr>    
+
+</table>
+{% endblock %}

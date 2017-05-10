@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import (
     login_required, permission_required)
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, PermissionRequiredMixin)
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from actions.views import SelectCourseSemester
 from .forms import SelectBookStudentForm
 from .models import Book
@@ -78,3 +80,22 @@ def set_book_user(request, sem_pk, book_pk):
         book.save()
 
     return render(request, 'library-management/set-book-user.html', context)
+
+
+class CreateBook(CreateView):
+    model = Book
+    success_url = reverse_lazy('all-books')
+    template_name = 'library-management/create-book.html'
+    fields = (('title'), )
+
+
+class UpdateBook(UpdateView):
+    model = Book
+    success_url = reverse_lazy('all-books')
+    template_name = 'library-management/update-book.html'
+    fields = (('title'), ('due_date'))
+
+
+class DeleteBook(DeleteView):
+    model = Book
+    success_url = reverse_lazy('all-books')
