@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'document_requests.apps.DocumentRequestsConfig',
     'fee_management.apps.FeeManagementConfig',
     'library_management.apps.LibraryManagementConfig',
-    'study_material.apps.StudyMaterialConfig'
+    'study_material.apps.StudyMaterialConfig',
+    'meeting_details.apps.MeetingDetailsConfig'
 ]
 
 MIDDLEWARE = [

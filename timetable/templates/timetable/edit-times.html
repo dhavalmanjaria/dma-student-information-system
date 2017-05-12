@@ -31,9 +31,9 @@ Edit the starting times for lectures for all days. (Excluding breaks)
 <form id="form-{{forloop.counter0}}" action="{% url 'edit-times' pk=semester.pk %}" class="form-group time-form" method="POST">
 {% csrf_token %}
     <div class="input-group">
-        <input class="form-control time-input hour-input" name="hours" value="{{ t|time:'g' }}" name="{{ forloop.counter0 }}" />
-        <input class="form-control time-input min-input" name="minutes" value="{{ t|time:'i' }}" />
-        <input type="button" class="form-control time-input btn-a" value="{{ t|time:'A' }}" />
+        <input class="form-control time-input hour-input" name="hours" value="{{ t|time:'g' }}" name="{{ forloop.counter0 }}" required/>
+        <input class="form-control time-input min-input" name="minutes" value="{{ t|time:'i' }}" required/>
+        <input type="button" class="form-control time-input btn-a" value="{{ t|time:'A' }}" required/>
         <input type="hidden" name="a" class="hidden-a" />
         <input type="hidden" name="lecture_number" value="{{forloop.counter0}}" />
     </div>

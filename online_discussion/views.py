@@ -120,7 +120,6 @@ def post_comments(request, post_pk):
     context['comments'] = comments
     context['post'] = post
 
-
     return render(
         request, 'online-discussion/post-comments.html', context)
 
@@ -150,7 +149,6 @@ def edit_post(request, post_pk):
             post.save()
 
             return redirect('post-comments', post_pk=post.pk)
-
 
     context['form'] = form
     context['post'] = post

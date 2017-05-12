@@ -88,3 +88,7 @@ urlpatterns += [
 urlpatterns += [
     url(r'^study-material/', include('study_material.urls'))
 ]
+
+urlpatterns += [
+    url(r'^meeting-details/', include('meeting_details.urls'))
+]

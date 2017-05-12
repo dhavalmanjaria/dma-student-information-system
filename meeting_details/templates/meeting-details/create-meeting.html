@@ -1,0 +1,74 @@
+{% extends "base-meeting-details.html" %}
+
+{% block staticfiles %}
+{% load static %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/input.css' %}" />
+<script src="{% static 'js/validate.js' %}"></script>
+{% endblock %}
+
+{% block header_title %}
+Create Meeting
+{% endblock %}
+
+{% block content_heading %}
+Meeting Information
+{% endblock %}
+{% block content_body %}
+<table class="table">
+<form action="" method="POST">
+{% csrf_token %}
+<tr>
+    <td><strong>Agenda:</strong></td>
+    <td>
+        <input type="text" name="agenda" value="{{meeting.agenda}}" />
+        {{ meeting_form.agenda.errors }}
+    </td>
+</tr>
+<tr>
+    <td><strong>Participants:</strong></td>
+    <td>
+        <textarea name="participants">{{ meeting.participants }}</textarea>
+        {{ meeting_form.participants.errors }}
+    </td>
+</tr>
+<tr>
+    <td><strong>Description:</strong></td>
+    <td>
+        <input type="text" name="description" value="{{meeting.description}}" />
+        {{ meeting_form.description.errors }}
+    </td>
+</tr>
+<tr>
+    <td><strong>Date:</strong></td>
+    <td>
+        <input type="text" name="date" class="datepicker" value='{{meeting.date|date:"d/m/Y"}}' />
+        {{ meeting_form.date.errors }}
+    </td>
+</tr>
+<tr>
+    <td><strong>Time:</strong></td>
+    <td>
+        
+    <div class="input-group">
+        <input class="form-control time-input hour-input" name="hours" value="{{meeting.time|time:'g' }}" required/>
+        <input class="form-control time-input min-input" name="minutes" value="{{meeting.time|time:'i' }}" required/>
+        <input type="button" class="form-control time-input btn-a" value="PM" required/>
+        <input type="hidden" name="a" class="hidden-a" />
+    </div>
+    </td>
+    
+</tr>
+<tr>
+<td>
+    <input type="hidden" name="meeting_pk" value="{{meeting.pk}}" />
+    <input type="submit" name="submit" class="btn btn-primary" value="Save Info" />
+    <p>(You must save meeting information before adding minutes.)</p>
+</td>
+</tr>
+{% if meeting_form.errors %}
+{{ meeting_form.errors }}
+{% endif %}
+</form>
+</table>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base-meeting-details.html" %}
+
+{% block staticfiles %}
+{% load static %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/input.css' %}" />
+<script src="{% static 'js/validate.js' %}"></script>
+{% endblock %}
+
+{% block header_title %}
+{{ meeting.agenda }}
+{% endblock %}
+
+{% block content_heading %}
+Meeting Information
+{% endblock %}
+{% block content_body %}
+<table class="table">
+<form action="" method="POST">
+{% csrf_token %}
+<tr>
+    <td><strong>Agenda:</strong></td>
+    <td>
+        <input type="text" name="agenda" value="{{meeting.agenda}}" />
+        {{ meeting_form.agenda.errors }}
+    </td>
+</tr>
+<tr>
+    <td><strong>Participants:</strong></td>
+    <td>
+        <textarea name="participants">{{ meeting.participants }}</textarea>
+        {{ meeting_form.participants.errors }}
+    </td>
+</tr>
+<tr>
+    <td><strong>Description:</strong></td>
+    <td>
+        <input type="text" name="description" value="{{meeting.description}}" />
+        {{ meeting_form.description.errors }}
+    </td>
+</tr>
+<tr>
+    <td><strong>Date:</strong></td>
+    <td>
+        <input type="text" name="date" class="datepicker" value='{{meeting.date|date:"d/m/Y"}}' />
+        {{ meeting_form.date.errors }}
+    </td>
+</tr>
+<tr>
+    <td><strong>Time:</strong></td>
+    <td>
+        
+    <div class="input-group">
+        <input class="form-control time-input hour-input" name="hours" value="{{meeting.time|time:'g' }}" required/>
+        <input class="form-control time-input min-input" name="minutes" value="{{meeting.time|time:'i' }}" required/>
+        <input type="button" class="form-control time-input btn-a" value="{{meeting.time|time:'A' }}" required/>
+        <input type="hidden" name="a" class="hidden-a" />
+    </div>
+    </td>
+    
+</tr>
+<tr>
+<td>
+    <input type="hidden" name="meeting_pk" value="{{meeting.pk}}" />
+    <input type="submit" name="submit" class="btn btn-primary" value="Save Info" />
+</td>
+</tr>
+{% if meeting_form.errors %}
+{{ meeting_form.errors }}
+{% endif %}
+</form>
+</table>
+{% endblock %}
+
+
+{% block other_content %}
+
+{% if success %}
+<div class="alert alert-success">Success</div>
+{% endif %}
+<div class="panel panel-info">
+<div class="panel-heading"><strong>Minutes of the Meeting</strong></div>
+<div class="panel-body">
+
+
+<!-- Meeting Minutes form -->
+<ul class="list-group">
+{% for minute in meeting_minutes %}
+
+<li class="list-group-item list-group-item-default">
+<strong>{{ forloop.counter }}.</strong>
+<form action="" method="POST">
+    {% csrf_token %}
+    <input style="width: 100%" type="text" name="text" value="{{ minute.text }}" />
+    {{ meeting_minutes_form.text.errors }}
+    <input type="hidden" name="meeting_minute_pk" value="{{ minute.pk }}" />
+    <p>
+    <br />
+    <input type="submit" name="submit" value="Save" class="btn btn-primary">
+    <input type="submit" name="submit" value="Delete" class="btn btn-danger">
+    </p>
+</form>
+</li>
+{% endfor %}
+
+<!-- New -->
+<ul class="list-group">
+<li class="list-group-item">
+<form action="" method="POST">
+{% csrf_token %}
+    <input style="width: 100%" type="text" name="text">
+    <p>
+        <br />
+        <input type="submit" name="submit" value="Add New" class="btn btn-info">
+        {{ meeting_minutes_form.text.errors }}
+    </p>
+</form>
+</li>
+</ul>
+</div>
+</div>
+{% endblock %}

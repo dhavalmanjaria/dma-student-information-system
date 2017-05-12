@@ -1,0 +1,44 @@
+{% extends "base-meeting-details.html" %}
+
+{% block header_title %}
+    All Meetings
+{% endblock %}
+
+{% block content_heading %}
+Meetings
+{% endblock %}
+{% block content_body %}
+{% for meeting in meeting_list %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>{{ meeting.date }} {{ meeting.time }}</strong>
+        </li>
+        <li class="list-group-item">
+            {{ meeting.agenda }}
+        </li>
+        <li class="list-group-item">
+            {{ meeting.participants }}
+        </li>
+        <li class="list-group-item">
+            {{ meeting.description }}
+        </li>
+        <li class="list-group-item">
+            <a class="btn btn-primary" href="{% url 'view-meeting' meeting_pk=meeting.pk %}">View</a>
+            {% if perms.user_management.can_write_meeting_details %}
+            <a class="btn btn-danger" href="{% url 'edit-meeting' meeting_pk=meeting.pk %}">Edit</a>
+            {% endif %}
+        </li>        
+    </ul>
+{% endfor %}
+{% endblock %}
+
+{% block other_content %}
+{% if perms.user_management.can_write_meeting_details %}
+
+<div class="panel panel-default">
+<div class="panel-body">
+<a href="{% url 'create-meeting' %}">Create Meeting</a>
+</div>
+</div>
+{% endif %}
+{% endblock %}

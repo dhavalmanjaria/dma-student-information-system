@@ -1,0 +1,34 @@
+{% extends "base-meeting-details.html" %}
+
+{% block header_title %}
+{{ meeting.agenda }}
+{% endblock %}
+{% block header_subtitle %}
+{{ meeting.date }} {{ meeting.time }}
+{% endblock %}
+
+{% block content %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Agenda:</strong>
+            <p>{{ meeting.agenda }}</p>
+        </li>
+        <li class="list-group-item">
+            <strong>Participants:</strong>
+            <p>{{ meeting.participants }}</p>
+        </li>
+        <li class="list-group-item">
+            <strong>Description:</strong>
+            <p>{{ meeting.description }}</p>
+        </li>
+        <li class="list-group-item">
+            <strong>Minutes of the meeting:</strong>
+            {% for minute in meeting_minutes %}
+            <p><strong>{{ forloop.counter }}. </strong>{{ minute.text }}</p>
+            {% endfor %}
+        </li>
+        <li class="list-group-item">
+            <a href="{% url 'edit-meeting' meeting_pk=meeting.pk %}">Edit</a>
+        </li>
+    </ul>
+{% endblock %}
