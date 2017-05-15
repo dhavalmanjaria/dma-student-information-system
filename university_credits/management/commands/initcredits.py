@@ -18,11 +18,13 @@ class Command(BaseCommand):
                 subject=sub, max_credits=10)
             students = StudentInfo.objects.filter(semester=sub.semester)
             for std in students:
-                ucrd = UniversityCredit(student=std)
-                ucrd.credit = scrd
-                ucrd.subject = sub
-                # ucrd.marks = 0 by default
-
-                ucrd.save()
+                ucrd, created = UniversityCredit.objects.get_or_create(
+                    student=std, credit=scrd)
+                if created:
+                    ucrd.credit = scrd
+                    ucrd.subject = sub
+                    ucrd.marks = 0 # by default
+                
+                    ucrd.save()
            
 

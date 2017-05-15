@@ -4,4 +4,10 @@
 <li class="list-group-item">
 <a href="{% url 'select-fees' %}">Select Fees</a>
 </li>
-{% endblock %}z
+{% if perms.user_management.can_write_fee_collections %}
+<li class="list-group-item">
+    <a href="{% url 'edit-fee-items' %}">Edit Fee Items</a>
+</li>
+{% endif %}
+
+{% endblock %}

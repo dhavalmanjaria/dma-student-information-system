@@ -25,6 +25,7 @@ class SelectFee(LoginRequiredMixin,
     select_template = 'fee-management/select-fees.html'
     redirect_to = 'all-fees'
     context = {}
+    permission_required = 'user_management.can_read_fee_collections'
 
 
 class FeeCollectionsList(LoginRequiredMixin,
@@ -33,7 +34,7 @@ class FeeCollectionsList(LoginRequiredMixin,
 
     template_name = 'fee-management/all-fees.html'
 
-    permission_required = 'user_management.can_read_fee_collection'
+    permission_required = 'user_management.can_read_fee_collections'
     def get(self, request, semester_pk, *args, **kwargs):
         self.semester = Semester.objects.get(pk=semester_pk)
 
