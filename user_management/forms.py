@@ -58,7 +58,7 @@ class BasicInfoForm(forms.ModelForm):
         print("forms.py: " + str(ex))
 
     group_choices = (
-                    ('0', '     '),
+                    ('0', '---'),
                     (student_pk, 'Student'),
                     (faculty_pk, 'Faculty'),
                     (subadmin_pk, 'Sub Admin'),
@@ -70,6 +70,10 @@ class BasicInfoForm(forms.ModelForm):
     class Meta:
         model = BasicInfo
         fields = ('date_of_birth', 'contact_number', 'group')
+
+    def clean_group(self):
+        if not Group.objects.filter(pk=self.data['group']).exists():
+            raise forms.ValidationError('Group is invalid. Please recheck your selection.')
 
     def save(self, commit=True):
         if commit:

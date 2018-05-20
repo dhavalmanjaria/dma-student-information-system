@@ -1,19 +1,29 @@
+
+// 
 $(function() {
 
-    var options;
 
-    $(".select").selectmenu();
+  var options;
+  var selectMenuBool = true;
+
+    $(".select").selectmenu(); 
 
     $.ajax({
-        url: window.location.href ,
+        url: $("#select-form").attr("action"),
         method: 'GET',
         success: function(resp){
             options = resp;
+
+            console.log($.type(options) === "string");
+            if ($.type(options) === "string") {
+                return;
+            }
             $.each(options, function(key, value){
                 console.log("key = " + key);
                 $("#select-course").append("<option>" + key + "</option>");
             });
 
+            $.cookie('select_page_to_load', window.location.href);
         }
     });
 
@@ -71,8 +81,14 @@ $(function() {
        });
 
 
-
-
-
     
+});
+window.addEventListener( "pageshow", function ( event ) {
+  var historyTraversal = event.persisted || 
+                         ( typeof window.performance != "undefined" && 
+                              window.performance.navigation.type === 2 );
+  if ( historyTraversal ) {
+    // Handle page restore.
+    window.location.reload();
+  }
 });

@@ -14,7 +14,7 @@ class Course(models.Model):
                                   'that the course is referred by')
 
     #TODO: Change this to use FacultyInfo
-    hod = models.OneToOneField(User, null=True)
+    hod = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.short_name

@@ -72,12 +72,13 @@ def registration_view(request):
             basic_info_form = BasicInfoForm(request.POST, instance=user)
 
             if basic_info_form.is_valid():
-                basic_info_form.save()
+                # basic_info_form.save()
 
                 second_form = _getSecondForm(request, user=user)
 
                 if second_form:
                     if second_form.is_valid():
+                        basic_info_form.save()
                         second_form.save()
                         LOG.debug('second_form saved')
                         req = AuthenticationRequest.objects.create(

@@ -32,7 +32,6 @@
 </td>
 <td>
         <select name="course" id="select-course" class="select form-control" form="select-form" >
-        <option> --- </option>
         {% for c in course %}
             <option>
                 {{ c }}
@@ -51,8 +50,6 @@
 </td>
 <td>
         <select name="semester" id="select-semester" class="select" form="select-form" required>
-        <option> ---
-        </option>
         {% for s in semesters %}
             <option>
                 {{ s }}
