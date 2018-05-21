@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import MetricForm
 from actions.views import SelectCourseSemester
+from actions.forms import SelectSubjectForm
 import logging
 
 LOG = logging.getLogger('app')
@@ -212,11 +213,11 @@ class SelectInternalAssessment(SelectCourseSemester):
         subject = super(SelectInternalAssessment, self).get_subject_from_post(
             request)
 
-        context = {}
-
-        context['subject'] = subject
-
-        # student_metric = StudentMetric.objects.filter(subject=subject)
+        if subject is None:
+            self.context['errors'] = True
+            LOG.debug(request.POST)
+            return render(request, 'internal-assessment/select-internal-assessment.html', 
+                self.context)
         
         if StudentInfo.objects.filter(user=request.user).first():
             return redirect('view-student-internal-assessment',
@@ -227,6 +228,7 @@ class SelectInternalAssessment(SelectCourseSemester):
         
 
     def get(self, request):
+        self.context['errors'] = False
 
         options = super(SelectInternalAssessment, self).get_options(request)
 

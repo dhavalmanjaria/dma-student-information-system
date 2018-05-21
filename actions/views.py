@@ -86,10 +86,11 @@ class SelectCourseSemester(View):
         """
         Gets a subject object from the POST set
         """
+
         subject_pk = request.POST.get('subject')
 
-        subject = Subject.objects.get(pk=subject_pk)
-
+        subject = Subject.objects.filter(pk=subject_pk).first()
+        
         return subject
 
     subjects = []
@@ -179,6 +180,7 @@ class SelectCourseSemester(View):
         method
         """
         options = self.get_options(request)
+
 
         if request.is_ajax():
                 return JsonResponse(options)
