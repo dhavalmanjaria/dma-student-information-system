@@ -80,7 +80,6 @@ $(function() {
             }
        });
 
-
     
 });
 window.addEventListener( "pageshow", function ( event ) {
@@ -92,3 +91,5 @@ window.addEventListener( "pageshow", function ( event ) {
     window.location.reload();
   }
 });
+
+history.pushState(null, null, '/actions/');
