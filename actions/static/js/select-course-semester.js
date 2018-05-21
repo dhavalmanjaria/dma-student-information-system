@@ -66,7 +66,7 @@ $(function() {
 
                var course = $("#select-course :selected").text();
 
-               var option_html = "<option value='0'> --- </option>";
+               var option_html = "";
 
                $.each(options[course][x], function(index, value) {
                     option_html += "<option value="+value[0]+">" + value[1] + "</option>";
@@ -79,6 +79,11 @@ $(function() {
                // $("#btn-go").attr("href", $(this + ":selected").val())
             }
        });
+
+    // $("#btn-view").click(function(event) {
+    //   event.preventDefault();
+    //   console.log(("#selected-subject:selected").attr('checked'));
+    // });
 
     
 });

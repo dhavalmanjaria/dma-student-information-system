@@ -89,8 +89,18 @@ class SelectCourseSemester(View):
 
         subject_pk = request.POST.get('subject')
 
+        semester_name = request.POST.get('semester')
+
+        semester = None
+        for sem in Semester.objects.all():
+            if str(sem) == semester_name:
+                semester = sem
+
         subject = Subject.objects.filter(pk=subject_pk).first()
-        
+    
+        if subject is None:
+            subject = Subject.objects.filter(semester=semester).first()
+
         return subject
 
     subjects = []
