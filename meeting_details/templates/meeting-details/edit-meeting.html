@@ -16,7 +16,7 @@ Meeting Information
 {% endblock %}
 {% block content_body %}
 <table class="table">
-<form action="" method="POST">
+<form action="{{ request.path }}" method="POST">
 {% csrf_token %}
 <tr>
     <td><strong>Agenda:</strong></td>
@@ -89,7 +89,7 @@ Meeting Information
 
 <li class="list-group-item list-group-item-default">
 <strong>{{ forloop.counter }}.</strong>
-<form action="" method="POST">
+<form action="{{ request.path }}" method="POST">
     {% csrf_token %}
     <input style="width: 100%" type="text" name="text" value="{{ minute.text }}" />
     {{ meeting_minutes_form.text.errors }}
@@ -106,7 +106,7 @@ Meeting Information
 <!-- New -->
 <ul class="list-group">
 <li class="list-group-item">
-<form action="" method="POST">
+<form action="{{ request.path }}" method="POST">
 {% csrf_token %}
     <input style="width: 100%" type="text" name="text">
     <p>

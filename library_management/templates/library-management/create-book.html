@@ -1,7 +1,7 @@
 {% extends "base-library-management.html" %}
 
 {% block content_body %}
-<form action ="" method="POST">
+<form action="{{ request.path }}" method="POST">
 {% csrf_token %}
 <table class="table">
     <tr>

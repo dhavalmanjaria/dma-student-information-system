@@ -12,7 +12,7 @@ Update Assignment
 
 {% block content_body %}
 <table class="table">
-<form action="" method="POST">
+<form action="{{ request.path }}" method="POST">
 {% csrf_token %}
     {{ form.as_table }}
 

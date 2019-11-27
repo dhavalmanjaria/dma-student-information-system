@@ -5,7 +5,7 @@
 <div class="alert alert-success">Success!</div>
 {% endif %}
 {% for fee_item in fee_items %}
-    <form action="" method="POST">
+    <form action="{{ request.path }}" method="POST">
         {% csrf_token %}
         <ul class="list-group">
             <li class="list-group-item">
@@ -30,7 +30,7 @@
     </form>
 {% endfor %}
 
-<form action="" method="POST">
+<form action="{{ request.path }}" method="POST">
 {% csrf_token %}
         <ul class="list-group">
             <li class="list-group-item">

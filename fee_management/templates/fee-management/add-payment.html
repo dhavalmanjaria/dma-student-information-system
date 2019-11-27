@@ -15,7 +15,7 @@ Payments made
 
 <div class="panel-body"><strong>Fees Pending: {{ fee_collection.pending_amount }} INR</strong></div>
 <table class="table table-striped">
-<form action="" method="POST">
+<form action="{{ request.path }}" method="POST">
 {% csrf_token %}
 <tr>
 

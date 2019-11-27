@@ -4,7 +4,7 @@
 
 <table class="table">
 
-<form action="" method="POST">
+<form action="{{ request.path }}" method="POST">
 {% csrf_token %}
 <tr>
     <input type="hidden" name="student" value="{{ student_pk }}" />

@@ -14,7 +14,7 @@ Edit pending amount for student
 {% if success %}
 <div class="alert alert-success">Success!</div>
 {% endif %}
-<form action="" method="POST">
+<form action="{{ request.path }}" method="POST">
 {% csrf_token %}
 <ul class="list-group">
 <li class="list-group-item"><label for="pending_amount">Amount Pending for {{ fee_collection.student }}</label></li>

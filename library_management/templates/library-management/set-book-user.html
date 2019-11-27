@@ -9,7 +9,7 @@
 <tr>
     <td><p>{{ std }}</p></td>
     <td>
-        <form action="" method="POST">
+        <form action="{{ request.path }}" method="POST">
         {% csrf_token %}
             <input type="hidden" name="std_pk" value="{{ std.pk }}"/>
                 
