@@ -97,4 +97,4 @@ window.addEventListener( "pageshow", function ( event ) {
   }
 });
 
-history.pushState(null, null, '/actions/');
+//history.pushState(null, null, '/actions/');
