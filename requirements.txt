@@ -2,7 +2,7 @@ appdirs==1.4.0
 blessings==1.6
 colour-runner==0.0.5
 dj-database-url==0.4.2
-Django==1.10.5
+Django==1.11.29
 freeze==1.0.10
 gunicorn==19.6.0
 packaging==16.8
