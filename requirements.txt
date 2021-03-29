@@ -7,7 +7,7 @@ freeze==1.0.10
 gunicorn==19.6.0
 packaging==16.8
 psycopg2-binary==2.8.4
-Pygments==2.2.0
+Pygments==2.7.4
 pyparsing==2.1.10
 six==1.10.0
 whitenoise==3.3.0
